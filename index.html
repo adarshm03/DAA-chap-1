@@ -2,7 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0f0e17">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <title>Algorithm Design & Analysis — From Zero to Hero</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -473,15 +475,232 @@ pre {
 
 hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
 
-@media(max-width:640px){
-  .hero h1 { font-size:2rem; }
-  .page { padding:0 16px 60px; }
-  pre { font-size:.72rem; padding:14px 16px; }
-  .arr-val { width:36px; height:36px; font-size:.78rem; }
-  .ch { padding:22px; }
-  .toc { padding:10px 16px; }
-  .concept-grid { grid-template-columns:1fr 1fr; }
+/* ── GLOBAL MOBILE HELPERS (always on) ── */
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%; /* prevent iOS font size inflation */
 }
+/* Prevent any element from breaking viewport width */
+img, canvas, svg, table, pre { max-width: 100%; }
+/* Better tap targets for all links */
+a { -webkit-tap-highlight-color: rgba(212,144,13,.25); }
+/* Smooth scrolling inertia on iOS */
+.tbl-wrap, pre, .arr-wrap, .toc {
+  -webkit-overflow-scrolling: touch;
+}
+/* Safe area padding for notched phones */
+.hero { padding-left: max(18px, env(safe-area-inset-left)); padding-right: max(18px, env(safe-area-inset-right)); }
+footer { padding-bottom: max(28px, env(safe-area-inset-bottom)); }
+
+/* ── MOBILE-FIRST BASE (applies at ALL sizes, overridden upward) ── */
+body { font-size: 15px; }
+.page { padding: 0 14px 60px; }
+.toc { padding: 10px 14px; }
+pre { font-size: .73rem; padding: 14px 14px; overflow-x: auto; }
+.tbl { font-size: .82rem; }
+.arr-val { width: 36px; height: 36px; font-size: .75rem; }
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE-FIRST  — base styles target phones (≤ 480px)
+   then we scale UP for larger screens
+═══════════════════════════════════════════════════════ */
+
+/* ── HERO ── */
+@media(max-width:480px){
+  .hero { padding: 44px 18px 36px; }
+  .hero h1 { font-size: 2rem; line-height: 1.1; }
+  .hero-sub { font-size: .9rem; margin-top: 12px; }
+  .hero-pills { gap: 6px; }
+  .hero-pill { font-size: .65rem; padding: 5px 10px; }
+}
+
+/* ── NAV / TOC ── */
+@media(max-width:480px){
+  .toc {
+    padding: 10px 12px;
+    gap: 3px 5px;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc a { font-size: .65rem; padding: 5px 8px; white-space: nowrap; }
+  .toc .sep { display: none; }
+  /* Hint that it scrolls */
+  .toc::after {
+    content: '';
+    flex-shrink: 0;
+    width: 24px;
+  }
+}
+
+/* ── LEVEL BAR ── */
+@media(max-width:480px){
+  .level-bar {
+    padding: 10px 14px;
+    gap: 8px 14px;
+    justify-content: flex-start;
+  }
+  .level-item { font-size: .62rem; }
+}
+
+/* ── PAGE LAYOUT ── */
+@media(max-width:480px){
+  .page { padding: 0 14px 60px; }
+}
+
+/* ── CHAPTER HEADERS ── */
+@media(max-width:480px){
+  .ch { padding: 20px 16px; margin: 48px 0 8px; }
+  .ch h2 { font-size: 1.5rem; }
+  .ch-level {
+    position: static;
+    display: inline-block;
+    margin-top: 10px;
+  }
+}
+
+/* ── SECTION HEADERS ── */
+@media(max-width:480px){
+  .sec { margin-top: 38px; }
+  .sec-head { gap: 10px; flex-wrap: wrap; margin-bottom: 18px; padding-bottom: 10px; }
+  .sec-head h3 { font-size: 1.15rem; line-height: 1.25; }
+  .sec-num { font-size: .68rem; padding: 4px 10px; }
+  .lvl-pill { display: none; }  /* hide level pills on small screens — unclutter */
+}
+
+/* ── PROSE & BODY TEXT ── */
+@media(max-width:480px){
+  .prose p { font-size: .92rem; line-height: 1.75; }
+  .prose h4 { font-size: 1rem; margin: 24px 0 10px; }
+  .prose h5 { font-size: .92rem; margin: 16px 0 8px; }
+  .prose ul { margin-left: 16px; }
+  .prose li { font-size: .9rem; }
+}
+
+/* ── BOXES ── */
+@media(max-width:480px){
+  .box { padding: 14px 14px; border-radius: 0 6px 6px 0; }
+  .box-lbl { font-size: .6rem; margin-bottom: 7px; }
+  .box p { font-size: .9rem; }
+}
+
+/* ── CODE BLOCKS ── */
+@media(max-width:480px){
+  pre {
+    font-size: .72rem;
+    padding: 14px 14px;
+    line-height: 1.7;
+    border-radius: 6px;
+    margin: 14px -2px; /* bleed slightly for full width feel */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  code { font-size: .78rem; }
+}
+
+/* ── TABLES ── */
+@media(max-width:480px){
+  /* Make tables scroll horizontally instead of squishing */
+  .tbl-wrap {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 14px -14px;
+    padding: 0 14px;
+  }
+  .tbl { font-size: .78rem; min-width: 480px; }
+  .tbl th { padding: 8px 10px; font-size: .62rem; }
+  .tbl td { padding: 8px 10px; }
+}
+
+/* ── STEPS ── */
+@media(max-width:480px){
+  .step { gap: 11px; margin-bottom: 13px; }
+  .step-n { min-width: 24px; height: 24px; font-size: .7rem; }
+  .step-t { font-size: .9rem; line-height: 1.65; }
+}
+
+/* ── ARRAY VISUALIZER ── */
+@media(max-width:480px){
+  .arr-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+  .arr-row { flex-wrap: nowrap; }
+  .arr-val { width: 36px; height: 36px; font-size: .75rem; }
+  .arr-idx { font-size: .54rem; }
+  .arr-lbl { font-size: .56rem; }
+}
+
+/* ── CONCEPT GRID ── */
+@media(max-width:480px){
+  .concept-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .concept-card { padding: 14px 10px; }
+  .concept-card .cc-icon { font-size: 1.6rem; }
+  .concept-card .cc-title { font-size: .72rem; }
+  .concept-card .cc-desc { font-size: .76rem; }
+}
+
+/* ── LADDER ── */
+@media(max-width:480px){
+  .ladder-num { width: 36px; font-size: .65rem; }
+  .ladder-content { padding: 10px 12px; }
+  .ladder-content strong { font-size: .88rem; }
+  .ladder-content span { font-size: .78rem; }
+  .ladder-tag { font-size: .58rem; padding: 2px 7px; margin-right: 8px; }
+}
+
+/* ── EFFICIENCY HIERARCHY BADGES ── */
+@media(max-width:480px){
+  .badge { font-size: .68rem; padding: 2px 7px; margin: 1px 2px; }
+}
+
+/* ── CHART WRAP ── */
+@media(max-width:480px){
+  .chart-wrap { padding: 12px 10px; border-radius: 8px; }
+  .chart-title { font-size: .6rem; margin-bottom: 8px; }
+}
+
+/* ── SOLVE BOX MONO TEXT ── */
+@media(max-width:480px){
+  .box p[style*="font-family:var(--mono)"],
+  p[style*="font-family:var(--mono)"] {
+    font-size: .74rem !important;
+    line-height: 1.85 !important;
+    overflow-x: auto;
+  }
+}
+
+/* ── SECTION INLINE ANNOTATIONS ── */
+@media(max-width:480px){
+  .arr-cell[style*="margin-left"] span {
+    font-size: .7rem !important;
+  }
+}
+
+/* ── FOOTER ── */
+@media(max-width:480px){
+  footer { padding: 28px 16px; font-size: .72rem; }
+}
+
+/* ── TABLET (481–768px) ── */
+@media(min-width:481px) and (max-width:768px){
+  .hero { padding: 56px 28px 46px; }
+  .hero h1 { font-size: 2.6rem; }
+  .page { padding: 0 22px 80px; }
+  .ch { padding: 26px 28px; }
+  .toc { padding: 12px 22px; flex-wrap: wrap; }
+  pre { font-size: .77rem; }
+  .arr-val { width: 40px; height: 40px; font-size: .8rem; }
+  .concept-grid { grid-template-columns: repeat(3, 1fr); }
+  .tbl { font-size: .84rem; }
+  .tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+/* ── DESKTOP (769px+) — keep existing look ── */
+@media(min-width:769px){
+  /* Tables never need wrapping on desktop */
+  .tbl-wrap { overflow-x: visible; }
+}
+
 </style>
 </head>
 <body>
@@ -662,7 +881,8 @@ hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
     </div>
 
     <h4>The 5 Official Algorithm Properties</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Property</th><th>Meaning</th><th>Failed Example</th><th>Good Example</th></tr>
       <tr><td><strong>Unambiguous</strong></td><td>Every step has exactly one meaning</td><td>"Sort of add the numbers"</td><td>"Add A to B and store in C"</td></tr>
       <tr><td><strong>Finite</strong></td><td>Stops after a finite number of steps</td><td>Loop that never ends</td><td>Loop that runs exactly n times</td></tr>
@@ -670,6 +890,7 @@ hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
       <tr><td><strong>Output</strong></td><td>Produces at least 1 result</td><td>Does work but returns nothing</td><td>Returns the sorted list</td></tr>
       <tr><td><strong>Effective</strong></td><td>Every step can actually be done</td><td>"Divide by zero"</td><td>All operations are possible</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <div class="box ana">
       <div class="box-lbl">🍳 Analogy — A Recipe is an Algorithm</div>
@@ -709,6 +930,7 @@ hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
     <h5>Step-by-Step Trace — gcd(60, 24)</h5>
     <div class="chart-wrap">
       <div class="chart-title">Euclid's Algorithm — gcd(60, 24) — every step shown</div>
+      <div class="tbl-wrap">
       <table class="tbl" style="margin:0">
         <tr><th>Step</th><th>m</th><th>n</th><th>r = m mod n</th><th>New (m, n)</th><th>Note</th></tr>
         <tr><td>Start</td><td>60</td><td>24</td><td>—</td><td>—</td><td>n ≠ 0, enter loop</td></tr>
@@ -716,6 +938,7 @@ hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
         <tr><td>2</td><td>24</td><td>12</td><td>24 mod 12 = <strong>0</strong></td><td>(12, 0)</td><td>n ≠ 0, continue</td></tr>
         <tr><td>3</td><td>12</td><td>0</td><td>—</td><td>—</td><td style="color:var(--green);font-weight:700">n = 0! Return m = 12 ✓</td></tr>
       </table>
+    </div><!-- /.tbl-wrap -->
     </div>
 
     <div class="box ex">
@@ -876,13 +1099,15 @@ t ← min(m, n)
     </div>
 
     <h4>Qualities of a Good Algorithm</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Quality</th><th>Meaning</th><th>Trade-Off</th></tr>
       <tr><td><strong>Correctness</strong></td><td>Always produces the right answer for all valid inputs</td><td>Non-negotiable — but hard to prove formally</td></tr>
       <tr><td><strong>Efficiency</strong></td><td>Fast runtime and low memory usage</td><td>Often conflicts with simplicity</td></tr>
       <tr><td><strong>Simplicity</strong></td><td>Easy to read, understand, and verify</td><td>Simpler code has fewer bugs</td></tr>
       <tr><td><strong>Generality</strong></td><td>Works for the broadest sensible range of inputs</td><td>Overly general can be unnecessarily complex</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <div class="box call">
       <div class="box-lbl">★ Design Philosophy</div>
@@ -912,12 +1137,14 @@ t ← min(m, n)
     <p>How do you know if an algorithm is fast or slow <em>without running it</em>? This section gives you a rigorous framework that works the same regardless of what machine you use.</p>
 
     <h4>Why Not Just Time It?</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Method</th><th>Problem with it</th></tr>
       <tr><td>Measure in seconds</td><td>My laptop runs it in 0.2s; your laptop in 1.8s; a 2010 computer in 45s. Meaningless comparison.</td></tr>
       <tr><td>Count ALL machine instructions</td><td>Too complex. Addition, comparison, memory access — hundreds of different micro-operations obscure the pattern.</td></tr>
       <tr><td><strong>Count only the basic operation ✓</strong></td><td>Machine-independent. Captures exactly what scales with input size.</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <div class="box def">
       <div class="box-lbl">▸ Basic Operation</div>
@@ -925,13 +1152,15 @@ t ← min(m, n)
       <p>We write <strong>C(n)</strong> for the count of basic operations on input of size n. Then: <span class="math">T(n) ≈ c · C(n)</span> where c is the (constant, hardware-dependent) time for one basic operation.</p>
     </div>
 
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Algorithm</th><th>Basic Operation</th><th>Why?</th></tr>
       <tr><td>Sorting</td><td>Key comparison: A[i] &lt; A[j]?</td><td>Determines order; drives all decisions</td></tr>
       <tr><td>Searching</td><td>Equality check: A[i] == target?</td><td>The check that runs in every iteration</td></tr>
       <tr><td>Matrix arithmetic</td><td>Multiplication of two numbers</td><td>Multiplication costs more than addition</td></tr>
       <tr><td>Graph traversal</td><td>Visiting a vertex or edge</td><td>The per-node/per-edge work</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <h4>Orders of Growth — The Most Important Concept in This Course <span class="lvl-pill lvl-2">Level 35</span></h4>
 
@@ -1055,13 +1284,15 @@ t ← min(m, n)
     </script>
 
     <h4>The Numbers Behind the Chart <span class="lvl-pill lvl-2">Level 40</span></h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>n</th><th class="badge b-log">log₂n</th><th class="badge b-n">n</th><th class="badge b-nln">n log n</th><th class="badge b-n2">n²</th><th class="badge b-n3">n³</th><th class="badge b-2n">2ⁿ</th></tr>
       <tr><td>10</td><td>3</td><td>10</td><td>30</td><td>100</td><td>1,000</td><td>1,024</td></tr>
       <tr><td>100</td><td>7</td><td>100</td><td>700</td><td>10,000</td><td>1,000,000</td><td>10³⁰ !</td></tr>
       <tr><td>1,000</td><td>10</td><td>1,000</td><td>10,000</td><td>1,000,000</td><td>10⁹</td><td>☠️</td></tr>
       <tr><td>1,000,000</td><td>20</td><td>1,000,000</td><td>20,000,000</td><td>10¹²</td><td>10¹⁸</td><td>☠️☠️</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <div class="box ana">
       <div class="box-lbl">💡 Real-World Meaning</div>
@@ -1076,12 +1307,14 @@ t ← min(m, n)
     <h4>Worst-Case, Best-Case, Average-Case <span class="lvl-pill lvl-2">Level 45</span></h4>
     <p>The same algorithm on the same size input can behave completely differently depending on <em>which</em> input it gets. We analyze three scenarios:</p>
 
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Case</th><th>When It Occurs</th><th>Sequential Search Example</th><th>Why We Care</th></tr>
       <tr><td><strong>Best Case</strong></td><td>The most favorable input for this algorithm</td><td>Target is the <em>first</em> element → 1 comparison</td><td>Lower bound on time — algorithm can't do better</td></tr>
       <tr><td><strong>Worst Case</strong> ★</td><td>The most difficult input for this algorithm</td><td>Target is last or absent → n comparisons</td><td><strong>Guarantees performance ceiling — most useful</strong></td></tr>
       <tr><td><strong>Average Case</strong></td><td>Expected behavior on a random input</td><td>Target at random position → ~n/2 comparisons</td><td>Real-world expected performance</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <div class="box call">
       <div class="box-lbl">★ Why Worst-Case Dominates</div>
@@ -1297,12 +1530,14 @@ t ← min(m, n)
     <h4>The Limit Method — Easier Than Formal Proofs <span class="lvl-pill lvl-2">Level 65</span></h4>
     <p>Instead of hunting for constants, compute the limit of the ratio t(n)/g(n) as n → ∞:</p>
 
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>lim (t(n)/g(n)) = ?</th><th>Conclusion</th><th>Notation</th></tr>
       <tr><td style="font-family:var(--mono); font-size:1rem; font-weight:700">0</td><td>t grows <em>slower</em> than g</td><td>t ∈ O(g) only (not Θ)</td></tr>
       <tr><td style="font-family:var(--mono); font-size:1rem; font-weight:700">c (constant &gt; 0)</td><td>t and g grow at the <em>same rate</em></td><td>t ∈ Θ(g) ← most precise</td></tr>
       <tr><td style="font-family:var(--mono); font-size:1rem; font-weight:700">∞</td><td>t grows <em>faster</em> than g</td><td>t ∈ Ω(g) only (not Θ)</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <div class="box ex">
       <div class="box-lbl">✏ Compare log₂n vs √n using limits</div>
@@ -1317,7 +1552,8 @@ t ← min(m, n)
     </div>
 
     <h4>Complete Efficiency Class Reference</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Class</th><th>Name</th><th>Typical Cause</th><th>Example Algorithm</th><th>n=1000 estimate</th></tr>
       <tr><td><span class="badge b-o1">O(1)</span></td><td>Constant</td><td>No loops, direct computation</td><td>Array index access A[5]</td><td>1 op</td></tr>
       <tr><td><span class="badge b-log">O(log n)</span></td><td>Logarithmic</td><td>Halving the problem each step</td><td>Binary search</td><td>~10 ops</td></tr>
@@ -1328,6 +1564,7 @@ t ← min(m, n)
       <tr><td><span class="badge b-2n">O(2ⁿ)</span></td><td>Exponential</td><td>All subsets of n elements</td><td>Brute-force Knapsack</td><td>10³⁰¹ ops ☠️</td></tr>
       <tr><td><span class="badge b-nf">O(n!)</span></td><td>Factorial</td><td>All permutations of n items</td><td>Brute-force TSP</td><td>10²⁵⁶⁷ ops ☠️☠️</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
   </div>
 </div>
@@ -1907,7 +2144,8 @@ maxval ← A[0]
     </div>
 
     <h4>Direct Comparison: Selection Sort vs Bubble Sort</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Property</th><th>Selection Sort</th><th>Bubble Sort</th></tr>
       <tr><td>Comparisons (any case)</td><td>n(n−1)/2</td><td>n(n−1)/2</td></tr>
       <tr><td>Swaps (worst case)</td><td>n − 1</td><td>n(n−1)/2</td></tr>
@@ -1917,6 +2155,7 @@ maxval ← A[0]
       <tr><td>Time complexity</td><td>Θ(n²) always</td><td>O(n²) worst, O(n) best*</td></tr>
       <tr><td>Best use case</td><td>When swaps are expensive</td><td>Almost sorted data*</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
     <p style="font-size:.84rem; color:var(--mid)">* Only if you add an early-exit flag that stops when a full pass makes zero swaps (the array is already sorted).</p>
 
   </div>
@@ -2037,11 +2276,13 @@ i ← <span class="nu">0</span>
     </div>
 
     <h4>Summary: Section 3.2 Algorithms</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Algorithm</th><th>Best Case</th><th>Worst Case</th><th>Average Case</th><th>Special Technique</th></tr>
       <tr><td>Sequential Search</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>Sentinel element</td></tr>
       <tr><td>String Matching</td><td>O(m)</td><td>O(mn)</td><td>O(n) practical</td><td>Slide and compare</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
   </div>
 </div>
@@ -2055,7 +2296,8 @@ i ← <span class="nu">0</span>
   <div class="prose">
 
     <h4>Master Complexity Reference</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Class</th><th>Name</th><th>Example</th><th>n=10</th><th>n=100</th><th>n=1,000</th><th>Feasible?</th></tr>
       <tr><td><span class="badge b-o1">O(1)</span></td><td>Constant</td><td>Array index</td><td>1</td><td>1</td><td>1</td><td style="color:var(--green)">✓✓✓</td></tr>
       <tr><td><span class="badge b-log">O(log n)</span></td><td>Logarithmic</td><td>Binary search</td><td>3</td><td>7</td><td>10</td><td style="color:var(--green)">✓✓✓</td></tr>
@@ -2066,25 +2308,31 @@ i ← <span class="nu">0</span>
       <tr><td><span class="badge b-2n">O(2ⁿ)</span></td><td>Exponential</td><td>Hanoi, subsets</td><td>1,024</td><td>10³⁰</td><td>☠️</td><td style="color:var(--red)">✗ (n&gt;30)</td></tr>
       <tr><td><span class="badge b-nf">O(n!)</span></td><td>Factorial</td><td>Permutations</td><td>3.6M</td><td>9×10¹⁵⁷</td><td>☠️☠️</td><td style="color:var(--red)">✗ (n&gt;15)</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <h4>Notation Quick Reference</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Notation</th><th>Name</th><th>Meaning</th><th>Analogy</th></tr>
       <tr><td><code>t(n) ∈ O(g(n))</code></td><td>Big-O</td><td>t grows at most like g — upper bound</td><td>t ≤ speed limit</td></tr>
       <tr><td><code>t(n) ∈ Ω(g(n))</code></td><td>Big-Omega</td><td>t grows at least like g — lower bound</td><td>t ≥ minimum speed</td></tr>
       <tr><td><code>t(n) ∈ Θ(g(n))</code></td><td>Big-Theta</td><td>t grows exactly like g — tight bound</td><td>t = exact speed</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <h4>Limit Method</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>lim t(n)/g(n)</th><th>Conclusion</th></tr>
       <tr><td><code>= 0</code></td><td>t ∈ O(g) only (t is strictly slower than g)</td></tr>
       <tr><td><code>= c &gt; 0</code></td><td>t ∈ Θ(g) (same growth rate)</td></tr>
       <tr><td><code>= ∞</code></td><td>t ∈ Ω(g) only (t is strictly faster than g)</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <h4>Algorithm Analysis Patterns</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Code Pattern</th><th>Typical Result</th></tr>
       <tr><td>1 loop 0 to n</td><td>Θ(n)</td></tr>
       <tr><td>2 nested loops 0 to n</td><td>Θ(n²)</td></tr>
@@ -2094,15 +2342,18 @@ i ← <span class="nu">0</span>
       <tr><td>Recursion: T(n) = T(n/2) + c</td><td>Θ(log n)</td></tr>
       <tr><td>Recursion: T(n) = 2T(n−1) + c</td><td>Θ(2ⁿ)</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
 
     <h4>Chapter 3 Algorithms Summary</h4>
-    <table class="tbl">
+    <div class="tbl-wrap">
+      <table class="tbl">
       <tr><th>Algorithm</th><th>Type</th><th>Best</th><th>Worst</th><th>Avg</th><th>Key Idea</th></tr>
       <tr><td>Selection Sort</td><td>Sort</td><td>Θ(n²)</td><td>Θ(n²)</td><td>Θ(n²)</td><td>Find min, place it</td></tr>
       <tr><td>Bubble Sort</td><td>Sort</td><td>O(n)*</td><td>Θ(n²)</td><td>Θ(n²)</td><td>Bubble max to end</td></tr>
       <tr><td>Sequential Search</td><td>Search</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>Scan left to right</td></tr>
       <tr><td>String Matching</td><td>Search</td><td>O(m)</td><td>O(mn)</td><td>O(n)</td><td>Slide pattern over text</td></tr>
     </table>
+    </div><!-- /.tbl-wrap -->
     <p style="font-size:.84rem; color:var(--mid)">*Bubble Sort best case O(n) only with early-exit swap-flag optimization.</p>
 
     <div class="box call">
