@@ -941,60 +941,118 @@ t ← min(m, n)
     </div>
 
     <div class="chart-wrap">
-      <div class="chart-title">Growth Rate Comparison — n=1 to 20 (y-axis capped at 200)</div>
-      <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
-        <rect x="60" y="20" width="590" height="260" fill="#fafaf8"/>
-        <g stroke="#eeebe4" stroke-width="1">
-          <line x1="60" y1="72" x2="650" y2="72"/>
-          <line x1="60" y1="124" x2="650" y2="124"/>
-          <line x1="60" y1="176" x2="650" y2="176"/>
-          <line x1="60" y1="228" x2="650" y2="228"/>
-        </g>
-        <line x1="60" y1="20" x2="60" y2="280" stroke="#aaa" stroke-width="1.5"/>
-        <line x1="60" y1="280" x2="650" y2="280" stroke="#aaa" stroke-width="1.5"/>
-        <!-- y labels -->
-        <text x="52" y="284" text-anchor="end" font-family="monospace" font-size="10" fill="#999">0</text>
-        <text x="52" y="232" text-anchor="end" font-family="monospace" font-size="10" fill="#999">50</text>
-        <text x="52" y="180" text-anchor="end" font-family="monospace" font-size="10" fill="#999">100</text>
-        <text x="52" y="128" text-anchor="end" font-family="monospace" font-size="10" fill="#999">150</text>
-        <text x="52" y="76" text-anchor="end" font-family="monospace" font-size="10" fill="#999">200</text>
-        <!-- x labels -->
-        <text x="60"  y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">1</text>
-        <text x="178" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">5</text>
-        <text x="296" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">10</text>
-        <text x="414" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">15</text>
-        <text x="532" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">20</text>
-        <text x="355" y="312" text-anchor="middle" font-family="monospace" font-size="10" fill="#777">n (input size)</text>
-        <!-- scale: x = 60+(n-1)*30.5, y = 280 - val*1.3  cap 200 -->
-        <!-- log2(n): values 0, 2, 2.58, 3, 3.32, 3.58... -->
-        <polyline fill="none" stroke="#27ae60" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="60,280 90.5,253 121,248 151.5,244 182,241 212.5,238 243,235 273.5,232 304,230 334.5,228 365,226 395.5,224 426,222 456.5,221 487,219 517.5,218 548,216 578.5,215 609,214 639.5,213"/>
-        <!-- n: -->
-        <polyline fill="none" stroke="#2980b9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="60,280 90.5,274 121,267 151.5,261 182,254 212.5,247 243,241 273.5,234 304,228 334.5,221 365,214 395.5,208 426,201 456.5,194 487,188 517.5,181 548,174 578.5,168 609,161 639.5,154"/>
-        <!-- n log n -->
-        <polyline fill="none" stroke="#8e44ad" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="60,280 90.5,268 121,255 151.5,243 182,231 212.5,218 243,205 273.5,193 304,180 334.5,167 365,153 395.5,140 426,127 456.5,113 487,99 517.5,86 548,72 578.5,58 609,44 639.5,30"/>
-        <!-- n^2 (capped) -->
-        <polyline fill="none" stroke="#e67e22" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="60,280 90.5,276 121,270 151.5,262 182,252 212.5,240 243,226 273.5,210 304,192 334.5,172 365,150 395.5,126 426,100 456.5,72 487,42 517.5,20 548,20 578.5,20 609,20 639.5,20"/>
-        <!-- 2^n (explodes) -->
-        <polyline fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
-          points="60,280 90.5,279 121,277 151.5,273 182,265 212.5,252 243,225 273.5,172 304,66 334.5,20 365,20 395.5,20"/>
-        <!-- legend -->
-        <rect x="460" y="90" width="178" height="118" rx="6" fill="white" stroke="#ddd" stroke-width="1"/>
-        <line x1="470" y1="110" x2="494" y2="110" stroke="#27ae60" stroke-width="2.5"/>
-        <text x="500" y="114" font-family="monospace" font-size="11" fill="#333">log n</text>
-        <line x1="470" y1="128" x2="494" y2="128" stroke="#2980b9" stroke-width="2.5"/>
-        <text x="500" y="132" font-family="monospace" font-size="11" fill="#333">n</text>
-        <line x1="470" y1="146" x2="494" y2="146" stroke="#8e44ad" stroke-width="2.5"/>
-        <text x="500" y="150" font-family="monospace" font-size="11" fill="#333">n log n</text>
-        <line x1="470" y1="164" x2="494" y2="164" stroke="#e67e22" stroke-width="2.5"/>
-        <text x="500" y="168" font-family="monospace" font-size="11" fill="#333">n² (capped)</text>
-        <line x1="470" y1="182" x2="494" y2="182" stroke="#e74c3c" stroke-width="2.5"/>
-        <text x="500" y="186" font-family="monospace" font-size="11" fill="#333">2ⁿ (explodes)</text>
-      </svg>
+      <div class="chart-title">Growth Rate Comparison — n = 1 to 20 (2ⁿ capped for readability)</div>
+      <canvas id="growthChart" style="width:100%;height:340px;display:block;"></canvas>
     </div>
+    <script>
+    (function(){
+      const canvas = document.getElementById('growthChart');
+      function draw(){
+        const dpr = window.devicePixelRatio || 1;
+        const W = canvas.offsetWidth, H = 340;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.style.height = H + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        const PAD = { top:24, right:160, bottom:50, left:58 };
+        const gW = W - PAD.left - PAD.right;
+        const gH = H - PAD.top - PAD.bottom;
+        const N = 20, YMAX = 200;
+
+        // helpers
+        const xOf = n => PAD.left + (n - 1) / (N - 1) * gW;
+        const yOf = v => PAD.top + gH - Math.min(v, YMAX) / YMAX * gH;
+
+        // background
+        ctx.fillStyle = '#fafaf8';
+        ctx.fillRect(PAD.left, PAD.top, gW, gH);
+
+        // grid lines
+        ctx.strokeStyle = '#eee8e0'; ctx.lineWidth = 1;
+        [50,100,150,200].forEach(v => {
+          const y = yOf(v);
+          ctx.beginPath(); ctx.moveTo(PAD.left, y); ctx.lineTo(PAD.left+gW, y); ctx.stroke();
+        });
+        [1,5,10,15,20].forEach(n => {
+          const x = xOf(n);
+          ctx.beginPath(); ctx.moveTo(x, PAD.top); ctx.lineTo(x, PAD.top+gH); ctx.stroke();
+        });
+
+        // axes
+        ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(PAD.left, PAD.top); ctx.lineTo(PAD.left, PAD.top+gH); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(PAD.left, PAD.top+gH); ctx.lineTo(PAD.left+gW, PAD.top+gH); ctx.stroke();
+
+        // axis labels
+        ctx.fillStyle = '#888'; ctx.font = '11px monospace'; ctx.textAlign = 'right';
+        [0,50,100,150,200].forEach(v => { ctx.fillText(v, PAD.left-7, yOf(v)+4); });
+        ctx.textAlign = 'center';
+        [1,5,10,15,20].forEach(n => { ctx.fillText(n, xOf(n), PAD.top+gH+16); });
+        ctx.fillStyle = '#666'; ctx.font = '11px monospace';
+        ctx.fillText('n  (input size)', PAD.left + gW/2, H - 6);
+
+        // y-axis label
+        ctx.save(); ctx.translate(14, PAD.top + gH/2); ctx.rotate(-Math.PI/2);
+        ctx.textAlign = 'center'; ctx.fillText('operations', 0, 0); ctx.restore();
+
+        // draw a function
+        function plotFn(fn, color, dash) {
+          ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+          ctx.setLineDash(dash || []);
+          ctx.beginPath();
+          let started = false;
+          for (let n = 1; n <= N; n += 0.25) {
+            const v = fn(n);
+            const x = xOf(n), y = yOf(v);
+            if (!started) { ctx.moveTo(x, y); started = true; } else { ctx.lineTo(x, y); }
+          }
+          ctx.stroke(); ctx.setLineDash([]);
+        }
+
+        plotFn(n => Math.log2(n),          '#27ae60');   // log n
+        plotFn(n => n,                      '#2980b9');   // n
+        plotFn(n => n * Math.log2(n),       '#8e44ad');   // n log n
+        plotFn(n => n * n,                  '#e67e22');   // n²
+        plotFn(n => Math.pow(2, n),         '#e74c3c');   // 2ⁿ
+
+        // legend (right side)
+        const entries = [
+          ['log n',   '#27ae60', []],
+          ['n',       '#2980b9', []],
+          ['n log n', '#8e44ad', []],
+          ['n²',      '#e67e22', []],
+          ['2ⁿ',      '#e74c3c', []],
+        ];
+        const lx = PAD.left + gW + 14, ly0 = PAD.top + 30;
+        ctx.fillStyle = '#fff';
+        ctx.strokeStyle = '#ddd'; ctx.lineWidth = 1;
+        roundRect(ctx, lx - 8, ly0 - 18, 140, entries.length * 26 + 14, 6);
+        ctx.fill(); ctx.stroke();
+
+        entries.forEach(([label, color, dash], i) => {
+          const y = ly0 + i * 26;
+          ctx.strokeStyle = color; ctx.lineWidth = 2.5;
+          ctx.setLineDash(dash);
+          ctx.beginPath(); ctx.moveTo(lx, y); ctx.lineTo(lx+22, y); ctx.stroke();
+          ctx.setLineDash([]);
+          ctx.fillStyle = '#333'; ctx.font = '12px monospace'; ctx.textAlign = 'left';
+          ctx.fillText(label, lx + 28, y + 4);
+        });
+      }
+
+      function roundRect(ctx, x, y, w, h, r) {
+        ctx.beginPath();
+        ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.arcTo(x+w,y,x+w,y+r,r);
+        ctx.lineTo(x+w,y+h-r); ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+        ctx.lineTo(x+r,y+h); ctx.arcTo(x,y+h,x,y+h-r,r);
+        ctx.lineTo(x,y+r); ctx.arcTo(x,y,x+r,y,r); ctx.closePath();
+      }
+
+      draw();
+      window.addEventListener('resize', draw);
+    })();
+    </script>
 
     <h4>The Numbers Behind the Chart <span class="lvl-pill lvl-2">Level 40</span></h4>
     <table class="tbl">
@@ -1072,28 +1130,111 @@ t ← min(m, n)
 
     <div class="chart-wrap">
       <div class="chart-title">Big-O: t(n) stays at or below c·g(n) for all n ≥ n₀</div>
-      <svg viewBox="0 0 440 220" xmlns="http://www.w3.org/2000/svg">
-        <rect x="42" y="20" width="370" height="178" fill="#fafaf8"/>
-        <line x1="42" y1="20" x2="42" y2="198" stroke="#aaa" stroke-width="1.5"/>
-        <line x1="42" y1="198" x2="412" y2="198" stroke="#aaa" stroke-width="1.5"/>
-        <!-- c·g(n) -->
-        <polyline fill="none" stroke="#163870" stroke-width="2.5" stroke-dasharray="8,4"
-          points="42,195 100,180 160,158 220,128 280,90 340,44 412,22"/>
-        <!-- t(n) -->
-        <polyline fill="none" stroke="#b5220b" stroke-width="2.5"
-          points="42,195 100,186 160,170 220,147 280,115 340,74 412,46"/>
-        <!-- shaded region where t ≤ c·g -->
-        <line x1="138" y1="24" x2="138" y2="198" stroke="#27ae60" stroke-width="1.8" stroke-dasharray="5,3"/>
-        <text x="142" y="40" font-family="monospace" font-size="11" fill="#27ae60" font-weight="700">n₀</text>
-        <text x="44" y="215" font-family="monospace" font-size="10" fill="#999">0</text>
-        <text x="404" y="215" font-family="monospace" font-size="10" fill="#999">n</text>
-        <text x="344" y="18" font-family="monospace" font-size="11" fill="#163870" font-weight="600">c·g(n)</text>
-        <text x="365" y="42" font-family="monospace" font-size="11" fill="#b5220b" font-weight="600">t(n)</text>
-        <text x="160" y="120" font-family="monospace" font-size="9" fill="#888">t(n) ≤ c·g(n) in this region</text>
-        <text x="50" y="80" font-family="monospace" font-size="8" fill="#bbb">may cross here</text>
-        <text x="50" y="90" font-family="monospace" font-size="8" fill="#bbb">(we don't care)</text>
-      </svg>
+      <canvas id="bigOChart" style="width:100%;height:260px;display:block;"></canvas>
     </div>
+    <script>
+    (function(){
+      const canvas = document.getElementById('bigOChart');
+      function draw(){
+        const dpr = window.devicePixelRatio || 1;
+        const W = canvas.offsetWidth, H = 260;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.style.height = H + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        const PAD = { top:24, right:30, bottom:44, left:52 };
+        const gW = W - PAD.left - PAD.right;
+        const gH = H - PAD.top - PAD.bottom;
+
+        // We'll model: t(n) = n (linear), c·g(n) = 1.5n (upper bound)
+        // They start apart, then t stays under c·g after n₀
+        // n₀ is where they visually "settle" — we'll show n from 0..10
+        const NMAX = 10;
+        const xOf = n => PAD.left + n / NMAX * gW;
+        const YMAX = 12;
+        const yOf = v => PAD.top + gH - Math.min(v, YMAX) / YMAX * gH;
+
+        // background
+        ctx.fillStyle = '#fafaf8';
+        ctx.fillRect(PAD.left, PAD.top, gW, gH);
+
+        // grid
+        ctx.strokeStyle = '#eee8e0'; ctx.lineWidth = 1;
+        for(let v=2;v<=YMAX;v+=2){
+          const y=yOf(v);
+          ctx.beginPath();ctx.moveTo(PAD.left,y);ctx.lineTo(PAD.left+gW,y);ctx.stroke();
+        }
+
+        // shade region where t(n) < c·g(n)  (right of n0)
+        const n0 = 2; // crossover
+        const x0 = xOf(n0);
+        ctx.fillStyle = 'rgba(39,174,96,0.07)';
+        ctx.fillRect(x0, PAD.top, PAD.left + gW - x0, gH);
+
+        // axes
+        ctx.strokeStyle = '#aaa'; ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.moveTo(PAD.left, PAD.top); ctx.lineTo(PAD.left, PAD.top+gH); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(PAD.left, PAD.top+gH); ctx.lineTo(PAD.left+gW, PAD.top+gH); ctx.stroke();
+
+        // c·g(n) = n² / 6  (grows faster, is the upper bound)
+        function cgn(n){ return n * n / 5.5; }
+        // t(n) = n * 0.9   (grows slower, stays below)
+        function tn(n){ return n * 0.75; }
+
+        // draw c·g(n) dashed blue
+        ctx.strokeStyle = '#163870'; ctx.lineWidth = 2.5;
+        ctx.setLineDash([9, 5]);
+        ctx.beginPath();
+        for(let n=0.1; n<=NMAX; n+=0.05){
+          const x = xOf(n), y = yOf(cgn(n));
+          n < 0.15 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        }
+        ctx.stroke(); ctx.setLineDash([]);
+
+        // draw t(n) solid red
+        ctx.strokeStyle = '#b5220b'; ctx.lineWidth = 2.5;
+        ctx.beginPath();
+        for(let n=0.1; n<=NMAX; n+=0.05){
+          const x = xOf(n), y = yOf(tn(n));
+          n < 0.15 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+        }
+        ctx.stroke();
+
+        // n₀ vertical dashed green
+        ctx.strokeStyle = '#27ae60'; ctx.lineWidth = 1.8;
+        ctx.setLineDash([5,3]);
+        ctx.beginPath(); ctx.moveTo(x0, PAD.top+4); ctx.lineTo(x0, PAD.top+gH); ctx.stroke();
+        ctx.setLineDash([]);
+
+        // labels
+        ctx.fillStyle = '#27ae60'; ctx.font = 'bold 12px monospace'; ctx.textAlign = 'left';
+        ctx.fillText('n₀', x0 + 5, PAD.top + 18);
+
+        ctx.fillStyle = '#163870'; ctx.font = 'bold 12px monospace';
+        ctx.fillText('c·g(n)', PAD.left + gW * 0.7, yOf(cgn(NMAX * 0.75)) - 8);
+
+        ctx.fillStyle = '#b5220b'; ctx.font = 'bold 12px monospace';
+        ctx.fillText('t(n)', PAD.left + gW * 0.78, yOf(tn(NMAX * 0.78)) + 16);
+
+        ctx.fillStyle = '#27ae60'; ctx.font = '10px monospace'; ctx.textAlign = 'center';
+        ctx.fillText('t(n) ≤ c·g(n) for all n ≥ n₀', PAD.left + gW * 0.65, PAD.top + gH * 0.45);
+
+        ctx.fillStyle = '#bbb'; ctx.font = '10px monospace'; ctx.textAlign = 'center';
+        ctx.fillText('before n₀ — we', PAD.left + gW * 0.15, PAD.top + gH * 0.28);
+        ctx.fillText("don't care", PAD.left + gW * 0.15, PAD.top + gH * 0.38);
+
+        // axes labels
+        ctx.fillStyle = '#888'; ctx.font = '11px monospace'; ctx.textAlign = 'center';
+        ctx.fillText('0', PAD.left, PAD.top + gH + 16);
+        ctx.fillText('n →', PAD.left + gW, PAD.top + gH + 16);
+        ctx.save(); ctx.translate(13, PAD.top + gH/2); ctx.rotate(-Math.PI/2);
+        ctx.fillText('T(n)', 0, 0); ctx.restore();
+      }
+      draw();
+      window.addEventListener('resize', draw);
+    })();
+    </script>
 
     <div class="box ex">
       <div class="box-lbl">✏ Proof — Show that 100n + 5 ∈ O(n²)</div>
@@ -1398,69 +1539,106 @@ maxval ← A[0]
     Hanoi(n−<span class="nu">1</span>, via, to, from)   <span class="cm">// move n−1 disks onto destination</span></pre>
 
     <div class="chart-wrap">
-      <div class="chart-title">Hanoi(3) Recursion Tree — 2 branches per node → doubles every level → 2ⁿ−1 total moves</div>
-      <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
-        <g stroke="#d0d0d0" stroke-width="1.2">
-          <line x1="350" y1="42" x2="185" y2="100"/>
-          <line x1="350" y1="42" x2="515" y2="100"/>
-          <line x1="185" y1="120" x2="103" y2="168"/>
-          <line x1="185" y1="120" x2="268" y2="168"/>
-          <line x1="515" y1="120" x2="433" y2="168"/>
-          <line x1="515" y1="120" x2="598" y2="168"/>
-          <line x1="103" y1="188" x2="62" y2="228"/>
-          <line x1="103" y1="188" x2="144" y2="228"/>
-          <line x1="268" y1="188" x2="227" y2="228"/>
-          <line x1="268" y1="188" x2="310" y2="228"/>
-          <line x1="433" y1="188" x2="392" y2="228"/>
-          <line x1="433" y1="188" x2="474" y2="228"/>
-          <line x1="598" y1="188" x2="557" y2="228"/>
-          <line x1="598" y1="188" x2="639" y2="228"/>
-        </g>
-        <!-- level 0 -->
-        <rect x="318" y="22" width="64" height="28" rx="5" fill="#0f0e17"/>
-        <text x="350" y="41" text-anchor="middle" font-family="monospace" font-size="12" font-weight="700" fill="#d4900d">H(3)</text>
-        <!-- level 1 -->
-        <rect x="153" y="100" width="64" height="28" rx="5" fill="#163870"/>
-        <text x="185" y="119" text-anchor="middle" font-family="monospace" font-size="11" fill="white">H(2)</text>
-        <rect x="483" y="100" width="64" height="28" rx="5" fill="#163870"/>
-        <text x="515" y="119" text-anchor="middle" font-family="monospace" font-size="11" fill="white">H(2)</text>
-        <!-- level 2 -->
-        <g>
-          <rect x="71"  y="168" width="64" height="26" rx="4" fill="#2980b9"/>
-          <text x="103" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
-          <rect x="236" y="168" width="64" height="26" rx="4" fill="#2980b9"/>
-          <text x="268" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
-          <rect x="401" y="168" width="64" height="26" rx="4" fill="#2980b9"/>
-          <text x="433" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
-          <rect x="566" y="168" width="64" height="26" rx="4" fill="#2980b9"/>
-          <text x="598" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
-        </g>
-        <!-- leaf moves -->
-        <g fill="#0f5c35">
-          <circle cx="62"  cy="234" r="12"/>
-          <circle cx="144" cy="234" r="12"/>
-          <circle cx="227" cy="234" r="12"/>
-          <circle cx="310" cy="234" r="12"/>
-          <circle cx="392" cy="234" r="12"/>
-          <circle cx="474" cy="234" r="12"/>
-          <circle cx="557" cy="234" r="12"/>
-          <circle cx="639" cy="234" r="12"/>
-        </g>
-        <g font-family="monospace" font-size="8" fill="white" text-anchor="middle">
-          <text x="62"  y="237">mv</text><text x="144" y="237">mv</text>
-          <text x="227" y="237">mv</text><text x="310" y="237">mv</text>
-          <text x="392" y="237">mv</text><text x="474" y="237">mv</text>
-          <text x="557" y="237">mv</text><text x="639" y="237">mv</text>
-        </g>
-        <!-- annotation -->
-        <text x="350" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#b5220b" font-weight="700">8 leaf moves = 2³ = 2ⁿ branches | Total moves = 2ⁿ−1 = 7</text>
-        <!-- level labels -->
-        <text x="6" y="38"  font-family="monospace" font-size="8" fill="#999">lvl 0</text>
-        <text x="6" y="118" font-family="monospace" font-size="8" fill="#999">lvl 1</text>
-        <text x="6" y="186" font-family="monospace" font-size="8" fill="#999">lvl 2</text>
-        <text x="6" y="238" font-family="monospace" font-size="8" fill="#0f5c35">moves</text>
-      </svg>
+      <div class="chart-title">Hanoi(3) Recursion Tree — 2 sub-calls per node → tree doubles every level → 2ⁿ−1 = 7 total moves</div>
+      <canvas id="hanoiTree" style="width:100%;height:300px;display:block;"></canvas>
     </div>
+    <script>
+    (function(){
+      const canvas = document.getElementById('hanoiTree');
+      function draw(){
+        const dpr = window.devicePixelRatio || 1;
+        const W = canvas.offsetWidth, H = 300;
+        canvas.width = W * dpr; canvas.height = H * dpr;
+        canvas.style.height = H + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+
+        // Tree layout: 4 levels (0=root H3, 1=H2×2, 2=H1×4, 3=moves×8)
+        // level y positions
+        const LABEL_W = 46;
+        const usable = W - LABEL_W;
+        const levels = [
+          { y: 44,  label: 'level 0', nodes: [{ x: usable/2 + LABEL_W, text: 'H(3)', fill: '#0f0e17', color: '#d4900d', r: 26 }] },
+          { y: 118, label: 'level 1', nodes: [
+            { x: usable*0.27+LABEL_W, text: 'H(2)', fill: '#163870', color: '#fff', r: 24 },
+            { x: usable*0.73+LABEL_W, text: 'H(2)', fill: '#163870', color: '#fff', r: 24 },
+          ]},
+          { y: 192, label: 'level 2', nodes: [
+            { x: usable*0.13+LABEL_W, text: 'H(1)', fill: '#2980b9', color: '#fff', r: 22 },
+            { x: usable*0.38+LABEL_W, text: 'H(1)', fill: '#2980b9', color: '#fff', r: 22 },
+            { x: usable*0.62+LABEL_W, text: 'H(1)', fill: '#2980b9', color: '#fff', r: 22 },
+            { x: usable*0.87+LABEL_W, text: 'H(1)', fill: '#2980b9', color: '#fff', r: 22 },
+          ]},
+          { y: 263, label: 'moves ×8', nodes: [
+            { x: usable*0.065+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+            { x: usable*0.195+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+            { x: usable*0.325+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+            { x: usable*0.455+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+            { x: usable*0.545+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+            { x: usable*0.675+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+            { x: usable*0.805+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+            { x: usable*0.935+LABEL_W, text: 'mv', fill: '#0f5c35', color: '#fff', r: 16 },
+          ]},
+        ];
+
+        // draw edges first
+        ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1.5;
+        for(let li=0; li<levels.length-1; li++){
+          const parents = levels[li].nodes;
+          const children = levels[li+1].nodes;
+          const chunk = children.length / parents.length; // children per parent
+          parents.forEach((p, pi) => {
+            for(let ci = pi*chunk; ci < (pi+1)*chunk; ci++){
+              const c = children[ci];
+              ctx.beginPath();
+              ctx.moveTo(p.x, levels[li].y + p.r);
+              ctx.lineTo(c.x, levels[li+1].y - c.r);
+              ctx.stroke();
+            }
+          });
+        }
+
+        // draw nodes
+        levels.forEach((level, li) => {
+          // level label on left
+          ctx.fillStyle = li===3 ? '#0f5c35' : '#aaa';
+          ctx.font = `${li===3?'bold ':''}10px monospace`;
+          ctx.textAlign = 'right';
+          ctx.fillText(level.label, LABEL_W - 6, level.y + 4);
+
+          level.nodes.forEach(node => {
+            // circle/oval
+            ctx.fillStyle = node.fill;
+            ctx.beginPath();
+            ctx.ellipse(node.x, level.y, node.r, node.r * 0.55, 0, 0, Math.PI*2);
+            ctx.fill();
+
+            // gold ring on root
+            if(li===0){
+              ctx.strokeStyle = '#d4900d'; ctx.lineWidth = 2;
+              ctx.beginPath();
+              ctx.ellipse(node.x, level.y, node.r, node.r*0.55, 0, 0, Math.PI*2);
+              ctx.stroke();
+            }
+
+            // text
+            ctx.fillStyle = node.color;
+            ctx.font = `bold ${li===0?12:li===3?9:11}px monospace`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(node.text, node.x, level.y);
+          });
+        });
+
+        // top annotation
+        ctx.fillStyle = '#b5220b'; ctx.font = 'bold 10px monospace'; ctx.textAlign = 'center';
+        ctx.textBaseline = 'alphabetic';
+        ctx.fillText('Total moves = 2³ − 1 = 7  |  Each level doubles: 1 → 2 → 4 → 8 leaf moves', W/2, 16);
+      }
+      draw();
+      window.addEventListener('resize', draw);
+    })();
+    </script>
 
     <div class="box solve">
       <div class="box-lbl">📐 Recurrence and Solution</div>
