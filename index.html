@@ -3,1255 +3,1947 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Algorithm Design & Analysis — Complete Study Guide</title>
+<title>Algorithm Design & Analysis — From Zero to Hero</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,700;0,9..144,900;1,9..144,400&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=IBM+Plex+Mono:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,600&display=swap');
+:root {
+  --ink:     #0f0e17;
+  --paper:   #fffcf5;
+  --cream:   #f5f0e4;
+  --gold:    #d4900d;
+  --gold-lt: #fef3d0;
+  --red:     #b5220b;
+  --blue:    #163870;
+  --blue-lt: #dde8f8;
+  --green:   #0f5c35;
+  --green-lt:#dcf5e7;
+  --purple:  #5b2d8e;
+  --purple-lt:#ede5f8;
+  --border:  #ddd5c2;
+  --mid:     #6b6150;
+  --mono:    'DM Mono', monospace;
+  --body:    'Outfit', sans-serif;
+  --display: 'Fraunces', serif;
+}
 
-  :root {
-    --ink: #1a1a2e;
-    --paper: #faf8f3;
-    --accent: #c0392b;
-    --gold: #d4a017;
-    --blue: #2c3e7a;
-    --green: #1a5c40;
-    --light-bg: #f0ede4;
-    --border: #d6cfc0;
-    --mono: 'IBM Plex Mono', monospace;
-    --serif: 'Source Serif 4', Georgia, serif;
-    --display: 'Playfair Display', serif;
-  }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0 }
+html { scroll-behavior:smooth }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.8;
+}
 
-  body {
-    background: var(--paper);
-    color: var(--ink);
-    font-family: var(--serif);
-    font-size: 17px;
-    line-height: 1.75;
-  }
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero {
+  background: var(--ink);
+  color: var(--paper);
+  padding: 80px 40px 70px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content:'';
+  position:absolute; inset:0;
+  background: repeating-linear-gradient(-45deg, transparent, transparent 28px, rgba(255,255,255,.025) 28px, rgba(255,255,255,.025) 29px);
+}
+.hero-inner { position:relative; max-width:760px; margin:0 auto; }
+.hero-eyebrow {
+  font-family: var(--mono);
+  font-size: .7rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--display);
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-weight: 900;
+  line-height: 1.08;
+  letter-spacing: -.02em;
+}
+.hero h1 em { color: var(--gold); font-style: italic; }
+.hero-sub {
+  margin-top: 20px;
+  font-size: 1.05rem;
+  color: #bdb4a4;
+  font-weight: 300;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.hero-pills {
+  margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+.hero-pill {
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.15);
+  color: #e0d9cc;
+  font-family: var(--mono);
+  font-size: .72rem;
+  padding: 6px 14px;
+  border-radius: 20px;
+  letter-spacing: .5px;
+}
+.hero-pill.gold { background:var(--gold); color:var(--ink); border-color:var(--gold); font-weight:500; }
 
-  /* HEADER */
-  .site-header {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 60px 40px 50px;
-    text-align: center;
-    border-bottom: 4px solid var(--gold);
-    position: relative;
-    overflow: hidden;
-  }
-  .site-header::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.02) 20px, rgba(255,255,255,0.02) 21px);
-  }
-  .site-header h1 {
-    font-family: var(--display);
-    font-size: 2.8rem;
-    letter-spacing: -0.5px;
-    line-height: 1.15;
-    position: relative;
-  }
-  .site-header .subtitle {
-    margin-top: 12px;
-    font-size: 1rem;
-    color: #a89f8c;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    font-family: var(--serif);
-    font-weight: 300;
-    position: relative;
-  }
-  .book-tag {
-    display: inline-block;
-    margin-top: 16px;
-    background: var(--gold);
-    color: var(--ink);
-    font-size: 0.75rem;
-    font-family: var(--mono);
-    font-weight: 600;
-    padding: 4px 12px;
-    letter-spacing: 1px;
-    position: relative;
-  }
+/* ─── PROGRESS BAR / LEVEL ─────────────────────────────── */
+.level-bar {
+  background: #1a1930;
+  padding: 14px 40px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  border-bottom: 2px solid var(--gold);
+}
+.level-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--mono);
+  font-size: .72rem;
+  color: #9990a0;
+}
+.level-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.level-dot.beginner  { background: #27ae60; }
+.level-dot.easy      { background: #2ecc71; }
+.level-dot.mid       { background: #f39c12; }
+.level-dot.hard      { background: #e74c3c; }
 
-  /* NAV */
-  .toc-nav {
-    background: var(--blue);
-    padding: 20px 40px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px 16px;
-    align-items: center;
-  }
-  .toc-nav a {
-    color: #b8c5e8;
-    text-decoration: none;
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    font-weight: 600;
-    padding: 4px 8px;
-    border-radius: 3px;
-    transition: background 0.2s, color 0.2s;
-    letter-spacing: 0.5px;
-  }
-  .toc-nav a:hover { background: rgba(255,255,255,0.15); color: #fff; }
-  .toc-nav .sep { color: #4a5a8a; }
+/* ─── NAV ────────────────────────────────────────────────── */
+.toc {
+  background: var(--blue);
+  padding: 14px 30px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--gold);
+}
+.toc a {
+  color: #aac0e0;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 500;
+  padding: 4px 9px;
+  border-radius: 4px;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.toc a:hover { background: rgba(255,255,255,.15); color: #fff; }
+.toc .sep { color: #2a4a80; font-size: 10px; }
 
-  /* LAYOUT */
-  .container { max-width: 860px; margin: 0 auto; padding: 0 30px 80px; }
+/* ─── LAYOUT ─────────────────────────────────────────────── */
+.page { max-width: 920px; margin: 0 auto; padding: 0 28px 100px; }
 
-  /* CHAPTER HEADER */
-  .chapter-header {
-    margin: 60px 0 10px;
-    padding: 30px 35px;
-    background: var(--ink);
-    color: var(--paper);
-    border-left: 6px solid var(--gold);
-  }
-  .chapter-header .ch-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 3px;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .chapter-header h2 {
-    font-family: var(--display);
-    font-size: 1.9rem;
-    line-height: 1.2;
-  }
-  .chapter-header p {
-    margin-top: 10px;
-    font-size: 0.95rem;
-    color: #b0a89a;
-    font-style: italic;
-  }
+/* ─── CHAPTER HEADER ─────────────────────────────────────── */
+.ch {
+  margin: 72px 0 8px;
+  padding: 32px 36px;
+  background: var(--ink);
+  color: var(--paper);
+  border-left: 8px solid var(--gold);
+  position: relative;
+}
+.ch-label {
+  font-family: var(--mono);
+  font-size: .67rem;
+  letter-spacing: 3.5px;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.ch h2 {
+  font-family: var(--display);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.15;
+}
+.ch-desc { margin-top: 10px; font-size: .9rem; color: #b0a898; font-style: italic; }
+.ch-level {
+  position: absolute;
+  top: 24px; right: 24px;
+  font-family: var(--mono);
+  font-size: .65rem;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+.level-0 { background:#27ae6022; color:#27ae60; border:1px solid #27ae6055; }
+.level-1 { background:#2980b922; color:#5ba3d9; border:1px solid #2980b955; }
+.level-2 { background:#f39c1222; color:#f39c12; border:1px solid #f39c1255; }
 
-  /* SECTION */
-  .section {
-    margin-top: 50px;
-  }
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    margin-bottom: 24px;
-    padding-bottom: 12px;
-    border-bottom: 2px solid var(--border);
-  }
-  .section-num {
-    background: var(--accent);
-    color: #fff;
-    font-family: var(--mono);
-    font-size: 0.85rem;
-    font-weight: 600;
-    padding: 5px 12px;
-    flex-shrink: 0;
-    letter-spacing: 1px;
-  }
-  .section-title h3 {
-    font-family: var(--display);
-    font-size: 1.45rem;
-    color: var(--ink);
-    line-height: 1.2;
-  }
+/* ─── SECTION ─────────────────────────────────────────────── */
+.sec { margin-top: 56px; }
+.sec-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 26px;
+  padding-bottom: 14px;
+  border-bottom: 2px solid var(--border);
+}
+.sec-num {
+  background: var(--red);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: .75rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  letter-spacing: .5px;
+}
+.sec-head h3 {
+  font-family: var(--display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.2;
+}
 
-  /* CONTENT */
-  .content p { margin-bottom: 1.1em; }
-  .content h4 {
-    font-family: var(--display);
-    font-size: 1.05rem;
-    margin: 28px 0 10px;
-    color: var(--blue);
-    font-style: italic;
-  }
+/* ─── PROSE ─────────────────────────────────────────────── */
+.prose p { margin-bottom: 1.1em; font-size: .97rem; }
+.prose h4 {
+  font-family: var(--display);
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--blue);
+  margin: 32px 0 12px;
+  font-style: italic;
+}
+.prose h5 { font-size: .97rem; font-weight: 700; color: var(--ink); margin: 22px 0 10px; }
+.prose ul { margin: 8px 0 16px 22px; }
+.prose li { margin-bottom: 6px; font-size: .96rem; }
+code {
+  background: var(--cream);
+  padding: 2px 7px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: .83rem;
+  color: var(--blue);
+  font-weight: 500;
+}
 
-  /* DEFINITION BOX */
-  .def-box {
-    border-left: 4px solid var(--blue);
-    background: #eef1f8;
-    padding: 18px 22px;
-    margin: 20px 0;
-    border-radius: 0 6px 6px 0;
-  }
-  .def-box .def-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    color: var(--blue);
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 8px;
-  }
-  .def-box p { margin: 0; font-size: 0.97rem; }
+/* ─── BOXES ─────────────────────────────────────────────── */
+.box {
+  margin: 20px 0;
+  border-radius: 0 8px 8px 0;
+  padding: 18px 22px;
+}
+.box-lbl {
+  font-family: var(--mono);
+  font-size: .65rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.box p { margin-bottom: .65em; font-size: .95rem; }
+.box p:last-child { margin-bottom: 0; }
 
-  /* EXAMPLE BOX */
-  .example-box {
-    border: 2px solid var(--border);
-    border-top: 4px solid var(--green);
-    background: #f7faf8;
-    padding: 20px 24px;
-    margin: 22px 0;
-    border-radius: 0 0 6px 6px;
-  }
-  .example-box .ex-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    color: var(--green);
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-  .example-box p { font-size: 0.96rem; margin-bottom: 0.7em; }
-  .example-box p:last-child { margin-bottom: 0; }
+.def  { background: var(--blue-lt);   border-left: 5px solid var(--blue);   }
+.def  .box-lbl { color: var(--blue); }
+.ex   { background: var(--green-lt);  border-left: 5px solid var(--green);  border-top: 2px solid var(--green); }
+.ex   .box-lbl { color: var(--green); }
+.ana  { background: var(--purple-lt); border-left: 5px solid var(--purple); }
+.ana  .box-lbl { color: var(--purple); }
+.call { background: var(--gold-lt);   border-left: 5px solid var(--gold);   }
+.call .box-lbl { color: #9a6800; }
+.warn { background: #fff0ef;          border-left: 5px solid var(--red);    }
+.warn .box-lbl { color: var(--red); }
+.solve{ background: var(--cream);     border-left: 5px solid #888;          border: 1px solid var(--border); }
+.solve .box-lbl { color: #666; }
 
-  /* CODE / PSEUDOCODE */
-  .code-block {
-    background: #16213e;
-    color: #e2e8f0;
-    font-family: var(--mono);
-    font-size: 0.82rem;
-    line-height: 1.7;
-    padding: 20px 24px;
-    margin: 18px 0;
-    border-radius: 6px;
-    overflow-x: auto;
-    border-left: 4px solid var(--gold);
-  }
-  .code-block .comment { color: #718096; font-style: italic; }
-  .code-block .keyword { color: #90cdf4; font-weight: 600; }
-  .code-block .func { color: #fbd38d; }
-  .code-block .num { color: #9ae6b4; }
+/* ─── CODE BLOCKS ─────────────────────────────────────────── */
+pre {
+  background: #0d0d1a;
+  color: #ddd8f5;
+  font-family: var(--mono);
+  font-size: .8rem;
+  line-height: 1.8;
+  padding: 22px 26px;
+  margin: 18px 0;
+  border-radius: 8px;
+  border-left: 4px solid var(--gold);
+  overflow-x: auto;
+  white-space: pre;
+}
+.cm  { color: #5a6080; font-style:italic; }
+.kw  { color: #7ec8f5; font-weight:600; }
+.fn  { color: #fbbf24; }
+.nu  { color: #7dd5a0; }
+.st  { color: #f48fb1; }
 
-  /* STEP-BY-STEP */
-  .steps {
-    counter-reset: step;
-    margin: 20px 0;
-  }
-  .step {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 16px;
-    align-items: flex-start;
-  }
-  .step-num {
-    background: var(--accent);
-    color: #fff;
-    font-family: var(--mono);
-    font-weight: 700;
-    font-size: 0.8rem;
-    width: 28px; height: 28px;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-    margin-top: 3px;
-  }
-  .step p { margin: 0; font-size: 0.97rem; }
+/* ─── TABLES ─────────────────────────────────────────────── */
+.tbl { width:100%; border-collapse:collapse; margin:18px 0; font-size:.9rem; }
+.tbl th { background:var(--ink); color:var(--paper); padding:10px 14px; text-align:left; font-family:var(--mono); font-size:.7rem; letter-spacing:1px; text-transform:uppercase; font-weight:500; }
+.tbl td { padding:10px 14px; border-bottom:1px solid var(--border); vertical-align:top; line-height:1.6; }
+.tbl tr:nth-child(even) td { background:var(--cream); }
+.tbl tr:last-child td { border-bottom:none; }
+.tbl tr:hover td { background:#eee7d5; }
 
-  /* HIGHLIGHT / CALLOUT */
-  .callout {
-    background: #fff8e6;
-    border: 1px solid #e8c84a;
-    border-left: 5px solid var(--gold);
-    padding: 16px 20px;
-    margin: 22px 0;
-    border-radius: 0 6px 6px 0;
-  }
-  .callout strong { color: #7a5c00; }
-  .callout p { margin: 0; font-size: 0.96rem; }
+/* ─── STEPS ─────────────────────────────────────────────── */
+.steps { margin: 20px 0; }
+.step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  align-items: flex-start;
+}
+.step-n {
+  background: var(--red);
+  color: #fff;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: .75rem;
+  min-width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items:center; justify-content:center;
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+.step-t { font-size: .96rem; line-height: 1.7; }
+.step-t strong { color: var(--blue); }
 
-  /* TABLE */
-  .nice-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 0.9rem;
-    font-family: var(--serif);
-  }
-  .nice-table th {
-    background: var(--ink);
-    color: var(--paper);
-    padding: 10px 14px;
-    text-align: left;
-    font-family: var(--mono);
-    font-size: 0.78rem;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .nice-table td {
-    padding: 9px 14px;
-    border-bottom: 1px solid var(--border);
-  }
-  .nice-table tr:nth-child(even) td { background: var(--light-bg); }
-  .nice-table tr:hover td { background: #e8f0e4; }
+/* ─── ARRAY VIZ ─────────────────────────────────────────── */
+.arr-wrap { margin: 18px 0; }
+.arr-label { font-family:var(--mono); font-size:.7rem; color:var(--mid); margin-bottom:8px; letter-spacing:.5px; }
+.arr-row { display:flex; gap:5px; flex-wrap:wrap; align-items:flex-end; margin-bottom:6px; }
+.arr-cell { display:flex; flex-direction:column; align-items:center; gap:3px; }
+.arr-idx { font-family:var(--mono); font-size:.58rem; color:#aaa; }
+.arr-val {
+  width:44px; height:44px;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--mono); font-weight:700; font-size:.85rem;
+  border:2px solid var(--border); background:#fff; border-radius:6px;
+  transition: all .2s;
+}
+.arr-val.sorted  { background:#d4edda; border-color:var(--green); color:var(--green); }
+.arr-val.current { background:#fce0de; border-color:var(--red);   color:var(--red); }
+.arr-val.compare { background:#fff3cd; border-color:var(--gold);  color:#7a4f00; }
+.arr-val.found   { background:#d4edda; border-color:var(--green); color:var(--green); }
+.arr-val.checked { background:var(--cream); border-color:#ccc; color:#999; }
+.arr-lbl { font-family:var(--mono); font-size:.62rem; color:var(--red); font-weight:700; }
 
-  /* ANALOGY BOX */
-  .analogy {
-    background: #fdf3f3;
-    border: 1px solid #f0c8c8;
-    border-left: 5px solid var(--accent);
-    padding: 16px 20px;
-    margin: 22px 0;
-    border-radius: 0 6px 6px 0;
-  }
-  .analogy .an-label {
-    font-family: var(--mono);
-    font-size: 0.68rem;
-    letter-spacing: 2px;
-    color: var(--accent);
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 6px;
-  }
-  .analogy p { margin: 0; font-size: 0.96rem; }
+/* ─── COMPLEXITY BADGES ─────────────────────────────────── */
+.badge { display:inline-block; font-family:var(--mono); font-size:.77rem; font-weight:700; padding:3px 10px; border-radius:4px; margin:2px 3px; }
+.b-o1  { background:#e8f8ef; color:#0a5c2e; border:1px solid #7dd5a0; }
+.b-log { background:#dbeafe; color:#1e3a78; border:1px solid #93c5fd; }
+.b-n   { background:#e0f2fe; color:#075985; border:1px solid #7dd3fc; }
+.b-nln { background:#f3e8ff; color:#4c1d95; border:1px solid #c4b5fd; }
+.b-n2  { background:#fef9c3; color:#713f12; border:1px solid #fcd34d; }
+.b-n3  { background:#ffedd5; color:#7c2d12; border:1px solid #fdba74; }
+.b-2n  { background:#fee2e2; color:#7f1d1d; border:1px solid #fca5a5; }
+.b-nf  { background:#fce7f3; color:#831843; border:1px solid #f9a8d4; }
 
-  /* COMPLEXITY BADGE */
-  .badge {
-    display: inline-block;
-    font-family: var(--mono);
-    font-size: 0.8rem;
-    font-weight: 600;
-    padding: 3px 10px;
-    border-radius: 3px;
-    margin: 2px 3px;
-  }
-  .badge-log { background: #c6f6d5; color: #1a5c3a; }
-  .badge-n   { background: #bee3f8; color: #1a3a5c; }
-  .badge-n2  { background: #fef3c7; color: #7a5c00; }
-  .badge-2n  { background: #fed7d7; color: #7a1a1a; }
-  .badge-1   { background: #e9d8fd; color: #4a1a7a; }
+/* ─── CHART WRAP ─────────────────────────────────────────── */
+.chart-wrap {
+  margin: 22px 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  overflow: hidden;
+}
+.chart-title {
+  font-family: var(--mono);
+  font-size: .68rem;
+  font-weight: 500;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: #999;
+  text-align: center;
+  margin-bottom: 12px;
+}
 
-  /* DIVIDER */
-  .divider {
-    border: none;
-    border-top: 1px solid var(--border);
-    margin: 40px 0;
-  }
+/* ─── CONCEPT CARD ─────────────────────────────────────────── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin: 22px 0;
+}
+.concept-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px;
+  text-align: center;
+  transition: transform .2s, box-shadow .2s;
+}
+.concept-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.08); }
+.concept-card .cc-icon { font-size: 2rem; margin-bottom: 8px; }
+.concept-card .cc-title { font-family: var(--mono); font-size: .8rem; font-weight: 600; color: var(--blue); margin-bottom: 6px; }
+.concept-card .cc-desc { font-size: .82rem; color: var(--mid); line-height: 1.55; }
 
-  /* SOLVE BOX */
-  .solve-box {
-    background: var(--light-bg);
-    border: 2px solid var(--border);
-    padding: 20px 24px;
-    margin: 22px 0;
-    border-radius: 6px;
-  }
-  .solve-box .solve-label {
-    font-family: var(--mono);
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    color: #666;
-    text-transform: uppercase;
-    font-weight: 600;
-    margin-bottom: 10px;
-  }
-  .solve-box p { font-size: 0.96rem; margin-bottom: 0.7em; }
-  .solve-box p:last-child { margin-bottom: 0; }
+/* ─── LEVEL PILL ─────────────────────────────────────────── */
+.lvl-pill {
+  display:inline-block;
+  font-family:var(--mono);
+  font-size:.63rem;
+  padding:2px 10px;
+  border-radius:20px;
+  font-weight:600;
+  vertical-align:middle;
+  margin-left:8px;
+}
+.lvl-0 { background:#d4edda; color:#0f5c35; }
+.lvl-1 { background:#cce5ff; color:#163870; }
+.lvl-2 { background:#fff3cd; color:#7a5c00; }
+.lvl-3 { background:#f8d7da; color:#7a1010; }
 
-  /* MATH */
-  .math {
-    font-family: var(--mono);
-    font-size: 0.95rem;
-    background: #f0ede4;
-    padding: 2px 8px;
-    border-radius: 3px;
-    color: var(--blue);
-    font-weight: 600;
-  }
+/* ─── INLINE MATH ─────────────────────────────────────────── */
+.math {
+  font-family: var(--mono);
+  font-size: .9rem;
+  background: var(--cream);
+  padding: 2px 8px;
+  border-radius: 3px;
+  color: var(--blue);
+  font-weight: 600;
+}
 
-  /* footer */
-  .guide-footer {
-    background: var(--ink);
-    color: #a0988a;
-    text-align: center;
-    padding: 30px;
-    font-size: 0.85rem;
-    font-family: var(--mono);
-    margin-top: 80px;
-  }
+/* ─── PROGRESSION LADDER ─────────────────────────────────── */
+.ladder {
+  margin: 22px 0;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.ladder-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border-bottom: 1px solid var(--border);
+  transition: background .15s;
+}
+.ladder-row:last-child { border-bottom: none; }
+.ladder-row:hover { background: var(--cream); }
+.ladder-num {
+  background: var(--ink);
+  color: var(--gold);
+  font-family: var(--mono);
+  font-size: .7rem;
+  font-weight: 700;
+  width: 44px;
+  text-align: center;
+  padding: 14px 0;
+  flex-shrink: 0;
+  align-self: stretch;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.ladder-content {
+  padding: 14px 18px;
+  flex: 1;
+}
+.ladder-content strong { font-size: .97rem; color: var(--ink); display: block; margin-bottom: 3px; }
+.ladder-content span { font-size: .84rem; color: var(--mid); }
+.ladder-tag {
+  margin-right: 14px;
+  font-family: var(--mono);
+  font-size: .65rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
 
-  @media (max-width: 600px) {
-    .site-header h1 { font-size: 1.8rem; }
-    .container { padding: 0 16px 60px; }
-    .chapter-header { padding: 20px; }
-    .toc-nav { padding: 12px 16px; }
-  }
+hr { border:none; border-top:1px solid var(--border); margin:40px 0; }
+
+@media(max-width:640px){
+  .hero h1 { font-size:2rem; }
+  .page { padding:0 16px 60px; }
+  pre { font-size:.72rem; padding:14px 16px; }
+  .arr-val { width:36px; height:36px; font-size:.78rem; }
+  .ch { padding:22px; }
+  .toc { padding:10px 16px; }
+  .concept-grid { grid-template-columns:1fr 1fr; }
+}
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <h1>Algorithm Design<br><em>& Analysis</em></h1>
-  <p class="subtitle">Complete Beginner's Study Guide — Chapters 1, 2 &amp; 3</p>
-  <div class="book-tag">Based on Levitin · Introduction to the Design and Analysis of Algorithms</div>
+<!-- ═══════════════════ HERO ═══════════════════════════════ -->
+<header class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Complete Self-Study Course</div>
+    <h1>Algorithm Design<br><em>&amp; Analysis</em></h1>
+    <p class="hero-sub">A beginner-to-advanced guide based on Levitin's textbook. Start from absolute zero — no experience needed. Build up to real algorithmic thinking, step by step.</p>
+    <div class="hero-pills">
+      <span class="hero-pill gold">Level 0 → 100</span>
+      <span class="hero-pill">Chapters 1–3</span>
+      <span class="hero-pill">50+ Examples</span>
+      <span class="hero-pill">All Proofs Shown</span>
+      <span class="hero-pill">Visual Traces</span>
+      <span class="hero-pill">Real Analogies</span>
+    </div>
+  </div>
 </header>
 
-<nav class="toc-nav">
-  <a href="#s11">1.1 What is an Algorithm?</a>
-  <span class="sep">·</span>
-  <a href="#s12">1.2 Problem Solving</a>
-  <span class="sep">·</span>
-  <a href="#s21">2.1 Analysis Framework</a>
-  <span class="sep">·</span>
-  <a href="#s22">2.2 Big-O, Ω, Θ</a>
-  <span class="sep">·</span>
-  <a href="#s23">2.3 Non-Recursive Analysis</a>
-  <span class="sep">·</span>
-  <a href="#s24">2.4 Recursive Analysis</a>
-  <span class="sep">·</span>
-  <a href="#s31">3.1 Selection &amp; Bubble Sort</a>
-  <span class="sep">·</span>
-  <a href="#s32">3.2 Sequential &amp; String Search</a>
+<!-- ─── LEVEL BAR ─────────────────────────────────────────── -->
+<div class="level-bar">
+  <div class="level-item"><span class="level-dot beginner"></span>LEVEL 0–20 — Absolute Beginner</div>
+  <div class="level-item"><span class="level-dot easy"></span>LEVEL 21–50 — Getting Comfortable</div>
+  <div class="level-item"><span class="level-dot mid"></span>LEVEL 51–80 — Intermediate</div>
+  <div class="level-item"><span class="level-dot hard"></span>LEVEL 81–100 — Advanced</div>
+</div>
+
+<!-- ─── NAV ─────────────────────────────────────────────── -->
+<nav class="toc">
+  <a href="#start">▸ Start Here</a><span class="sep">·</span>
+  <a href="#s11">§1.1 Algorithm</a><span class="sep">·</span>
+  <a href="#s12">§1.2 Design Process</a><span class="sep">·</span>
+  <a href="#s21">§2.1 Framework</a><span class="sep">·</span>
+  <a href="#s22">§2.2 Big-O/Ω/Θ</a><span class="sep">·</span>
+  <a href="#s23">§2.3 Non-Recursive</a><span class="sep">·</span>
+  <a href="#s24">§2.4 Recursive</a><span class="sep">·</span>
+  <a href="#s31">§3.1 Sorting</a><span class="sep">·</span>
+  <a href="#s32">§3.2 Searching</a><span class="sep">·</span>
+  <a href="#cheatsheet">Cheat Sheet</a>
 </nav>
 
-<div class="container">
+<div class="page">
 
-<!-- ================================================================== -->
-<!--  CHAPTER 1                                                           -->
-<!-- ================================================================== -->
+<!-- ═══════════════════ START HERE ══════════════════════════ -->
+<div id="start" class="sec" style="margin-top:48px;">
+  <div class="sec-head">
+    <div class="sec-num">START HERE</div>
+    <h3>Before You Begin — Read This First</h3>
+  </div>
+  <div class="prose">
 
-<div class="chapter-header">
-  <div class="ch-label">Chapter 1</div>
-  <h2>Introduction</h2>
-  <p>What algorithms are, how to think about them, and how to design them step by step.</p>
+    <div class="box ana">
+      <div class="box-lbl">👋 Who is this guide for?</div>
+      <p>This guide is for <strong>absolute beginners</strong>. You do not need to know any programming. You do not need advanced math. If you can follow a recipe and count to 10, you can understand everything in this guide.</p>
+      <p>We start at Level 0 — explaining what a "step" even means — and build all the way to Level 100 where you can analyze recursive algorithms and prove mathematical bounds.</p>
+    </div>
+
+    <h4>What is a Computer Program, Really?</h4>
+    <p>Imagine you want to teach a robot to make a sandwich. You can't say <em>"make a tasty sandwich"</em> — the robot doesn't understand "tasty." You have to say:</p>
+    <div class="box ex">
+      <div class="box-lbl">🤖 Robot Instructions (Pseudocode)</div>
+      <p>1. Get two slices of bread.</p>
+      <p>2. Get the jar of peanut butter from the cabinet labeled "PB".</p>
+      <p>3. Open the jar (turn lid counterclockwise 4 times).</p>
+      <p>4. Pick up the knife from the drawer.</p>
+      <p>5. Dip knife into jar and spread peanut butter on slice 1.</p>
+      <p>6. Place slice 2 on top of slice 1.</p>
+      <p>7. Done.</p>
+      <p>👉 <strong>This is an algorithm.</strong> A sequence of crystal-clear, one-meaning-only instructions that produce a result.</p>
+    </div>
+
+    <h4>The Big Picture — What You'll Learn</h4>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="cc-icon">📋</div>
+        <div class="cc-title">What is an Algorithm</div>
+        <div class="cc-desc">The formal definition and 5 properties every algorithm must have</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">📐</div>
+        <div class="cc-title">How to Design One</div>
+        <div class="cc-desc">The 7-step process from problem to working solution</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">⏱️</div>
+        <div class="cc-title">How Fast is Fast?</div>
+        <div class="cc-desc">Big-O notation — measuring speed without a stopwatch</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🔄</div>
+        <div class="cc-title">Loops vs Recursion</div>
+        <div class="cc-desc">Two completely different styles of algorithm, analyzed differently</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🔢</div>
+        <div class="cc-title">Sorting</div>
+        <div class="cc-desc">Selection Sort and Bubble Sort — the brute-force classics</div>
+      </div>
+      <div class="concept-card">
+        <div class="cc-icon">🔍</div>
+        <div class="cc-title">Searching</div>
+        <div class="cc-desc">Finding things in arrays and strings — sequential & pattern search</div>
+      </div>
+    </div>
+
+  </div>
 </div>
 
-<!-- 1.1 -->
-<div id="s11" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 1.1</div>
-    <h3>What Is an Algorithm?</h3>
+<!-- ═══════════════════ CHAPTER 1 ══════════════════════════ -->
+<div class="ch">
+  <div class="ch-label">Chapter 1</div>
+  <h2>Introduction to Algorithms</h2>
+  <p class="ch-desc">What algorithms are, why they matter, and how to think about them from scratch.</p>
+  <span class="ch-level level-0">Level 0–25</span>
+</div>
+
+<!-- ─────────── §1.1 ─────────── -->
+<div id="s11" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 1.1</div>
+    <h3>What Is an Algorithm? <span class="lvl-pill lvl-0">Level 0</span></h3>
   </div>
-  <div class="content">
+  <div class="prose">
 
-    <div class="def-box">
-      <div class="def-label">Definition</div>
-      <p>An <strong>algorithm</strong> is a sequence of unambiguous instructions for solving a problem — for obtaining a required output for any legitimate input in a <em>finite</em> amount of time.</p>
+    <div class="box def">
+      <div class="box-lbl">▸ The Official Definition</div>
+      <p>An <strong>algorithm</strong> is a <strong>finite sequence of unambiguous instructions</strong> that, given any valid input, <strong>always terminates</strong> and produces a correct output.</p>
+      <p style="text-align:center; font-family:var(--mono); font-size:.9rem; color:var(--blue); margin-top:10px; font-weight:600;">
+        Input &nbsp;→&nbsp; [ Algorithm ] &nbsp;→&nbsp; Output
+      </p>
     </div>
 
-    <p>Think of an algorithm as a recipe. A recipe is a list of precise, step-by-step instructions: take flour, add water, mix, bake at 180°C for 30 minutes. A computer follows instructions the same way. If a step is vague ("add some flour"), the computer cannot proceed. Every step must be crystal clear.</p>
+    <h4>Let's Break That Definition Apart</h4>
 
-    <div class="analogy">
-      <div class="an-label">🍳 Real-Life Analogy</div>
-      <p>Directions to someone's house = an algorithm. "Turn left at the big tree" is <strong>bad</strong> — what if there are two trees? "Turn left at Oak Street" is <strong>good</strong> — unambiguous. Algorithms demand that same precision.</p>
+    <div class="ladder">
+      <div class="ladder-row">
+        <div class="ladder-num">1</div>
+        <div class="ladder-content">
+          <strong>Finite sequence</strong>
+          <span>There are a countable number of steps. They don't go on forever. Step 1, Step 2, … Step N, done.</span>
+        </div>
+        <span class="ladder-tag" style="background:#dbeafe;color:#1e3a78;">must stop</span>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">2</div>
+        <div class="ladder-content">
+          <strong>Unambiguous instructions</strong>
+          <span>Each step has EXACTLY ONE interpretation. "Add some salt" is ambiguous. "Add 5 grams of salt" is unambiguous.</span>
+        </div>
+        <span class="ladder-tag" style="background:#dcf5e7;color:#0f5c35;">precise</span>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">3</div>
+        <div class="ladder-content">
+          <strong>Any valid input</strong>
+          <span>The algorithm works for all legitimate inputs, not just the ones you tested. If it only works for even numbers but you call it an "any integer" algorithm — it's wrong.</span>
+        </div>
+        <span class="ladder-tag" style="background:#ede5f8;color:#5b2d8e;">general</span>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">4</div>
+        <div class="ladder-content">
+          <strong>Always terminates</strong>
+          <span>It must stop at some point. A loop that never ends is NOT an algorithm — it's a bug.</span>
+        </div>
+        <span class="ladder-tag" style="background:#fef9c3;color:#713f12;">finite</span>
+      </div>
+      <div class="ladder-row">
+        <div class="ladder-num">5</div>
+        <div class="ladder-content">
+          <strong>Produces output</strong>
+          <span>Something comes out the other end. An answer, a sorted list, a yes/no — something.</span>
+        </div>
+        <span class="ladder-tag" style="background:#fee2e2;color:#7f1d1d;">result</span>
+      </div>
     </div>
 
-    <h4>Key Properties Every Algorithm Must Have</h4>
-
-    <table class="nice-table">
-      <tr><th>Property</th><th>What it means</th></tr>
-      <tr><td><strong>Unambiguous</strong></td><td>Every step has exactly one interpretation</td></tr>
-      <tr><td><strong>Finite</strong></td><td>It must stop after a finite number of steps</td></tr>
-      <tr><td><strong>Has Input</strong></td><td>Zero or more values are given to it</td></tr>
-      <tr><td><strong>Has Output</strong></td><td>It produces at least one result</td></tr>
-      <tr><td><strong>Effective</strong></td><td>Each step can actually be carried out</td></tr>
+    <h4>The 5 Official Algorithm Properties</h4>
+    <table class="tbl">
+      <tr><th>Property</th><th>Meaning</th><th>Failed Example</th><th>Good Example</th></tr>
+      <tr><td><strong>Unambiguous</strong></td><td>Every step has exactly one meaning</td><td>"Sort of add the numbers"</td><td>"Add A to B and store in C"</td></tr>
+      <tr><td><strong>Finite</strong></td><td>Stops after a finite number of steps</td><td>Loop that never ends</td><td>Loop that runs exactly n times</td></tr>
+      <tr><td><strong>Input</strong></td><td>Takes 0 or more values as input</td><td>(not having any)</td><td>Takes a list of numbers</td></tr>
+      <tr><td><strong>Output</strong></td><td>Produces at least 1 result</td><td>Does work but returns nothing</td><td>Returns the sorted list</td></tr>
+      <tr><td><strong>Effective</strong></td><td>Every step can actually be done</td><td>"Divide by zero"</td><td>All operations are possible</td></tr>
     </table>
 
-    <h4>Example: Computing GCD (Greatest Common Divisor)</h4>
-    <p>The book shows three algorithms for the same problem — finding GCD(m, n), the largest number that divides both m and n evenly. This beautifully shows that the <em>same problem</em> can have <em>many algorithms</em> with very different speeds.</p>
-
-    <h4>Algorithm 1 — Euclid's Algorithm (fast &amp; elegant)</h4>
-    <p>Based on the clever mathematical fact: <span class="math">gcd(m, n) = gcd(n, m mod n)</span>. Keep replacing the pair until the second number becomes 0.</p>
-
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">Euclid</span>(m, n)<br>
-<span class="comment">// Computes gcd(m, n)</span><br>
-<span class="comment">// Input: Two non-negative integers m and n, not both zero</span><br>
-<span class="comment">// Output: Greatest common divisor</span><br>
-<br>
-<span class="keyword">while</span> n ≠ 0 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;r ← m <span class="keyword">mod</span> n<br>
-&nbsp;&nbsp;&nbsp;&nbsp;m ← n<br>
-&nbsp;&nbsp;&nbsp;&nbsp;n ← r<br>
-<span class="keyword">return</span> m
+    <div class="box ana">
+      <div class="box-lbl">🍳 Analogy — A Recipe is an Algorithm</div>
+      <p>A cooking recipe is almost an algorithm. "Bake at 180°C for 30 minutes" is good — specific and unambiguous. But "bake until golden" is BAD for a computer — it can't look at color. Every instruction must be a concrete, measurable action.</p>
+      <p>The difference is that a recipe can have vague steps (a human fills in the gaps). An algorithm cannot — a computer has no common sense.</p>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ Worked Example — gcd(60, 24)</div>
-      <p><strong>Start:</strong> m = 60, n = 24</p>
-      <p><strong>Step 1:</strong> r = 60 mod 24 = 12 → m = 24, n = 12</p>
-      <p><strong>Step 2:</strong> r = 24 mod 12 = 0 → m = 12, n = 0</p>
-      <p><strong>n = 0, so stop.</strong> Return m = <strong>12</strong></p>
-      <p>✅ Answer: gcd(60, 24) = <strong>12</strong> (since 12 divides both 60 and 24 evenly)</p>
+    <h4>Three Different Algorithms, Same Problem <span class="lvl-pill lvl-1">Level 10</span></h4>
+    <p>The textbook's central point: <strong>many algorithms can solve the same problem</strong>. Their speeds can differ by factors of <em>millions</em>. Let's see this for the <strong>GCD problem</strong>.</p>
+
+    <div class="box def">
+      <div class="box-lbl">▸ The GCD Problem</div>
+      <p><strong>Input:</strong> Two positive integers m and n.</p>
+      <p><strong>Output:</strong> The <strong>Greatest Common Divisor</strong> — the largest integer that divides both m and n exactly (no remainder).</p>
+      <p>Example: gcd(12, 8) = <strong>4</strong> because 4 divides 12 (12÷4=3 ✓) and 4 divides 8 (8÷4=2 ✓), and no number bigger than 4 does both.</p>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ Worked Example — gcd(48, 18)</div>
-      <p><strong>Step 1:</strong> 48 mod 18 = 12 → pair becomes (18, 12)</p>
-      <p><strong>Step 2:</strong> 18 mod 12 = 6 → pair becomes (12, 6)</p>
-      <p><strong>Step 3:</strong> 12 mod 6 = 0 → pair becomes (6, 0)</p>
-      <p>✅ Answer: gcd(48, 18) = <strong>6</strong></p>
+    <h5>Algorithm 1 — Euclid's Algorithm (2,300 years old! Still the best.)</h5>
+    <p>The mathematical insight: <code>gcd(m, n) = gcd(n, m mod n)</code>. Keep replacing the pair until the second number hits zero. The last non-zero number is the answer.</p>
+
+    <div class="box ana">
+      <div class="box-lbl">💡 Why Does This Work?</div>
+      <p>If d divides both m and n, it also divides m−n, m−2n, and so on — basically m mod n. So the GCD of (m, n) equals the GCD of (n, m mod n). We keep reducing the pair until the second number is 0, at which point the first number IS the GCD.</p>
+      <p>Trust this for now. You'll prove it rigorously in a Number Theory course.</p>
     </div>
 
-    <h4>Algorithm 2 — Consecutive Integer Checking (slow, simple)</h4>
-    <p>Start from t = min(m, n) and count down until you find a number that divides both.</p>
+<pre><span class="kw">ALGORITHM</span> <span class="fn">Euclid</span>(m, n)
+<span class="cm">// Input:  Two non-negative integers m ≥ n ≥ 0, not both zero</span>
+<span class="cm">// Output: Greatest common divisor of m and n</span>
 
-    <div class="code-block">
-<span class="comment">// Start from the smaller number and count down</span><br>
-t ← min(m, n)<br>
-<span class="keyword">while</span> t > 0 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> m mod t = 0 AND n mod t = 0<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> t<br>
-&nbsp;&nbsp;&nbsp;&nbsp;t ← t - 1
+<span class="kw">while</span> n ≠ 0 <span class="kw">do</span>
+    r  ← m <span class="kw">mod</span> n      <span class="cm">// remainder when m is divided by n</span>
+    m  ← n             <span class="cm">// n becomes the new m</span>
+    n  ← r             <span class="cm">// remainder becomes the new n</span>
+<span class="kw">return</span> m               <span class="cm">// when n = 0, m is our answer</span></pre>
+
+    <h5>Step-by-Step Trace — gcd(60, 24)</h5>
+    <div class="chart-wrap">
+      <div class="chart-title">Euclid's Algorithm — gcd(60, 24) — every step shown</div>
+      <table class="tbl" style="margin:0">
+        <tr><th>Step</th><th>m</th><th>n</th><th>r = m mod n</th><th>New (m, n)</th><th>Note</th></tr>
+        <tr><td>Start</td><td>60</td><td>24</td><td>—</td><td>—</td><td>n ≠ 0, enter loop</td></tr>
+        <tr><td>1</td><td>60</td><td>24</td><td>60 mod 24 = <strong>12</strong></td><td>(24, 12)</td><td>n ≠ 0, continue</td></tr>
+        <tr><td>2</td><td>24</td><td>12</td><td>24 mod 12 = <strong>0</strong></td><td>(12, 0)</td><td>n ≠ 0, continue</td></tr>
+        <tr><td>3</td><td>12</td><td>0</td><td>—</td><td>—</td><td style="color:var(--green);font-weight:700">n = 0! Return m = 12 ✓</td></tr>
+      </table>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ gcd(60, 24) using Consecutive Checking</div>
-      <p>t starts at 24: Does 24 divide 60? 60/24 = 2.5 ❌</p>
-      <p>t = 23: Does 23 divide 60? No ❌ ... (keep going down ...)</p>
-      <p>t = 12: Does 12 divide 60? Yes! Does 12 divide 24? Yes! ✅ → <strong>Answer: 12</strong></p>
-      <p>This works but takes many more steps! For huge numbers, Euclid's algorithm is <em>dramatically</em> faster.</p>
+    <div class="box ex">
+      <div class="box-lbl">✏ Practice — Try gcd(48, 18) yourself first, then check</div>
+      <p><strong>Step 1:</strong> r = 48 mod 18 = 12 → new pair: (18, 12)</p>
+      <p><strong>Step 2:</strong> r = 18 mod 12 = 6 → new pair: (12, 6)</p>
+      <p><strong>Step 3:</strong> r = 12 mod 6 = 0 → new pair: (6, 0)</p>
+      <p><strong>n = 0, return 6.</strong> Answer: gcd(48, 18) = <strong>6</strong> ✓</p>
+      <p style="font-size:.85rem; color:var(--mid);">Verify: 6×8=48 ✓, 6×3=18 ✓. Does 7 divide both? 48÷7 ≈ 6.86 ✗. So 6 is indeed the GCD.</p>
     </div>
 
-    <h4>The Sieve of Eratosthenes (finding all prime numbers up to n)</h4>
-    <p>Another classic algorithm: write all numbers 2 to n, then cross out all multiples of 2, then all multiples of 3, and so on. What remains are the primes.</p>
+    <h5>Algorithm 2 — Consecutive Integer Checking (Simple but Slow)</h5>
+    <p>Try every number from min(m,n) down to 1. The first one that divides both is the GCD.</p>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">Sieve</span>(n)<br>
-<span class="comment">// Creates a list of all primes up to n</span><br>
-<br>
-<span class="keyword">for</span> p ← 2 <span class="keyword">to</span> n <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;A[p] ← p&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// fill array with 2..n</span><br>
-<span class="keyword">for</span> p ← 2 <span class="keyword">to</span> √n <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> A[p] ≠ 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// p is not crossed out</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j ← p × p<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> j ≤ n <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A[j] ← 0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// cross out multiples</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j ← j + p
+<pre><span class="kw">ALGORITHM</span> <span class="fn">ConsecutiveCheck</span>(m, n)
+<span class="cm">// Start at the smaller of m, n and count down</span>
+t ← min(m, n)
+<span class="kw">while</span> t > <span class="nu">0</span> <span class="kw">do</span>
+    <span class="kw">if</span> (m <span class="kw">mod</span> t = <span class="nu">0</span>) <span class="kw">AND</span> (n <span class="kw">mod</span> t = <span class="nu">0</span>)
+        <span class="kw">return</span> t      <span class="cm">// first t that divides both = GCD</span>
+    t ← t - <span class="nu">1</span></pre>
+
+    <div class="box warn">
+      <div class="box-lbl">⚠ The Speed Problem</div>
+      <p>For gcd(60, 24): Euclid takes <strong>2 steps</strong>. Consecutive checking starts at t=24 and tries 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12 — that's <strong>13 steps</strong>.</p>
+      <p>For gcd(1,000,000, 999,983): Euclid takes about <strong>4 steps</strong>. Consecutive checking tries almost a million values. <strong>Same answer. Completely different effort.</strong></p>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ Sieve for n = 20</div>
-      <p>Start: 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</p>
-      <p>Cross out multiples of 2 (from 4): 4 6 8 10 12 14 16 18 20 ✗</p>
-      <p>Cross out multiples of 3 (from 9): 9 15 ✗</p>
-      <p>Cross out multiples of 5 (from 25 > 20): nothing more needed</p>
-      <p>✅ <strong>Primes up to 20: 2, 3, 5, 7, 11, 13, 17, 19</strong></p>
+    <h5>Algorithm 3 — Middle-School Method (List all divisors, find common ones)</h5>
+    <p>Find all divisors of m. Find all divisors of n. The largest number in both lists is the GCD.</p>
+    <p>This is how you probably learned it in school. It's correct. It's also the slowest of the three. The textbook mentions this to show that "obvious" is not the same as "efficient."</p>
+
+    <div class="box call">
+      <div class="box-lbl">★ Big Takeaway</div>
+      <p>Three algorithms. Same correct answer. Speeds that differ by factors of thousands or millions. <strong>This is why algorithm design matters.</strong> Choosing the right algorithm is not a minor detail — for large inputs, it's the difference between a fast app and one that never finishes.</p>
     </div>
 
-    <div class="callout">
-      <p><strong>Key Takeaway:</strong> Multiple algorithms can solve the same problem. They differ in speed, memory use, and complexity. Choosing wisely matters — Euclid's algorithm is <em>exponentially</em> faster than the consecutive-checking method for large inputs.</p>
+    <h4>The Sieve of Eratosthenes — Finding All Primes <span class="lvl-pill lvl-1">Level 15</span></h4>
+
+    <div class="box def">
+      <div class="box-lbl">▸ The Problem</div>
+      <p><strong>Input:</strong> A positive integer n.</p>
+      <p><strong>Output:</strong> All prime numbers from 2 to n.</p>
+      <p>A <strong>prime number</strong> is a number that has exactly two divisors: 1 and itself. Examples: 2, 3, 5, 7, 11, 13 ...</p>
     </div>
+
+    <div class="box ana">
+      <div class="box-lbl">💡 The Sieve Idea</div>
+      <p>Write all numbers 2 to n on paper. Start with p=2. Cross out all <em>multiples</em> of 2 (4, 6, 8...) — they can't be prime. Move to the next un-crossed number (3). Cross out all multiples of 3. Keep going until p > √n. What's left, un-crossed, are the primes.</p>
+      <p>Why stop at √n? Because if a number has a factor larger than √n, it must also have one smaller than √n — and we'd have already crossed it out.</p>
+    </div>
+
+<pre><span class="kw">ALGORITHM</span> <span class="fn">Sieve</span>(n)
+<span class="cm">// Input:  Integer n ≥ 2</span>
+<span class="cm">// Output: Array of all primes up to n</span>
+
+<span class="cm">// Step 1: Fill array with 2 to n</span>
+<span class="kw">for</span> p ← <span class="nu">2</span> <span class="kw">to</span> n <span class="kw">do</span>
+    A[p] ← p
+
+<span class="cm">// Step 2: Cross out multiples</span>
+<span class="kw">for</span> p ← <span class="nu">2</span> <span class="kw">to</span> ⌊√n⌋ <span class="kw">do</span>
+    <span class="kw">if</span> A[p] ≠ <span class="nu">0</span>             <span class="cm">// p not yet crossed out = still prime candidate</span>
+        j ← p × p           <span class="cm">// start from p² (smaller multiples already crossed)</span>
+        <span class="kw">while</span> j ≤ n <span class="kw">do</span>
+            A[j] ← <span class="nu">0</span>        <span class="cm">// cross out this multiple</span>
+            j ← j + p        <span class="cm">// next multiple of p</span>
+
+<span class="cm">// Step 3: Collect survivors</span>
+<span class="kw">return</span> all A[p] where A[p] ≠ <span class="nu">0</span></pre>
+
+    <div class="box ex">
+      <div class="box-lbl">✏ Full Trace — Sieve for n = 20</div>
+      <p><strong>Start:</strong> 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20</p>
+      <p><strong>p=2 (cross from 4):</strong> ✗4 ✗6 ✗8 ✗10 ✗12 ✗14 ✗16 ✗18 ✗20</p>
+      <p style="color:var(--mid)">Remaining: 2 3 5 7 9 11 13 15 17 19</p>
+      <p><strong>p=3 (cross from 9):</strong> ✗9 ✗15 &nbsp;(3×4=12 already gone, 3×5=15 crossed)</p>
+      <p style="color:var(--mid)">Remaining: 2 3 5 7 11 13 17 19</p>
+      <p><strong>p=4:</strong> A[4]=0 (crossed), skip. <strong>p=5 (5×5=25 &gt; 20):</strong> stop.</p>
+      <p style="font-weight:700; color:var(--green)">✅ Primes up to 20: 2, 3, 5, 7, 11, 13, 17, 19</p>
+    </div>
+
   </div>
 </div>
 
-<!-- 1.2 -->
-<div id="s12" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 1.2</div>
-    <h3>Fundamentals of Algorithmic Problem Solving</h3>
+<!-- ─────────── §1.2 ─────────── -->
+<div id="s12" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 1.2</div>
+    <h3>How to Design an Algorithm <span class="lvl-pill lvl-1">Level 20</span></h3>
   </div>
-  <div class="content">
+  <div class="prose">
 
-    <p>Section 1.2 is about the <em>process</em> of creating an algorithm — from the moment you read a problem all the way to writing the final code. There are 7 stages:</p>
+    <p>Section 1.2 is about <em>process</em>. How do you go from a blank page to a working algorithm? There is a systematic 7-stage approach. Skipping stages is how bugs are born.</p>
+
+    <h4>The 7-Stage Algorithm Design Process</h4>
 
     <div class="steps">
       <div class="step">
-        <div class="step-num">1</div>
-        <p><strong>Understand the Problem.</strong> Read carefully. What are the inputs? What output is expected? Consider all edge cases — what if the input is empty? What if numbers are negative? Writing down concrete examples helps enormously.</p>
+        <div class="step-n">1</div>
+        <div class="step-t">
+          <strong>Understand the Problem.</strong> This sounds obvious, but it's where most beginners fail. Read the problem statement twice. Then write down: What are the inputs? What exactly should the output be? What are the edge cases? What if the input is empty? What if all elements are equal?<br>
+          <em>Never write code before you can state the problem in your own words.</em>
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">2</div>
-        <p><strong>Ascertain the Capabilities of Your Device.</strong> Are you on a fast modern computer or a tiny embedded chip? Is the data massive or tiny? Does speed or memory matter more? This guides which type of algorithm to pick.</p>
+        <div class="step-n">2</div>
+        <div class="step-t">
+          <strong>Ascertain Your Device's Capabilities.</strong> Are you solving this on a supercomputer or a mobile phone? Is the dataset tiny (100 items) or huge (1 billion)? A quadratic algorithm might be fine on a phone for 100 items but disaster for 1 million.
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">3</div>
-        <p><strong>Choose Between Exact and Approximate Solutions.</strong> Can you find an exact answer? For some problems (like sorting), yes. For others (like computing π), only approximations are possible. Sometimes an approximate answer that's 99% correct is good enough and much faster.</p>
+        <div class="step-n">3</div>
+        <div class="step-t">
+          <strong>Exact or Approximate?</strong> For sorting, you want exact. For computing π, you get approximate. For some optimization problems (like the Traveling Salesman), exact is computationally impossible for large inputs — so we accept approximate answers that are "close enough." Knowing which mode you're in changes your entire strategy.
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">4</div>
-        <p><strong>Choose an Algorithm Design Technique.</strong> There are standard "templates" for algorithm design — brute force, divide-and-conquer, dynamic programming, greedy, etc. Picking the right template is like choosing the right cooking technique: frying vs. baking vs. boiling.</p>
+        <div class="step-n">4</div>
+        <div class="step-t">
+          <strong>Choose a Design Technique.</strong> Algorithm design has standard "templates." Brute force, divide-and-conquer, dynamic programming, greedy, backtracking — these are cooking methods (fry vs bake vs steam). The same ingredients cooked differently give completely different results. Chapter 3 starts with brute force — the simplest template.
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">5</div>
-        <p><strong>Design the Algorithm and Data Structures.</strong> Write out the algorithm in pseudocode. Choose the right data structures — arrays, lists, trees, hash tables. A wrong data structure can make an algorithm 100× slower.</p>
+        <div class="step-n">5</div>
+        <div class="step-t">
+          <strong>Design the Algorithm and Data Structures.</strong> Write pseudocode. Pick data structures. An array gives O(1) access by index. A linked list gives O(n) access. A hash table gives O(1) average lookup. The wrong structure can slow a correct algorithm by 100×.
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">6</div>
-        <p><strong>Prove the Algorithm's Correctness.</strong> Does it always give the right answer? Test edge cases. Use mathematical induction for formal proofs. One wrong example is enough to prove an algorithm incorrect.</p>
+        <div class="step-n">6</div>
+        <div class="step-t">
+          <strong>Prove Correctness.</strong> Does it always give the right answer? Test every edge case. Can you construct a mathematical proof? One counterexample kills an algorithm. "It worked on 10 test cases" is not a proof.
+        </div>
       </div>
       <div class="step">
-        <div class="step-num">7</div>
-        <p><strong>Analyze the Algorithm's Efficiency.</strong> How fast is it? How much memory does it use? This is where Big-O notation comes in (Chapter 2).</p>
+        <div class="step-n">7</div>
+        <div class="step-t">
+          <strong>Analyze Efficiency.</strong> How fast? How much memory? Big-O notation (Chapter 2) is the tool. A correct but slow algorithm is often useless in practice.
+        </div>
       </div>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">📝 Classic Puzzle — The River-Crossing Problem (Exercise 1.2.1)</div>
-      <p>A peasant has a wolf, a goat, and a cabbage. He must cross a river in a boat that holds only himself and one item. If left alone: wolf eats goat, goat eats cabbage.</p>
-      <p><strong>Solution Algorithm:</strong></p>
-      <p>1. Take the <strong>goat</strong> across. (Only the wolf and cabbage are left — they don't interact.)</p>
-      <p>2. Return alone.</p>
-      <p>3. Take the <strong>wolf</strong> across.</p>
-      <p>4. Bring the <strong>goat</strong> back.</p>
-      <p>5. Take the <strong>cabbage</strong> across.</p>
-      <p>6. Return alone.</p>
-      <p>7. Take the <strong>goat</strong> across. ✅</p>
-      <p>This puzzle perfectly illustrates "Understanding the Problem" — without recognizing the constraints, you'll fail.</p>
+    <div class="box ex">
+      <div class="box-lbl">✏ Classic Puzzle — The River Crossing Problem (Stage 1 in action)</div>
+      <p>A farmer has a <strong>wolf</strong>, a <strong>goat</strong>, and a <strong>cabbage</strong>. He needs to cross a river. His boat holds only him plus one item. Rules: wolf + goat alone = wolf eats goat. Goat + cabbage alone = goat eats cabbage. Wolf + cabbage alone = safe.</p>
+      <p><strong>The key insight (Stage 1 — Understand):</strong> The goat is the problem. It can eat cabbage and can be eaten. It must never be left alone with either. The solution requires going <em>backward</em> — which seems counterintuitive.</p>
+      <div class="steps" style="margin-top:14px">
+        <div class="step"><div class="step-n">1</div><div class="step-t">Take the <strong>goat</strong> across. (Wolf + cabbage left alone — safe.)</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Return alone.</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">Take the <strong>wolf</strong> across.</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t"><strong>Bring the goat back.</strong> ← The non-obvious step! You un-do progress to prevent conflict.</div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-t">Take the <strong>cabbage</strong> across. (Goat is back on the start side, alone — fine.)</div></div>
+        <div class="step"><div class="step-n">6</div><div class="step-t">Return alone.</div></div>
+        <div class="step"><div class="step-n">7</div><div class="step-t">Take the <strong>goat</strong> across. ✅ All three are on the far side.</div></div>
+      </div>
+      <p style="margin-top:10px; font-size:.87rem; color:var(--mid)">Step 4 only becomes obvious when you formally model the constraint: the goat must not be alone with either. This is Stage 1 doing its job.</p>
     </div>
 
     <h4>Qualities of a Good Algorithm</h4>
-
-    <table class="nice-table">
-      <tr><th>Quality</th><th>Description</th></tr>
-      <tr><td><strong>Correctness</strong></td><td>Gives the right answer for all valid inputs</td></tr>
-      <tr><td><strong>Efficiency</strong></td><td>Runs fast, uses little memory</td></tr>
-      <tr><td><strong>Simplicity</strong></td><td>Easy to understand and implement — fewer bugs</td></tr>
-      <tr><td><strong>Generality</strong></td><td>Works for the widest sensible range of inputs</td></tr>
+    <table class="tbl">
+      <tr><th>Quality</th><th>Meaning</th><th>Trade-Off</th></tr>
+      <tr><td><strong>Correctness</strong></td><td>Always produces the right answer for all valid inputs</td><td>Non-negotiable — but hard to prove formally</td></tr>
+      <tr><td><strong>Efficiency</strong></td><td>Fast runtime and low memory usage</td><td>Often conflicts with simplicity</td></tr>
+      <tr><td><strong>Simplicity</strong></td><td>Easy to read, understand, and verify</td><td>Simpler code has fewer bugs</td></tr>
+      <tr><td><strong>Generality</strong></td><td>Works for the broadest sensible range of inputs</td><td>Overly general can be unnecessarily complex</td></tr>
     </table>
 
-    <div class="callout">
-      <p><strong>Design Wisdom:</strong> "A designer knows he has arrived at perfection not when there is nothing left to add, but when there is nothing left to take away." — Antoine de Saint-Exupéry. A good algorithm is the result of repeated refinement, not one flash of genius.</p>
+    <div class="box call">
+      <div class="box-lbl">★ Design Philosophy</div>
+      <p>"A designer knows he has arrived at perfection not when there is nothing left to add, but when there is nothing left to take away." — Antoine de Saint-Exupéry</p>
+      <p style="margin-top:8px">The best algorithms are <em>elegant</em> — they feel inevitable once you see them. Euclid's algorithm is 2,300 years old and still perfect. Simplicity and correctness beat cleverness and complexity every time.</p>
     </div>
+
   </div>
 </div>
 
-<!-- ================================================================== -->
-<!--  CHAPTER 2                                                           -->
-<!-- ================================================================== -->
-
-<div class="chapter-header">
+<!-- ═══════════════════ CHAPTER 2 ══════════════════════════ -->
+<div class="ch">
   <div class="ch-label">Chapter 2</div>
-  <h2>Fundamentals of Algorithm Efficiency Analysis</h2>
-  <p>How to measure, compare, and express the speed of algorithms mathematically.</p>
+  <h2>Fundamentals of Algorithm Efficiency</h2>
+  <p class="ch-desc">How to mathematically measure, compare, and express algorithm speed — independent of hardware.</p>
+  <span class="ch-level level-1">Level 25–75</span>
 </div>
 
-<!-- 2.1 -->
-<div id="s21" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 2.1</div>
-    <h3>The Analysis Framework</h3>
+<!-- ─────────── §2.1 ─────────── -->
+<div id="s21" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 2.1</div>
+    <h3>The Analysis Framework <span class="lvl-pill lvl-1">Level 25</span></h3>
   </div>
-  <div class="content">
+  <div class="prose">
 
-    <p>How do you know if an algorithm is fast or slow? Section 2.1 builds the framework for answering this question rigorously — without depending on specific hardware or programming languages.</p>
+    <p>How do you know if an algorithm is fast or slow <em>without running it</em>? This section gives you a rigorous framework that works the same regardless of what machine you use.</p>
 
-    <h4>Time vs. Space Efficiency</h4>
-    <p>There are two dimensions of efficiency:</p>
-    <ul style="margin: 10px 0 16px 24px; line-height: 2;">
-      <li><strong>Time efficiency (time complexity)</strong> — how fast the algorithm runs</li>
-      <li><strong>Space efficiency (space complexity)</strong> — how much memory it uses</li>
-    </ul>
-    <p>In modern computing, we mostly care about <em>time</em> — memory is cheap, but speed still matters enormously.</p>
-
-    <h4>Measuring Input Size</h4>
-    <p>Algorithm speed depends on the <strong>size of the input</strong>. Sorting 10 numbers is trivial; sorting 10 million is hard. We represent input size as <span class="math">n</span>. Examples:</p>
-    <table class="nice-table">
-      <tr><th>Problem</th><th>What n means</th></tr>
-      <tr><td>Sorting a list</td><td>n = number of elements in the list</td></tr>
-      <tr><td>Matrix multiplication</td><td>n = the order (dimension) of the matrix</td></tr>
-      <tr><td>String searching</td><td>n = length of the text being searched</td></tr>
-      <tr><td>Checking if a number is prime</td><td>n = the number of bits in the number</td></tr>
+    <h4>Why Not Just Time It?</h4>
+    <table class="tbl">
+      <tr><th>Method</th><th>Problem with it</th></tr>
+      <tr><td>Measure in seconds</td><td>My laptop runs it in 0.2s; your laptop in 1.8s; a 2010 computer in 45s. Meaningless comparison.</td></tr>
+      <tr><td>Count ALL machine instructions</td><td>Too complex. Addition, comparison, memory access — hundreds of different micro-operations obscure the pattern.</td></tr>
+      <tr><td><strong>Count only the basic operation ✓</strong></td><td>Machine-independent. Captures exactly what scales with input size.</td></tr>
     </table>
 
-    <h4>Basic Operation — The Core of Analysis</h4>
-
-    <div class="def-box">
-      <div class="def-label">Definition</div>
-      <p>The <strong>basic operation</strong> of an algorithm is the operation that is executed most often and contributes most to the total running time. It is almost always found in the algorithm's <em>innermost loop</em>.</p>
+    <div class="box def">
+      <div class="box-lbl">▸ Basic Operation</div>
+      <p>The <strong>basic operation</strong> is the single operation that is executed most often and contributes most to the algorithm's total running time. It lives almost always in the <strong>innermost loop</strong>.</p>
+      <p>We write <strong>C(n)</strong> for the count of basic operations on input of size n. Then: <span class="math">T(n) ≈ c · C(n)</span> where c is the (constant, hardware-dependent) time for one basic operation.</p>
     </div>
 
-    <div class="analogy">
-      <div class="an-label">💡 Analogy</div>
-      <p>Imagine counting how long it takes to sort cards. Instead of timing with a stopwatch (which depends on the person), you count the number of <em>comparisons</em> made. That count is hardware-independent — it's the basic operation for sorting.</p>
-    </div>
-
-    <table class="nice-table">
-      <tr><th>Algorithm Type</th><th>Typical Basic Operation</th></tr>
-      <tr><td>Sorting</td><td>Key comparison (is A[i] > A[j]?)</td></tr>
-      <tr><td>Arithmetic problems</td><td>Multiplication or division</td></tr>
-      <tr><td>Graph algorithms</td><td>Visiting a node or edge</td></tr>
-      <tr><td>String matching</td><td>Character comparison</td></tr>
+    <table class="tbl">
+      <tr><th>Algorithm</th><th>Basic Operation</th><th>Why?</th></tr>
+      <tr><td>Sorting</td><td>Key comparison: A[i] &lt; A[j]?</td><td>Determines order; drives all decisions</td></tr>
+      <tr><td>Searching</td><td>Equality check: A[i] == target?</td><td>The check that runs in every iteration</td></tr>
+      <tr><td>Matrix arithmetic</td><td>Multiplication of two numbers</td><td>Multiplication costs more than addition</td></tr>
+      <tr><td>Graph traversal</td><td>Visiting a vertex or edge</td><td>The per-node/per-edge work</td></tr>
     </table>
 
-    <p>We write <span class="math">C(n)</span> for the count of basic operations on input of size n. The running time is then estimated as:</p>
-    <div class="code-block">T(n) ≈ c<sub>op</sub> × C(n)</div>
-    <p>where <span class="math">c_op</span> is the time for one basic operation. Note: we often ignore the constant because it cancels out in comparisons.</p>
+    <h4>Orders of Growth — The Most Important Concept in This Course <span class="lvl-pill lvl-2">Level 35</span></h4>
 
-    <h4>Orders of Growth — Why Big Differences Matter</h4>
-    <p>For small inputs, all algorithms seem fine. The real test is large inputs. Look at this table from the book:</p>
-
-    <table class="nice-table">
-      <tr><th>n</th><th>log n</th><th>n</th><th>n log n</th><th>n²</th><th>n³</th><th>2ⁿ</th></tr>
-      <tr><td>10</td><td>3.3</td><td>10</td><td>33</td><td>100</td><td>1,000</td><td>1,024</td></tr>
-      <tr><td>100</td><td>6.6</td><td>100</td><td>660</td><td>10,000</td><td>1,000,000</td><td>10³⁰</td></tr>
-      <tr><td>1,000</td><td>10</td><td>1,000</td><td>10,000</td><td>1,000,000</td><td>10⁹</td><td>HUGE</td></tr>
-    </table>
-    <p>At n=1000, a <em>linear</em> algorithm (n = 1,000 steps) is easily doable. A <em>cubic</em> algorithm (n³ = 1 billion steps) would take minutes to hours. An <em>exponential</em> algorithm (2ⁿ) would take longer than the age of the universe.</p>
-
-    <h4>Worst-Case, Best-Case, and Average-Case</h4>
-    <p>The same algorithm can run differently on different inputs of the same size. For example, searching a list for a value:</p>
-
-    <div class="example-box">
-      <div class="ex-label">📘 Sequential Search Example</div>
-      <p>Looking for a target value in a list of n elements:</p>
-      <p><strong>Best case:</strong> Target is the very first element. Only <strong>1</strong> comparison needed. <span class="math">C_best(n) = 1</span></p>
-      <p><strong>Worst case:</strong> Target is the last element or not in the list. <strong>n</strong> comparisons needed. <span class="math">C_worst(n) = n</span></p>
-      <p><strong>Average case:</strong> On average, about <strong>n/2</strong> comparisons (if element is present with probability 1). <span class="math">C_avg(n) ≈ (n+1)/2</span></p>
+    <div class="box ana">
+      <div class="box-lbl">💡 Why Growth Rate Beats Everything Else</div>
+      <p>Algorithm A does <strong>1,000,000</strong> basic operations for n=100. Algorithm B does <strong>n²</strong> = 10,000 for n=100. A wins. But now try n=10,000. A still does 1,000,000 (it's constant!). B does 100,000,000. B is now 100× slower. Flip to n=1,000,000 and B does a trillion operations. <strong>The constant factor vanishes. Growth rate is everything at scale.</strong></p>
     </div>
 
-    <div class="callout">
-      <p><strong>Which case matters most?</strong> In practice, we usually focus on <em>worst-case</em> efficiency. It gives a guarantee — "no matter what, the algorithm won't take longer than this." Worst-case is a safety net.</p>
+    <div class="chart-wrap">
+      <div class="chart-title">Growth Rate Comparison — n=1 to 20 (y-axis capped at 200)</div>
+      <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
+        <rect x="60" y="20" width="590" height="260" fill="#fafaf8"/>
+        <g stroke="#eeebe4" stroke-width="1">
+          <line x1="60" y1="72" x2="650" y2="72"/>
+          <line x1="60" y1="124" x2="650" y2="124"/>
+          <line x1="60" y1="176" x2="650" y2="176"/>
+          <line x1="60" y1="228" x2="650" y2="228"/>
+        </g>
+        <line x1="60" y1="20" x2="60" y2="280" stroke="#aaa" stroke-width="1.5"/>
+        <line x1="60" y1="280" x2="650" y2="280" stroke="#aaa" stroke-width="1.5"/>
+        <!-- y labels -->
+        <text x="52" y="284" text-anchor="end" font-family="monospace" font-size="10" fill="#999">0</text>
+        <text x="52" y="232" text-anchor="end" font-family="monospace" font-size="10" fill="#999">50</text>
+        <text x="52" y="180" text-anchor="end" font-family="monospace" font-size="10" fill="#999">100</text>
+        <text x="52" y="128" text-anchor="end" font-family="monospace" font-size="10" fill="#999">150</text>
+        <text x="52" y="76" text-anchor="end" font-family="monospace" font-size="10" fill="#999">200</text>
+        <!-- x labels -->
+        <text x="60"  y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">1</text>
+        <text x="178" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">5</text>
+        <text x="296" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">10</text>
+        <text x="414" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">15</text>
+        <text x="532" y="295" text-anchor="middle" font-family="monospace" font-size="10" fill="#999">20</text>
+        <text x="355" y="312" text-anchor="middle" font-family="monospace" font-size="10" fill="#777">n (input size)</text>
+        <!-- scale: x = 60+(n-1)*30.5, y = 280 - val*1.3  cap 200 -->
+        <!-- log2(n): values 0, 2, 2.58, 3, 3.32, 3.58... -->
+        <polyline fill="none" stroke="#27ae60" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="60,280 90.5,253 121,248 151.5,244 182,241 212.5,238 243,235 273.5,232 304,230 334.5,228 365,226 395.5,224 426,222 456.5,221 487,219 517.5,218 548,216 578.5,215 609,214 639.5,213"/>
+        <!-- n: -->
+        <polyline fill="none" stroke="#2980b9" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="60,280 90.5,274 121,267 151.5,261 182,254 212.5,247 243,241 273.5,234 304,228 334.5,221 365,214 395.5,208 426,201 456.5,194 487,188 517.5,181 548,174 578.5,168 609,161 639.5,154"/>
+        <!-- n log n -->
+        <polyline fill="none" stroke="#8e44ad" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="60,280 90.5,268 121,255 151.5,243 182,231 212.5,218 243,205 273.5,193 304,180 334.5,167 365,153 395.5,140 426,127 456.5,113 487,99 517.5,86 548,72 578.5,58 609,44 639.5,30"/>
+        <!-- n^2 (capped) -->
+        <polyline fill="none" stroke="#e67e22" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="60,280 90.5,276 121,270 151.5,262 182,252 212.5,240 243,226 273.5,210 304,192 334.5,172 365,150 395.5,126 426,100 456.5,72 487,42 517.5,20 548,20 578.5,20 609,20 639.5,20"/>
+        <!-- 2^n (explodes) -->
+        <polyline fill="none" stroke="#e74c3c" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+          points="60,280 90.5,279 121,277 151.5,273 182,265 212.5,252 243,225 273.5,172 304,66 334.5,20 365,20 395.5,20"/>
+        <!-- legend -->
+        <rect x="460" y="90" width="178" height="118" rx="6" fill="white" stroke="#ddd" stroke-width="1"/>
+        <line x1="470" y1="110" x2="494" y2="110" stroke="#27ae60" stroke-width="2.5"/>
+        <text x="500" y="114" font-family="monospace" font-size="11" fill="#333">log n</text>
+        <line x1="470" y1="128" x2="494" y2="128" stroke="#2980b9" stroke-width="2.5"/>
+        <text x="500" y="132" font-family="monospace" font-size="11" fill="#333">n</text>
+        <line x1="470" y1="146" x2="494" y2="146" stroke="#8e44ad" stroke-width="2.5"/>
+        <text x="500" y="150" font-family="monospace" font-size="11" fill="#333">n log n</text>
+        <line x1="470" y1="164" x2="494" y2="164" stroke="#e67e22" stroke-width="2.5"/>
+        <text x="500" y="168" font-family="monospace" font-size="11" fill="#333">n² (capped)</text>
+        <line x1="470" y1="182" x2="494" y2="182" stroke="#e74c3c" stroke-width="2.5"/>
+        <text x="500" y="186" font-family="monospace" font-size="11" fill="#333">2ⁿ (explodes)</text>
+      </svg>
     </div>
 
-    <h4>Summary of the Framework</h4>
-    <div class="def-box">
-      <div class="def-label">Framework Summary</div>
-      <p>1. Measure efficiency as a function of input size n<br>
-      2. Count the number of times the <em>basic operation</em> executes<br>
-      3. If efficiency varies per input, analyze worst, average, and best cases<br>
-      4. Focus on the <em>order of growth</em> for large n (ignore constant factors)</p>
-    </div>
-  </div>
-</div>
-
-<!-- 2.2 -->
-<div id="s22" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 2.2</div>
-    <h3>Asymptotic Notations: O, Ω, and Θ</h3>
-  </div>
-  <div class="content">
-
-    <p>We now have the language to talk precisely about algorithm efficiency. Three notations borrowed from mathematics let us classify and compare algorithms without worrying about constant factors.</p>
-
-    <div class="analogy">
-      <div class="an-label">💡 Intuition First</div>
-      <p>Think of n as the number of students in a classroom. Big-O tells you the <em>maximum</em> time. Big-Omega tells you the <em>minimum</em> time. Big-Theta tells you the <em>exact order</em> (upper and lower bound match).</p>
-    </div>
-
-    <h4>Big-O Notation — Upper Bound (≤)</h4>
-
-    <div class="def-box">
-      <div class="def-label">Definition — O (Big-Oh)</div>
-      <p>t(n) ∈ O(g(n)) means t(n) is bounded <strong>above</strong> by g(n) times some constant, for all large n.<br><br>
-      Formally: there exist constants c &gt; 0 and n₀ ≥ 0 such that <strong>t(n) ≤ c·g(n)</strong> for all n ≥ n₀.</p>
-    </div>
-
-    <p>In plain English: "My algorithm takes <em>at most</em> O(g(n)) time." It's a worst-case ceiling.</p>
-
-    <div class="example-box">
-      <div class="ex-label">✏️ Proving 100n + 5 ∈ O(n²)</div>
-      <p>We need to find constants c and n₀ such that 100n + 5 ≤ c·n² for all n ≥ n₀.</p>
-      <p>Notice: for n ≥ 5, we have 100n + 5 ≤ 100n + n = 101n ≤ 101n²</p>
-      <p>So we can choose c = 101 and n₀ = 5. ✅</p>
-      <p>Therefore 100n + 5 ∈ O(n²) — even though the function is <em>linear</em>, it is also within the O(n²) bound (O gives an upper bound, not a tight one).</p>
-    </div>
-
-    <h4>Big-Ω Notation — Lower Bound (≥)</h4>
-
-    <div class="def-box">
-      <div class="def-label">Definition — Ω (Big-Omega)</div>
-      <p>t(n) ∈ Ω(g(n)) means t(n) is bounded <strong>below</strong> by g(n) times some constant, for all large n.<br><br>
-      Formally: there exist c &gt; 0 and n₀ such that <strong>t(n) ≥ c·g(n)</strong> for all n ≥ n₀.</p>
-    </div>
-
-    <div class="example-box">
-      <div class="ex-label">✏️ Proving n³ ∈ Ω(n²)</div>
-      <p>We need t(n) ≥ c·g(n), i.e., n³ ≥ c·n²</p>
-      <p>Simply choose c = 1 and n₀ = 0: n³ ≥ 1·n² for all n ≥ 0. ✅</p>
-    </div>
-
-    <h4>Big-Θ Notation — Tight Bound (=)</h4>
-
-    <div class="def-box">
-      <div class="def-label">Definition — Θ (Big-Theta)</div>
-      <p>t(n) ∈ Θ(g(n)) means t(n) is bounded <strong>both above and below</strong> by g(n).<br><br>
-      Formally: there exist c₁, c₂ &gt; 0 and n₀ such that <strong>c₂·g(n) ≤ t(n) ≤ c₁·g(n)</strong> for all n ≥ n₀.</p>
-    </div>
-
-    <p>Big-Theta is the <em>most precise</em> notation. When we say an algorithm is Θ(n²), we mean it's exactly quadratic — not better, not worse, just n² (up to constants).</p>
-
-    <div class="example-box">
-      <div class="ex-label">✏️ Proving ½n(n−1) ∈ Θ(n²)</div>
-      <p>We need both an upper and lower bound.</p>
-      <p><strong>Upper bound:</strong> ½n(n−1) = ½n² − ½n ≤ ½n² (trivially true for n ≥ 0) ✓</p>
-      <p><strong>Lower bound:</strong> ½n(n−1) = ½n² − ½n ≥ ½n² − ½n·(½n) = ¼n² (for n ≥ 2) ✓</p>
-      <p>So with c₁ = ½, c₂ = ¼, n₀ = 2: ¼n² ≤ ½n(n−1) ≤ ½n² ✅</p>
-      <p>Therefore ½n(n-1) ∈ Θ(n²)</p>
-    </div>
-
-    <h4>Using Limits to Compare Growth Rates (Easier Method)</h4>
-    <p>Computing limits is often easier than the formal definition. If you compute lim(n→∞) of t(n)/g(n):</p>
-
-    <table class="nice-table">
-      <tr><th>Limit Result</th><th>Conclusion</th><th>Notation</th></tr>
-      <tr><td>= 0</td><td>t(n) grows <em>slower</em> than g(n)</td><td>t(n) ∈ O(g(n)) only</td></tr>
-      <tr><td>= c (constant &gt; 0)</td><td>t(n) and g(n) grow at the <em>same rate</em></td><td>t(n) ∈ Θ(g(n))</td></tr>
-      <tr><td>= ∞</td><td>t(n) grows <em>faster</em> than g(n)</td><td>t(n) ∈ Ω(g(n)) only</td></tr>
+    <h4>The Numbers Behind the Chart <span class="lvl-pill lvl-2">Level 40</span></h4>
+    <table class="tbl">
+      <tr><th>n</th><th class="badge b-log">log₂n</th><th class="badge b-n">n</th><th class="badge b-nln">n log n</th><th class="badge b-n2">n²</th><th class="badge b-n3">n³</th><th class="badge b-2n">2ⁿ</th></tr>
+      <tr><td>10</td><td>3</td><td>10</td><td>30</td><td>100</td><td>1,000</td><td>1,024</td></tr>
+      <tr><td>100</td><td>7</td><td>100</td><td>700</td><td>10,000</td><td>1,000,000</td><td>10³⁰ !</td></tr>
+      <tr><td>1,000</td><td>10</td><td>1,000</td><td>10,000</td><td>1,000,000</td><td>10⁹</td><td>☠️</td></tr>
+      <tr><td>1,000,000</td><td>20</td><td>1,000,000</td><td>20,000,000</td><td>10¹²</td><td>10¹⁸</td><td>☠️☠️</td></tr>
     </table>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ Compare log₂n vs √n using limits</div>
-      <p>Compute: lim(n→∞) of log₂n / √n</p>
-      <p>Using L'Hôpital's rule (derivative of top / derivative of bottom):</p>
-      <p>= lim of (1/n·ln2) / (1/2√n) = lim of (2√n)/(n·ln2) = lim of 2/(√n·ln2) = <strong>0</strong></p>
-      <p>✅ Since the limit is 0, log₂n grows <strong>slower</strong> than √n. So log₂n ∈ O(√n).</p>
+    <div class="box ana">
+      <div class="box-lbl">💡 Real-World Meaning</div>
+      <p><strong>Modern computer:</strong> ~10⁹ basic ops/second.</p>
+      <p>• n=1,000, O(n) → 1,000 ops → <strong>instant</strong> (0.000001 seconds)</p>
+      <p>• n=1,000, O(n²) → 1,000,000 ops → <strong>1 millisecond</strong> (fine)</p>
+      <p>• n=1,000, O(n³) → 10⁹ ops → <strong>1 second</strong> (borderline)</p>
+      <p>• n=10,000, O(n³) → 10¹² ops → <strong>16 minutes</strong> (problem)</p>
+      <p>• n=100, O(2ⁿ) → 10³⁰ ops → <strong>longer than the universe has existed</strong> (unusable)</p>
     </div>
 
-    <h4>The Efficiency Class Hierarchy</h4>
-    <p>From slowest-growing (best) to fastest-growing (worst):</p>
+    <h4>Worst-Case, Best-Case, Average-Case <span class="lvl-pill lvl-2">Level 45</span></h4>
+    <p>The same algorithm on the same size input can behave completely differently depending on <em>which</em> input it gets. We analyze three scenarios:</p>
 
-    <div style="margin: 20px 0; text-align: center; line-height: 2.5; font-size: 1.05rem;">
-      <span class="badge badge-1">O(1)</span> &lt; 
-      <span class="badge badge-log">O(log n)</span> &lt; 
-      <span class="badge badge-n">O(n)</span> &lt; 
-      <span class="badge badge-n">O(n log n)</span> &lt; 
-      <span class="badge badge-n2">O(n²)</span> &lt; 
-      <span class="badge badge-n2">O(n³)</span> &lt; 
-      <span class="badge badge-2n">O(2ⁿ)</span> &lt; 
-      <span class="badge badge-2n">O(n!)</span>
-    </div>
-
-    <table class="nice-table">
-      <tr><th>Class</th><th>Name</th><th>Example Algorithm</th></tr>
-      <tr><td><span class="badge badge-1">O(1)</span></td><td>Constant</td><td>Array access by index</td></tr>
-      <tr><td><span class="badge badge-log">O(log n)</span></td><td>Logarithmic</td><td>Binary search</td></tr>
-      <tr><td><span class="badge badge-n">O(n)</span></td><td>Linear</td><td>Sequential search</td></tr>
-      <tr><td><span class="badge badge-n">O(n log n)</span></td><td>Linearithmic</td><td>Merge sort</td></tr>
-      <tr><td><span class="badge badge-n2">O(n²)</span></td><td>Quadratic</td><td>Selection sort, Bubble sort</td></tr>
-      <tr><td><span class="badge badge-n2">O(n³)</span></td><td>Cubic</td><td>Matrix multiplication (naïve)</td></tr>
-      <tr><td><span class="badge badge-2n">O(2ⁿ)</span></td><td>Exponential</td><td>Brute-force subset enumeration</td></tr>
-      <tr><td><span class="badge badge-2n">O(n!)</span></td><td>Factorial</td><td>Brute-force permutation generation</td></tr>
+    <table class="tbl">
+      <tr><th>Case</th><th>When It Occurs</th><th>Sequential Search Example</th><th>Why We Care</th></tr>
+      <tr><td><strong>Best Case</strong></td><td>The most favorable input for this algorithm</td><td>Target is the <em>first</em> element → 1 comparison</td><td>Lower bound on time — algorithm can't do better</td></tr>
+      <tr><td><strong>Worst Case</strong> ★</td><td>The most difficult input for this algorithm</td><td>Target is last or absent → n comparisons</td><td><strong>Guarantees performance ceiling — most useful</strong></td></tr>
+      <tr><td><strong>Average Case</strong></td><td>Expected behavior on a random input</td><td>Target at random position → ~n/2 comparisons</td><td>Real-world expected performance</td></tr>
     </table>
+
+    <div class="box call">
+      <div class="box-lbl">★ Why Worst-Case Dominates</div>
+      <p>When you design a hospital system, you plan for the worst case — the busiest night, not the quietest. When Google Search runs, it cannot afford to occasionally take 10 minutes just because the query was hard. <strong>Worst-case is a contractual guarantee.</strong> We almost always analyze and report it.</p>
+    </div>
 
   </div>
 </div>
 
-<!-- 2.3 -->
-<div id="s23" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 2.3</div>
-    <h3>Mathematical Analysis of Non-Recursive Algorithms</h3>
+<!-- ─────────── §2.2 ─────────── -->
+<div id="s22" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 2.2</div>
+    <h3>Asymptotic Notations: O, Ω, and Θ <span class="lvl-pill lvl-2">Level 50</span></h3>
   </div>
-  <div class="content">
+  <div class="prose">
 
-    <p>A <strong>non-recursive algorithm</strong> is one that doesn't call itself — it uses plain loops (for, while). Section 2.3 gives a systematic recipe for analyzing these.</p>
+    <p>We now have the mathematical language to talk about efficiency <em>precisely</em>. Three notations let us classify algorithms by growth rate, ignoring constant factors.</p>
 
-    <div class="def-box">
-      <div class="def-label">General Plan for Analyzing Non-Recursive Algorithms</div>
-      <p>1. Decide on the input size parameter n.<br>
-      2. Identify the basic operation (usually in the innermost loop).<br>
-      3. Check if the count varies for different inputs of the same size.<br>
-      4. Set up a sum C(n) for the number of basic operations.<br>
-      5. Use summation formulas to simplify C(n).<br>
-      6. Express the result using Θ notation.</p>
+    <div class="box ana">
+      <div class="box-lbl">💡 Why Ignore Constants?</div>
+      <p>Algorithm A does 100n comparisons. Algorithm B does 2n comparisons. A is "50× slower." But for n = 1,000,000: A does 100,000,000 and B does 2,000,000. Both finish in under a second. Now compare algorithm C that does n² = 10¹² comparisons — it takes 1,000 seconds. <strong>C is categorically in a different class.</strong> The growth-rate category matters enormously; the constant within a category matters much less.</p>
     </div>
 
-    <h4>Useful Summation Formulas</h4>
-    <div class="code-block">
-∑(i = l to u) 1  =  u − l + 1<br>
-∑(i = 1 to n) i  =  1 + 2 + ... + n  =  n(n+1)/2  ≈  n²/2<br>
-∑(i = 0 to n) aⁱ  =  (aⁿ⁺¹ − 1) / (a − 1)&nbsp;&nbsp;<span class="comment">// geometric series</span>
+    <h4>The Efficiency Hierarchy</h4>
+    <div style="margin:20px 0; padding:20px; background:var(--cream); border-radius:10px; text-align:center; line-height:3">
+      <span class="badge b-o1">O(1)</span> &lt;
+      <span class="badge b-log">O(log n)</span> &lt;
+      <span class="badge b-n">O(n)</span> &lt;
+      <span class="badge b-nln">O(n log n)</span> &lt;
+      <span class="badge b-n2">O(n²)</span> &lt;
+      <span class="badge b-n3">O(n³)</span> &lt;
+      <span class="badge b-2n">O(2ⁿ)</span> &lt;
+      <span class="badge b-nf">O(n!)</span>
+      <p style="margin-top:8px; font-size:.78rem; color:var(--mid); font-family:var(--mono)">← FASTER / LESS WORK &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SLOWER / MORE WORK →</p>
     </div>
+
+    <h4>Big-O — Upper Bound ("at most this much work") <span class="lvl-pill lvl-2">Level 52</span></h4>
+
+    <div class="box def">
+      <div class="box-lbl">▸ Formal Definition</div>
+      <p>t(n) ∈ <strong>O(g(n))</strong> if there exist constants <strong>c &gt; 0</strong> and <strong>n₀ ≥ 0</strong> such that:</p>
+      <p style="text-align:center; font-family:var(--mono); font-size:1rem; color:var(--blue); padding:12px 0; font-weight:700">t(n) ≤ c · g(n) &nbsp; for all n ≥ n₀</p>
+      <p>Plain English: "Beyond some input size n₀, t(n) never exceeds c · g(n)." It's an <em>upper bound</em> — a ceiling on growth.</p>
+    </div>
+
+    <div class="chart-wrap">
+      <div class="chart-title">Big-O: t(n) stays at or below c·g(n) for all n ≥ n₀</div>
+      <svg viewBox="0 0 440 220" xmlns="http://www.w3.org/2000/svg">
+        <rect x="42" y="20" width="370" height="178" fill="#fafaf8"/>
+        <line x1="42" y1="20" x2="42" y2="198" stroke="#aaa" stroke-width="1.5"/>
+        <line x1="42" y1="198" x2="412" y2="198" stroke="#aaa" stroke-width="1.5"/>
+        <!-- c·g(n) -->
+        <polyline fill="none" stroke="#163870" stroke-width="2.5" stroke-dasharray="8,4"
+          points="42,195 100,180 160,158 220,128 280,90 340,44 412,22"/>
+        <!-- t(n) -->
+        <polyline fill="none" stroke="#b5220b" stroke-width="2.5"
+          points="42,195 100,186 160,170 220,147 280,115 340,74 412,46"/>
+        <!-- shaded region where t ≤ c·g -->
+        <line x1="138" y1="24" x2="138" y2="198" stroke="#27ae60" stroke-width="1.8" stroke-dasharray="5,3"/>
+        <text x="142" y="40" font-family="monospace" font-size="11" fill="#27ae60" font-weight="700">n₀</text>
+        <text x="44" y="215" font-family="monospace" font-size="10" fill="#999">0</text>
+        <text x="404" y="215" font-family="monospace" font-size="10" fill="#999">n</text>
+        <text x="344" y="18" font-family="monospace" font-size="11" fill="#163870" font-weight="600">c·g(n)</text>
+        <text x="365" y="42" font-family="monospace" font-size="11" fill="#b5220b" font-weight="600">t(n)</text>
+        <text x="160" y="120" font-family="monospace" font-size="9" fill="#888">t(n) ≤ c·g(n) in this region</text>
+        <text x="50" y="80" font-family="monospace" font-size="8" fill="#bbb">may cross here</text>
+        <text x="50" y="90" font-family="monospace" font-size="8" fill="#bbb">(we don't care)</text>
+      </svg>
+    </div>
+
+    <div class="box ex">
+      <div class="box-lbl">✏ Proof — Show that 100n + 5 ∈ O(n²)</div>
+      <p><strong>Goal:</strong> Find c &gt; 0 and n₀ ≥ 0 such that 100n + 5 ≤ c·n² for all n ≥ n₀.</p>
+      <p><strong>Strategy:</strong> Overestimate the left side first.</p>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2; margin:8px 0; padding:10px; background:#fff; border-radius:4px;">
+        For n ≥ 5:<br>
+        100n + 5 ≤ 100n + n = 101n &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (since 5 ≤ n when n ≥ 5)<br>
+        101n ≤ 101·n² &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (since n ≤ n² when n ≥ 1)<br>
+        ∴ 100n + 5 ≤ 101·n²
+      </p>
+      <p><strong>Choose c = 101, n₀ = 5. ✓ Proof complete.</strong></p>
+      <p style="color:var(--mid); font-size:.87rem">Note: 100n+5 is actually linear (Θ(n)). Big-O is an upper bound — a linear function also fits inside O(n²). But it's a loose bound. We prefer tight bounds (Θ) when possible.</p>
+    </div>
+
+    <h4>Big-Ω — Lower Bound ("at least this much work") <span class="lvl-pill lvl-2">Level 55</span></h4>
+
+    <div class="box def">
+      <div class="box-lbl">▸ Formal Definition</div>
+      <p>t(n) ∈ <strong>Ω(g(n))</strong> if there exist constants <strong>c &gt; 0</strong> and <strong>n₀ ≥ 0</strong> such that:</p>
+      <p style="text-align:center; font-family:var(--mono); font-size:1rem; color:var(--green); padding:12px 0; font-weight:700">t(n) ≥ c · g(n) &nbsp; for all n ≥ n₀</p>
+      <p>Plain English: "Beyond n₀, t(n) is always at least c·g(n)." It's a <em>lower bound</em> — a floor on growth.</p>
+    </div>
+
+    <div class="box ex">
+      <div class="box-lbl">✏ Proof — Show that n³ ∈ Ω(n²)</div>
+      <p><strong>Goal:</strong> Find c &gt; 0 and n₀ such that n³ ≥ c·n² for all n ≥ n₀.</p>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2; margin:8px 0; padding:10px; background:#fff; border-radius:4px;">
+        n³ / n² = n ≥ 1 for all n ≥ 1<br>
+        ∴ n³ ≥ 1·n² = n²
+      </p>
+      <p><strong>Choose c = 1, n₀ = 1. ✓</strong> n³ grows at least as fast as n².</p>
+    </div>
+
+    <h4>Big-Θ — Tight Bound ("exactly this growth rate") <span class="lvl-pill lvl-2">Level 60</span></h4>
+
+    <div class="box def">
+      <div class="box-lbl">▸ Formal Definition</div>
+      <p>t(n) ∈ <strong>Θ(g(n))</strong> if there exist constants <strong>c₁, c₂ &gt; 0</strong> and <strong>n₀ ≥ 0</strong> such that:</p>
+      <p style="text-align:center; font-family:var(--mono); font-size:1rem; color:var(--purple); padding:12px 0; font-weight:700">c₂·g(n) ≤ t(n) ≤ c₁·g(n) &nbsp; for all n ≥ n₀</p>
+      <p>Plain English: "t(n) is sandwiched between two multiples of g(n)." It grows <em>exactly like</em> g(n). This is the most useful and precise notation.</p>
+    </div>
+
+    <div class="box ex">
+      <div class="box-lbl">✏ Proof — Show that ½n(n−1) ∈ Θ(n²)</div>
+      <p>Note: ½n(n−1) = ½n² − ½n. This is the number of comparisons in Selection Sort.</p>
+      <p><strong>Upper bound (show ≤ c₁·n²):</strong></p>
+      <p style="font-family:var(--mono); font-size:.85rem; margin:6px 0 12px; padding:8px; background:#fff; border-radius:4px;">
+        ½n² − ½n ≤ ½n² &nbsp;&nbsp; for all n ≥ 0 &nbsp; [since we're subtracting ½n]
+      </p>
+      <p><strong>Lower bound (show ≥ c₂·n²):</strong></p>
+      <p style="font-family:var(--mono); font-size:.85rem; margin:6px 0 12px; padding:8px; background:#fff; border-radius:4px;">
+        ½n² − ½n ≥ ¼n² &nbsp; for n ≥ 2<br>
+        ½n² − ¼n² = ¼n² ≤ ½n² − ½n ? &nbsp; when ½n ≤ ¼n², i.e., n ≥ 2 ✓
+      </p>
+      <p><strong>Result: ¼n² ≤ ½n(n−1) ≤ ½n² for all n ≥ 2.</strong></p>
+      <p>Choose c₁ = ½, c₂ = ¼, n₀ = 2. <strong>∴ ½n(n−1) ∈ Θ(n²) ✓</strong></p>
+    </div>
+
+    <h4>The Limit Method — Easier Than Formal Proofs <span class="lvl-pill lvl-2">Level 65</span></h4>
+    <p>Instead of hunting for constants, compute the limit of the ratio t(n)/g(n) as n → ∞:</p>
+
+    <table class="tbl">
+      <tr><th>lim (t(n)/g(n)) = ?</th><th>Conclusion</th><th>Notation</th></tr>
+      <tr><td style="font-family:var(--mono); font-size:1rem; font-weight:700">0</td><td>t grows <em>slower</em> than g</td><td>t ∈ O(g) only (not Θ)</td></tr>
+      <tr><td style="font-family:var(--mono); font-size:1rem; font-weight:700">c (constant &gt; 0)</td><td>t and g grow at the <em>same rate</em></td><td>t ∈ Θ(g) ← most precise</td></tr>
+      <tr><td style="font-family:var(--mono); font-size:1rem; font-weight:700">∞</td><td>t grows <em>faster</em> than g</td><td>t ∈ Ω(g) only (not Θ)</td></tr>
+    </table>
+
+    <div class="box ex">
+      <div class="box-lbl">✏ Compare log₂n vs √n using limits</div>
+      <p>We want to know: which grows faster as n→∞?</p>
+      <p style="font-family:var(--mono); font-size:.85rem; margin:8px 0; padding:10px; background:#fff; border-radius:4px; line-height:2;">
+        lim(n→∞) &nbsp; log₂n / √n<br>
+        Apply L'Hôpital's Rule: &nbsp; = lim (1/(n·ln2)) / (1/(2√n))<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = lim (2√n) / (n·ln2)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = lim 2/(√n · ln2) → 0
+      </p>
+      <p>Limit = 0 → log₂n grows <strong>slower</strong> than √n. So <strong>log₂n ∈ O(√n)</strong> ✓</p>
+    </div>
+
+    <h4>Complete Efficiency Class Reference</h4>
+    <table class="tbl">
+      <tr><th>Class</th><th>Name</th><th>Typical Cause</th><th>Example Algorithm</th><th>n=1000 estimate</th></tr>
+      <tr><td><span class="badge b-o1">O(1)</span></td><td>Constant</td><td>No loops, direct computation</td><td>Array index access A[5]</td><td>1 op</td></tr>
+      <tr><td><span class="badge b-log">O(log n)</span></td><td>Logarithmic</td><td>Halving the problem each step</td><td>Binary search</td><td>~10 ops</td></tr>
+      <tr><td><span class="badge b-n">O(n)</span></td><td>Linear</td><td>One pass through the data</td><td>Sequential search, MaxElement</td><td>1,000 ops</td></tr>
+      <tr><td><span class="badge b-nln">O(n log n)</span></td><td>Linearithmic</td><td>Divide input, process, merge</td><td>Merge Sort, Heap Sort</td><td>~10,000 ops</td></tr>
+      <tr><td><span class="badge b-n2">O(n²)</span></td><td>Quadratic</td><td>Two nested loops over n</td><td>Selection Sort, Bubble Sort</td><td>1,000,000 ops</td></tr>
+      <tr><td><span class="badge b-n3">O(n³)</span></td><td>Cubic</td><td>Three nested loops over n</td><td>Matrix multiplication (naïve)</td><td>10⁹ ops</td></tr>
+      <tr><td><span class="badge b-2n">O(2ⁿ)</span></td><td>Exponential</td><td>All subsets of n elements</td><td>Brute-force Knapsack</td><td>10³⁰¹ ops ☠️</td></tr>
+      <tr><td><span class="badge b-nf">O(n!)</span></td><td>Factorial</td><td>All permutations of n items</td><td>Brute-force TSP</td><td>10²⁵⁶⁷ ops ☠️☠️</td></tr>
+    </table>
+
+  </div>
+</div>
+
+<!-- ─────────── §2.3 ─────────── -->
+<div id="s23" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 2.3</div>
+    <h3>Analyzing Non-Recursive Algorithms <span class="lvl-pill lvl-2">Level 65</span></h3>
+  </div>
+  <div class="prose">
+
+    <p>A <strong>non-recursive</strong> algorithm uses only loops — no self-calls. Analysis means writing a summation for the basic operation count and simplifying it to a Θ expression.</p>
+
+    <div class="box def">
+      <div class="box-lbl">▸ The 5-Step Recipe for Non-Recursive Analysis</div>
+      <div class="steps" style="margin-top:8px">
+        <div class="step"><div class="step-n">1</div><div class="step-t">Decide on the input-size parameter n.</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Identify the basic operation — it's almost always in the innermost loop.</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">Check if the count varies for different inputs of the same size. If yes, analyze worst/avg/best separately.</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t">Write the sum C(n) = Σ (number of times basic op executes). Use loop bounds to set up the sum.</div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-t">Simplify using summation formulas. Express as Θ(...).</div></div>
+      </div>
+    </div>
+
+    <h4>Key Summation Formulas (Memorize These)</h4>
+<pre><span class="cm">// Sum of 1s from l to u (counting iterations):</span>
+∑(i = l <span class="kw">to</span> u)  <span class="nu">1</span>    =  u − l + 1
+
+<span class="cm">// Sum of integers 1 to n:</span>
+∑(i = <span class="nu">1</span> <span class="kw">to</span> n)  i    =  n(n+1)/2  ≈  n²/2
+
+<span class="cm">// Sum of squares (less common, good to know):</span>
+∑(i = <span class="nu">1</span> <span class="kw">to</span> n)  i²   =  n(n+1)(2n+1)/6  ≈  n³/3
+
+<span class="cm">// Geometric series:</span>
+∑(i = <span class="nu">0</span> <span class="kw">to</span> n)  aⁱ   =  (aⁿ⁺¹ − 1) / (a − 1)</pre>
 
     <h4>Example 1 — Finding Maximum Element (One Loop)</h4>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">MaxElement</span>(A[0..n−1])<br>
-maxval ← A[0]<br>
-<span class="keyword">for</span> i ← 1 <span class="keyword">to</span> n−1 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> A[i] > maxval<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxval ← A[i]<br>
-<span class="keyword">return</span> maxval
+<pre><span class="kw">ALGORITHM</span> <span class="fn">MaxElement</span>(A[0..n−1])
+<span class="cm">// Input:  Array A of n real numbers</span>
+<span class="cm">// Output: Maximum value in A</span>
+maxval ← A[0]
+<span class="kw">for</span> i ← <span class="nu">1</span> <span class="kw">to</span> n−1 <span class="kw">do</span>
+    <span class="kw">if</span> A[i] > maxval      <span class="cm">// ← BASIC OPERATION: comparison</span>
+        maxval ← A[i]
+<span class="kw">return</span> maxval</span></pre>
+
+    <div class="arr-wrap">
+      <div class="arr-label">Scanning [17, 42, 89, 55, 31, 64] — green = current maximum</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val checked">17</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val checked">42</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val sorted">89</div><div class="arr-lbl">max!</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val checked">55</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val checked">31</div></div>
+        <div class="arr-cell"><div class="arr-idx">5</div><div class="arr-val checked">64</div></div>
+        <div class="arr-cell" style="margin-left:16px; align-self:center"><span style="font-family:var(--mono);font-size:.82rem;color:var(--green);font-weight:700">answer = 89</span></div>
+      </div>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Analysis</div>
-      <p><strong>n =</strong> number of elements in A</p>
-      <p><strong>Basic operation =</strong> comparison A[i] > maxval (in every loop iteration)</p>
-      <p><strong>Count:</strong> C(n) = ∑(i = 1 to n−1) 1 = n − 1</p>
-      <p><strong>Result:</strong> C(n) = n − 1 ∈ <span class="math">Θ(n)</span></p>
-      <p>No matter what the array contains, we always make exactly n−1 comparisons. ✅</p>
+    <div class="box solve">
+      <div class="box-lbl">📐 Full Analysis</div>
+      <p><strong>n =</strong> number of elements in A.</p>
+      <p><strong>Basic operation =</strong> A[i] &gt; maxval (the comparison on every iteration).</p>
+      <p><strong>Does count vary per input?</strong> No — the loop always runs from i=1 to n−1, regardless of array values.</p>
+      <p><strong>C(n)</strong> = ∑(i=1 to n−1) 1 = (n−1) − 1 + 1 = <strong>n − 1</strong></p>
+      <p><strong>Result: C(n) = n−1 ∈ Θ(n)</strong></p>
+      <p>The algorithm always makes exactly n−1 comparisons. Best case = worst case = Θ(n).</p>
     </div>
 
-    <h4>Example 2 — Checking for Unique Elements (Two Nested Loops)</h4>
+    <h4>Example 2 — Checking All Elements Unique (Two Nested Loops) <span class="lvl-pill lvl-2">Level 68</span></h4>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">UniqueElements</span>(A[0..n−1])<br>
-<span class="keyword">for</span> i ← 0 <span class="keyword">to</span> n−2 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> j ← i+1 <span class="keyword">to</span> n−1 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> A[i] = A[j]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> false<br>
-<span class="keyword">return</span> true
+<pre><span class="kw">ALGORITHM</span> <span class="fn">UniqueElements</span>(A[0..n−1])
+<span class="cm">// Output: true if all elements are distinct, false otherwise</span>
+<span class="kw">for</span> i ← <span class="nu">0</span> <span class="kw">to</span> n−2 <span class="kw">do</span>
+    <span class="kw">for</span> j ← i+<span class="nu">1</span> <span class="kw">to</span> n−1 <span class="kw">do</span>
+        <span class="kw">if</span> A[i] = A[j]      <span class="cm">// ← BASIC OPERATION</span>
+            <span class="kw">return</span> false    <span class="cm">// found a duplicate!</span>
+<span class="kw">return</span> true             <span class="cm">// no duplicates found</span></pre>
+
+    <div class="box ana">
+      <div class="box-lbl">💡 What Pairs Are Being Compared?</div>
+      <p>For n=4: (A[0],A[1]), (A[0],A[2]), (A[0],A[3]), (A[1],A[2]), (A[1],A[3]), (A[2],A[3]) — 6 pairs = 4×3/2. For n=5: 10 pairs = 5×4/2. This is the upper triangle of the comparison matrix.</p>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Analysis</div>
-      <p><strong>Basic operation =</strong> comparison A[i] = A[j]</p>
-      <p><strong>Count:</strong></p>
-      <p>C(n) = ∑(i=0 to n−2) ∑(j=i+1 to n−1) 1</p>
-      <p>The inner sum: for each i, j runs from i+1 to n−1, so (n−1) − (i+1) + 1 = n−1−i steps.</p>
-      <p>C(n) = ∑(i=0 to n−2) (n−1−i) = (n−1) + (n−2) + ... + 1 = n(n−1)/2</p>
-      <p><strong>Result:</strong> C(n) = n(n−1)/2 ∈ <span class="math">Θ(n²)</span></p>
-      <p>Two nested loops scanning all pairs → quadratic! This is the signature of nested loops.</p>
+    <div class="box solve">
+      <div class="box-lbl">📐 Full Analysis</div>
+      <p><strong>Basic operation =</strong> A[i] = A[j]</p>
+      <p><strong>Does count vary?</strong> YES — if duplicates are found early, the loop exits early. So we analyze worst case.</p>
+      <p><strong>Worst case:</strong> All elements are unique — we compare all pairs.</p>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2.2; margin:10px 0; padding:12px; background:#fff; border-radius:6px;">
+        C_worst(n) = ∑(i=0 to n−2) ∑(j=i+1 to n−1) 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = ∑(i=0 to n−2) (n−1−i)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = (n−1) + (n−2) + (n−3) + ... + 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = n(n−1)/2
+      </p>
+      <p><strong>Result: C_worst(n) = n(n−1)/2 ∈ Θ(n²)</strong></p>
+      <p>Two nested loops where the inner loop depends on i → quadratic. This is the classic signature.</p>
     </div>
 
-    <h4>Example 3 — Matrix Multiplication (Three Nested Loops)</h4>
+    <h4>Example 3 — Matrix Multiplication (Three Nested Loops) <span class="lvl-pill lvl-3">Level 72</span></h4>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">MatrixMult</span>(A[0..n−1, 0..n−1], B[0..n−1, 0..n−1])<br>
-<span class="keyword">for</span> i ← 0 <span class="keyword">to</span> n−1 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> j ← 0 <span class="keyword">to</span> n−1 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C[i,j] ← 0<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> k ← 0 <span class="keyword">to</span> n−1 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C[i,j] ← C[i,j] + A[i,k] × B[k,j]
+<pre><span class="kw">ALGORITHM</span> <span class="fn">MatrixMult</span>(A[0..n−1, 0..n−1], B[0..n−1, 0..n−1])
+<span class="cm">// Output: Matrix C = A × B (n×n result matrix)</span>
+<span class="kw">for</span> i ← <span class="nu">0</span> <span class="kw">to</span> n−1 <span class="kw">do</span>
+    <span class="kw">for</span> j ← <span class="nu">0</span> <span class="kw">to</span> n−1 <span class="kw">do</span>
+        C[i,j] ← <span class="nu">0</span>
+        <span class="kw">for</span> k ← <span class="nu">0</span> <span class="kw">to</span> n−1 <span class="kw">do</span>
+            C[i,j] ← C[i,j] + A[i,k] × B[k,j]   <span class="cm">// ← BASIC OP</span></pre>
+
+    <div class="box solve">
+      <div class="box-lbl">📐 Analysis</div>
+      <p><strong>Basic operation =</strong> Multiplication A[i,k] × B[k,j]</p>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2; margin:8px 0; padding:10px; background:#fff; border-radius:4px;">
+        C(n) = ∑(i=0 to n−1) ∑(j=0 to n−1) ∑(k=0 to n−1) 1 = n · n · n = n³
+      </p>
+      <p><strong>Result: C(n) = n³ ∈ Θ(n³)</strong></p>
+      <p style="color:var(--mid)">For a 1000×1000 matrix: 10⁹ multiplications. For 10,000×10,000: 10¹² — at 10⁹ ops/sec that's 1,000 seconds. This is why advanced matrix algorithms (Strassen: O(n^2.81)) matter in practice.</p>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Analysis</div>
-      <p><strong>Basic operation =</strong> multiplication A[i,k] × B[k,j]</p>
-      <p>Three nested loops, each running n times:</p>
-      <p>C(n) = ∑(i=0 to n−1) ∑(j=0 to n−1) ∑(k=0 to n−1) 1 = n × n × n = <strong>n³</strong></p>
-      <p><strong>Result:</strong> C(n) = n³ ∈ <span class="math">Θ(n³)</span></p>
-      <p>Three nested loops → cubic! That's why matrix multiplication is slow for large matrices.</p>
+    <div class="box call">
+      <div class="box-lbl">★ The Loop Counting Rule</div>
+      <p><strong>1 loop of size n</strong> → C(n) grows like n → <strong>Θ(n)</strong></p>
+      <p><strong>2 nested loops of size n</strong> → C(n) grows like n² → <strong>Θ(n²)</strong></p>
+      <p><strong>3 nested loops of size n</strong> → C(n) grows like n³ → <strong>Θ(n³)</strong></p>
+      <p style="margin-top:6px; font-size:.88rem; color:var(--mid)">This is a heuristic — it works when each loop runs O(n) times independently. Always verify with the summation.</p>
     </div>
 
-    <div class="callout">
-      <p><strong>Pattern to memorize:</strong> 1 loop → O(n) · 2 nested loops → O(n²) · 3 nested loops → O(n³) · This isn't always true (it depends on what the loops do), but it's a useful starting heuristic.</p>
-    </div>
   </div>
 </div>
 
-<!-- 2.4 -->
-<div id="s24" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 2.4</div>
-    <h3>Mathematical Analysis of Recursive Algorithms</h3>
+<!-- ─────────── §2.4 ─────────── -->
+<div id="s24" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 2.4</div>
+    <h3>Analyzing Recursive Algorithms <span class="lvl-pill lvl-3">Level 75</span></h3>
   </div>
-  <div class="content">
+  <div class="prose">
 
-    <p>A <strong>recursive algorithm</strong> solves a problem by calling itself on smaller inputs. Instead of a summation formula, the analysis uses a <em>recurrence relation</em>.</p>
+    <p>A <strong>recursive algorithm</strong> solves a problem by calling itself on smaller inputs. We can't use a summation — instead we write a <strong>recurrence relation</strong> and solve it using backward substitution.</p>
 
-    <div class="def-box">
-      <div class="def-label">Definition — Recurrence Relation</div>
-      <p>A recurrence relation is an equation that defines a value in terms of its own previous values. Example: M(n) = M(n−1) + 1. To solve it means finding a <em>closed-form formula</em> (an explicit expression for M(n)).</p>
+    <div class="box def">
+      <div class="box-lbl">▸ Recurrence Relation</div>
+      <p>An equation where M(n) is expressed in terms of M(smaller values). For example: <code>M(n) = M(n−1) + 1</code>.</p>
+      <p>To <strong>solve</strong> it means to find a <em>closed-form</em> expression — M(n) in terms of only n, with no M on the right side.</p>
     </div>
 
-    <h4>General Plan for Analyzing Recursive Algorithms</h4>
-
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <p>Choose the parameter n for input size.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <p>Identify the basic operation.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <p>Check if the count varies per input — if so, analyze worst/average/best separately.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">4</div>
-        <p>Set up a <strong>recurrence relation</strong> with an initial condition for M(n).</p>
-      </div>
-      <div class="step">
-        <div class="step-num">5</div>
-        <p>Solve the recurrence using <strong>backward substitution</strong>.</p>
+    <div class="box def">
+      <div class="box-lbl">▸ The 5-Step Recipe for Recursive Analysis</div>
+      <div class="steps" style="margin-top:8px">
+        <div class="step"><div class="step-n">1</div><div class="step-t">Choose input-size parameter n.</div></div>
+        <div class="step"><div class="step-n">2</div><div class="step-t">Identify the basic operation.</div></div>
+        <div class="step"><div class="step-n">3</div><div class="step-t">Determine if count varies per input.</div></div>
+        <div class="step"><div class="step-n">4</div><div class="step-t"><strong>Write the recurrence relation</strong> with initial condition (base case).</div></div>
+        <div class="step"><div class="step-n">5</div><div class="step-t"><strong>Solve by backward substitution:</strong> substitute the recurrence into itself repeatedly, find the pattern, plug in the base case.</div></div>
       </div>
     </div>
 
-    <h4>Example 1 — Factorial (n!)</h4>
+    <h4>Example 1 — Factorial n! (Simplest Recursion)</h4>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">F</span>(n)<br>
-<span class="comment">// Computes n! recursively</span><br>
-<span class="keyword">if</span> n = 0 <span class="keyword">return</span> 1<br>
-<span class="keyword">else return</span> F(n−1) × n
+<pre><span class="kw">ALGORITHM</span> <span class="fn">F</span>(n)
+<span class="cm">// Computes n! recursively</span>
+<span class="cm">// F(0) = 1, F(n) = n × F(n−1)</span>
+<span class="kw">if</span> n = <span class="nu">0</span>
+    <span class="kw">return</span> <span class="nu">1</span>
+<span class="kw">else</span>
+    <span class="kw">return</span> F(n−<span class="nu">1</span>) × n     <span class="cm">// ONE multiplication here</span></pre>
+
+    <div class="box solve">
+      <div class="box-lbl">📐 Setting Up the Recurrence</div>
+      <p><strong>Basic operation:</strong> Multiplication (F(n−1) × n).</p>
+      <p>Each call does 1 multiplication, plus whatever F(n−1) does.</p>
+      <p style="font-family:var(--mono); font-size:.88rem; padding:10px; background:#fff; border-radius:4px; margin-top:8px;">
+        M(n) = M(n−1) + 1 &nbsp;&nbsp;&nbsp; ← recurrence<br>
+        M(0) = 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← base case (no multiplication needed)
+      </p>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Analysis — Setting Up the Recurrence</div>
-      <p>Basic operation = multiplication</p>
-      <p>M(n) = M(n−1) + 1 (one multiplication per call, plus all multiplications from F(n−1))</p>
-      <p>Initial condition: M(0) = 0 (no multiplications needed for n=0)</p>
+    <div class="box solve">
+      <div class="box-lbl">📐 Solving by Backward Substitution</div>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2.2; padding:12px; background:#fff; border-radius:4px; margin-top:4px;">
+        M(n) = M(n−1) + 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = [M(n−2) + 1] + 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = M(n−2) + 2<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = [M(n−3) + 1] + 2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = M(n−3) + 3<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; ⋮<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = M(n−k) + k &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ← pattern after k substitutions<br>
+        <br>
+        Set k = n: M(n) = M(n−n) + n = M(0) + n = 0 + n = <strong>n</strong>
+      </p>
+      <p><strong>✅ M(n) = n ∈ Θ(n)</strong> — factorial is computed in linear time.</p>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Solving by Backward Substitution</div>
-      <p>M(n) = M(n−1) + 1</p>
-      <p>= [M(n−2) + 1] + 1 = M(n−2) + 2</p>
-      <p>= [M(n−3) + 1] + 2 = M(n−3) + 3</p>
-      <p>... (pattern: after k steps) ...</p>
-      <p>= M(n−k) + k</p>
-      <p>When k = n: M(n) = M(0) + n = 0 + n = <strong>n</strong></p>
-      <p>✅ <strong>M(n) = n ∈ Θ(n)</strong> — factorial recursion is linear!</p>
+    <h4>Example 2 — Tower of Hanoi (The Famous Exponential) <span class="lvl-pill lvl-3">Level 80</span></h4>
+
+    <div class="box ana">
+      <div class="box-lbl">🗼 The Problem Setup</div>
+      <p>n disks of different sizes on peg A. Goal: move all to peg C using peg B as helper. Rules: (1) move one disk at a time. (2) never place a larger disk on a smaller one.</p>
+      <p>The key insight: to move the bottom (largest) disk, you must first move all n−1 others out of the way. This creates two recursive subproblems of size n−1.</p>
     </div>
 
-    <h4>Example 2 — Tower of Hanoi (Classic Recursive Puzzle)</h4>
+<pre><span class="kw">ALGORITHM</span> <span class="fn">Hanoi</span>(n, from, to, via)
+<span class="kw">if</span> n = <span class="nu">1</span>
+    print <span class="st">"move disk 1 from"</span> from <span class="st">"to"</span> to   <span class="cm">// 1 move</span>
+<span class="kw">else</span>
+    Hanoi(n−<span class="nu">1</span>, from, via, to)   <span class="cm">// move n−1 disks out of the way</span>
+    print <span class="st">"move disk n from"</span> from <span class="st">"to"</span> to   <span class="cm">// 1 move</span>
+    Hanoi(n−<span class="nu">1</span>, via, to, from)   <span class="cm">// move n−1 disks onto destination</span></pre>
 
-    <div class="analogy">
-      <div class="an-label">🗼 The Tower of Hanoi Problem</div>
-      <p>You have n disks of different sizes on Peg A, and you must move them all to Peg C, using Peg B as a helper. Rules: move only one disk at a time, never place a larger disk on a smaller one. <strong>How many moves are needed?</strong></p>
+    <div class="chart-wrap">
+      <div class="chart-title">Hanoi(3) Recursion Tree — 2 branches per node → doubles every level → 2ⁿ−1 total moves</div>
+      <svg viewBox="0 0 700 250" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="#d0d0d0" stroke-width="1.2">
+          <line x1="350" y1="42" x2="185" y2="100"/>
+          <line x1="350" y1="42" x2="515" y2="100"/>
+          <line x1="185" y1="120" x2="103" y2="168"/>
+          <line x1="185" y1="120" x2="268" y2="168"/>
+          <line x1="515" y1="120" x2="433" y2="168"/>
+          <line x1="515" y1="120" x2="598" y2="168"/>
+          <line x1="103" y1="188" x2="62" y2="228"/>
+          <line x1="103" y1="188" x2="144" y2="228"/>
+          <line x1="268" y1="188" x2="227" y2="228"/>
+          <line x1="268" y1="188" x2="310" y2="228"/>
+          <line x1="433" y1="188" x2="392" y2="228"/>
+          <line x1="433" y1="188" x2="474" y2="228"/>
+          <line x1="598" y1="188" x2="557" y2="228"/>
+          <line x1="598" y1="188" x2="639" y2="228"/>
+        </g>
+        <!-- level 0 -->
+        <rect x="318" y="22" width="64" height="28" rx="5" fill="#0f0e17"/>
+        <text x="350" y="41" text-anchor="middle" font-family="monospace" font-size="12" font-weight="700" fill="#d4900d">H(3)</text>
+        <!-- level 1 -->
+        <rect x="153" y="100" width="64" height="28" rx="5" fill="#163870"/>
+        <text x="185" y="119" text-anchor="middle" font-family="monospace" font-size="11" fill="white">H(2)</text>
+        <rect x="483" y="100" width="64" height="28" rx="5" fill="#163870"/>
+        <text x="515" y="119" text-anchor="middle" font-family="monospace" font-size="11" fill="white">H(2)</text>
+        <!-- level 2 -->
+        <g>
+          <rect x="71"  y="168" width="64" height="26" rx="4" fill="#2980b9"/>
+          <text x="103" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
+          <rect x="236" y="168" width="64" height="26" rx="4" fill="#2980b9"/>
+          <text x="268" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
+          <rect x="401" y="168" width="64" height="26" rx="4" fill="#2980b9"/>
+          <text x="433" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
+          <rect x="566" y="168" width="64" height="26" rx="4" fill="#2980b9"/>
+          <text x="598" y="185" text-anchor="middle" font-family="monospace" font-size="10" fill="white">H(1)</text>
+        </g>
+        <!-- leaf moves -->
+        <g fill="#0f5c35">
+          <circle cx="62"  cy="234" r="12"/>
+          <circle cx="144" cy="234" r="12"/>
+          <circle cx="227" cy="234" r="12"/>
+          <circle cx="310" cy="234" r="12"/>
+          <circle cx="392" cy="234" r="12"/>
+          <circle cx="474" cy="234" r="12"/>
+          <circle cx="557" cy="234" r="12"/>
+          <circle cx="639" cy="234" r="12"/>
+        </g>
+        <g font-family="monospace" font-size="8" fill="white" text-anchor="middle">
+          <text x="62"  y="237">mv</text><text x="144" y="237">mv</text>
+          <text x="227" y="237">mv</text><text x="310" y="237">mv</text>
+          <text x="392" y="237">mv</text><text x="474" y="237">mv</text>
+          <text x="557" y="237">mv</text><text x="639" y="237">mv</text>
+        </g>
+        <!-- annotation -->
+        <text x="350" y="16" text-anchor="middle" font-family="monospace" font-size="9" fill="#b5220b" font-weight="700">8 leaf moves = 2³ = 2ⁿ branches | Total moves = 2ⁿ−1 = 7</text>
+        <!-- level labels -->
+        <text x="6" y="38"  font-family="monospace" font-size="8" fill="#999">lvl 0</text>
+        <text x="6" y="118" font-family="monospace" font-size="8" fill="#999">lvl 1</text>
+        <text x="6" y="186" font-family="monospace" font-size="8" fill="#999">lvl 2</text>
+        <text x="6" y="238" font-family="monospace" font-size="8" fill="#0f5c35">moves</text>
+      </svg>
     </div>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">Hanoi</span>(n, source, dest, aux)<br>
-<span class="keyword">if</span> n = 1<br>
-&nbsp;&nbsp;&nbsp;&nbsp;move disk from source to dest <span class="comment">// 1 move</span><br>
-<span class="keyword">else</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;Hanoi(n−1, source, aux, dest) <span class="comment">// move n−1 disks to aux</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;move disk n from source to dest <span class="comment">// 1 move</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;Hanoi(n−1, aux, dest, source) <span class="comment">// move n−1 disks to dest</span>
+    <div class="box solve">
+      <div class="box-lbl">📐 Recurrence and Solution</div>
+      <p><strong>Basic operation:</strong> Moving one disk.</p>
+      <p style="font-family:var(--mono); font-size:.88rem; padding:10px; background:#fff; border-radius:4px; margin:8px 0;">
+        M(n) = 2·M(n−1) + 1 &nbsp;&nbsp; (two sub-problems + 1 direct move)<br>
+        M(1) = 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (base case: 1 disk needs 1 move)
+      </p>
+      <p><strong>Backward substitution:</strong></p>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2.2; padding:10px; background:#fff; border-radius:4px; margin:6px 0;">
+        M(n) = 2·M(n−1) + 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = 2·[2M(n−2) + 1] + 1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 4M(n−2) + 3<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = 4·[2M(n−3) + 1] + 3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 8M(n−3) + 7<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = 2ᵏ·M(n−k) + (2ᵏ − 1) &nbsp;&nbsp;&nbsp;&nbsp;← pattern<br>
+        Set k = n−1:<br>
+        M(n) = 2ⁿ⁻¹·M(1) + (2ⁿ⁻¹ − 1)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = 2ⁿ⁻¹ · 1 + 2ⁿ⁻¹ − 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = 2ⁿ − 1
+      </p>
+      <p><strong>✅ M(n) = 2ⁿ − 1 ∈ Θ(2ⁿ) — EXPONENTIAL</strong></p>
+      <p style="color:var(--mid); font-size:.87rem">For n = 64 disks: 2⁶⁴ − 1 ≈ 1.84 × 10¹⁹ moves. At one move per second: <strong>585 billion years</strong>. The universe is ~14 billion years old. This is what exponential growth truly means.</p>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Analysis</div>
-      <p>Basic operation = moving one disk</p>
-      <p>M(n) = 2·M(n−1) + 1 (two recursive calls + 1 direct move)</p>
-      <p>M(1) = 1 (base case)</p>
+    <h4>Example 3 — Counting Binary Digits (log Recursion) <span class="lvl-pill lvl-3">Level 82</span></h4>
+
+<pre><span class="kw">ALGORITHM</span> <span class="fn">BinRec</span>(n)
+<span class="cm">// Counts the number of bits in n's binary representation</span>
+<span class="cm">// e.g. 13 = 1101₂ has 4 bits</span>
+<span class="kw">if</span> n = <span class="nu">1</span>
+    <span class="kw">return</span> <span class="nu">1</span>
+<span class="kw">else</span>
+    <span class="kw">return</span> BinRec(⌊n/<span class="nu">2</span>⌋) + <span class="nu">1</span>   <span class="cm">// halve n each call</span></pre>
+
+    <div class="box solve">
+      <div class="box-lbl">📐 Analysis</div>
+      <p><strong>Recurrence:</strong> A(n) = A(⌊n/2⌋) + 1, &nbsp; A(1) = 0</p>
+      <p>For exact analysis, let n = 2ᵏ:</p>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2; padding:10px; background:#fff; border-radius:4px; margin:8px 0;">
+        A(2ᵏ) = A(2ᵏ⁻¹) + 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = A(2ᵏ⁻²) + 2<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = A(2⁰) + k = A(1) + k = 0 + k = k<br>
+        Since k = log₂n: A(n) = log₂n
+      </p>
+      <p><strong>✅ A(n) = ⌊log₂n⌋ ∈ Θ(log n)</strong> — halving the input → logarithmic growth.</p>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Backward Substitution</div>
-      <p>M(n) = 2M(n−1) + 1</p>
-      <p>= 2[2M(n−2) + 1] + 1 = 4M(n−2) + 2 + 1</p>
-      <p>= 4[2M(n−3) + 1] + 3 = 8M(n−3) + 4 + 2 + 1</p>
-      <p>After k steps: M(n) = 2ᵏ·M(n−k) + (2ᵏ − 1)</p>
-      <p>Set k = n−1: M(n) = 2ⁿ⁻¹·M(1) + 2ⁿ⁻¹ − 1 = 2ⁿ⁻¹ + 2ⁿ⁻¹ − 1 = <strong>2ⁿ − 1</strong></p>
-      <p>✅ <strong>M(n) = 2ⁿ − 1 ∈ Θ(2ⁿ)</strong></p>
-      <p>For n = 64 disks (the legendary Tower of Hanoi): that's 18 quintillion moves! At one move per second, it would take 585 billion years. This is what exponential growth means.</p>
+    <div class="box call">
+      <div class="box-lbl">★ Recursion Pattern Cheat Sheet</div>
+      <p><strong>Call itself ONCE on (n−1):</strong> M(n) = M(n−1) + c → Θ(n)</p>
+      <p><strong>Call itself ONCE on (n/2):</strong> M(n) = M(n/2) + c → Θ(log n) &nbsp; ← binary search, bit counting</p>
+      <p><strong>Call itself TWICE on (n/2):</strong> M(n) = 2M(n/2) + c → Θ(n) &nbsp; ← full tree has ~n leaves</p>
+      <p><strong>Call itself TWICE on (n−1):</strong> M(n) = 2M(n−1) + c → Θ(2ⁿ) &nbsp; ← Hanoi, tree doubles every level</p>
     </div>
 
-    <h4>Example 3 — Counting Bits (log-based recursion)</h4>
-
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">BinRec</span>(n)<br>
-<span class="comment">// Counts the bits in binary representation of n</span><br>
-<span class="keyword">if</span> n = 1 <span class="keyword">return</span> 1<br>
-<span class="keyword">else return</span> BinRec(⌊n/2⌋) + 1
-    </div>
-
-    <div class="solve-box">
-      <div class="solve-label">📐 Analysis</div>
-      <p>A(n) = A(⌊n/2⌋) + 1, A(1) = 0</p>
-      <p>Assume n = 2ᵏ: A(2ᵏ) = A(2ᵏ⁻¹) + 1 = A(2ᵏ⁻²) + 2 = ... = A(1) + k = k</p>
-      <p>Since k = log₂n: <strong>A(n) = log₂n ∈ Θ(log n)</strong></p>
-      <p>Each recursive call halves the input → logarithmic. This is the magic of divide-by-2 recursion.</p>
-    </div>
-
-    <div class="callout">
-      <p><strong>Recursion "cheat sheet":</strong> If you call yourself once on n/2 → O(log n). If you call yourself twice on n/2 → O(n). If you call yourself twice on n−1 → O(2ⁿ). The structure of the calls determines the growth rate.</p>
-    </div>
   </div>
 </div>
 
-<!-- ================================================================== -->
-<!--  CHAPTER 3                                                           -->
-<!-- ================================================================== -->
-
-<div class="chapter-header">
+<!-- ═══════════════════ CHAPTER 3 ══════════════════════════ -->
+<div class="ch">
   <div class="ch-label">Chapter 3</div>
-  <h2>Brute Force and Exhaustive Search</h2>
-  <p>The simplest algorithmic strategy — try everything and pick what works.</p>
+  <h2>Brute Force &amp; Exhaustive Search</h2>
+  <p class="ch-desc">The simplest design strategy — try everything, pick what works. Always correct. Not always fast.</p>
+  <span class="ch-level level-2">Level 35–90</span>
 </div>
 
-<div class="analogy">
-  <div class="an-label">💡 What is Brute Force?</div>
-  <p>Brute force means solving a problem by trying all possibilities, or by doing the most obvious and straightforward thing — even if it's slow. It's like opening a combination lock by trying 000, 001, 002, ... all the way to 999. It's guaranteed to work, but it's not smart. Brute force is the starting point — the baseline to improve upon.</p>
+<div class="box ana" style="margin-top:24px">
+  <div class="box-lbl">💡 What is Brute Force?</div>
+  <p>Brute force is the strategy of solving a problem by trying all possibilities in the most direct way, without cleverness or optimization. Like opening a 4-digit combination lock by trying 0000, 0001, 0002 ... 9999 — it always works, but there are 10,000 tries in the worst case.</p>
+  <p><strong>Why study brute force?</strong> Because it's always the starting point. It sets the baseline. It proves the problem is solvable. Then we improve on it.</p>
 </div>
 
-<!-- 3.1 -->
-<div id="s31" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 3.1</div>
-    <h3>Selection Sort and Bubble Sort</h3>
+<!-- ─────────── §3.1 ─────────── -->
+<div id="s31" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 3.1</div>
+    <h3>Selection Sort &amp; Bubble Sort <span class="lvl-pill lvl-2">Level 55</span></h3>
   </div>
-  <div class="content">
+  <div class="prose">
 
-    <p>Both are classic brute-force sorting algorithms. They are simple, easy to understand, and O(n²) — meaning slow for large inputs, but great for learning.</p>
+    <h4>Selection Sort — "Find the minimum, drag it to the front"</h4>
 
-    <h4>Selection Sort</h4>
-    <p>Idea: repeatedly find the <em>minimum</em> element in the unsorted part of the array and move it to the front.</p>
-
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">SelectionSort</span>(A[0..n−1])<br>
-<span class="keyword">for</span> i ← 0 <span class="keyword">to</span> n−2 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;min ← i<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> j ← i+1 <span class="keyword">to</span> n−1 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> A[j] &lt; A[min]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;min ← j<br>
-&nbsp;&nbsp;&nbsp;&nbsp;swap(A[i], A[min])
+    <div class="box ana">
+      <div class="box-lbl">💡 The Idea</div>
+      <p>On pass i (from 0 to n−2): Scan the entire unsorted portion (A[i] to A[n−1]). Find the minimum element. Swap it into position i. After pass i, the first i+1 elements are sorted and in their final positions forever.</p>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ Trace — Selection Sort on [89, 45, 68, 90, 29, 34, 17]</div>
-      <p><strong>Pass 0:</strong> Find min in [89,45,68,90,29,34,17] → 17 at index 6. Swap with A[0].
-      <br>→ [<u>17</u>, 45, 68, 90, 29, 34, 89]</p>
-      <p><strong>Pass 1:</strong> Find min in [45,68,90,29,34,89] → 29 at index 4. Swap with A[1].
-      <br>→ [17, <u>29</u>, 68, 90, 45, 34, 89]</p>
-      <p><strong>Pass 2:</strong> Find min in [68,90,45,34,89] → 34. Swap with A[2].
-      <br>→ [17, 29, <u>34</u>, 90, 45, 68, 89]</p>
-      <p>Continue... → <strong>[17, 29, 34, 45, 68, 89, 90]</strong> ✅</p>
+<pre><span class="kw">ALGORITHM</span> <span class="fn">SelectionSort</span>(A[0..n−1])
+<span class="cm">// Input:  Array A of n orderable elements</span>
+<span class="cm">// Output: Array A sorted in ascending order</span>
+<span class="kw">for</span> i ← <span class="nu">0</span> <span class="kw">to</span> n−2 <span class="kw">do</span>
+    min_idx ← i                 <span class="cm">// assume current pos is minimum</span>
+    <span class="kw">for</span> j ← i+<span class="nu">1</span> <span class="kw">to</span> n−1 <span class="kw">do</span>
+        <span class="kw">if</span> A[j] &lt; A[min_idx]    <span class="cm">// ← BASIC OPERATION: comparison</span>
+            min_idx ← j         <span class="cm">// found a new minimum</span>
+    swap(A[i], A[min_idx])      <span class="cm">// put minimum in correct place</span></pre>
+
+    <h5>Complete Visual Trace — [64, 25, 12, 22, 11]</h5>
+
+    <div class="arr-wrap">
+      <div class="arr-label">Initial — all unsorted</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val">64</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val">25</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val">12</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val">22</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val">11</div></div>
+        <div class="arr-cell" style="margin-left:14px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--mid)">Pass 0: scan all, min=11 at idx 4 → swap with idx 0</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">After pass 0 — 11 locked in position 0</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val sorted">11</div><div class="arr-lbl">✓</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val">25</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val">12</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val">22</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val">64</div></div>
+        <div class="arr-cell" style="margin-left:14px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--mid)">Pass 1: scan [1..4], min=12 at idx 2 → swap with idx 1</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">After pass 1 — 12 locked in position 1</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val sorted">11</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val sorted">12</div><div class="arr-lbl">✓</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val">25</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val">22</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val">64</div></div>
+        <div class="arr-cell" style="margin-left:14px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--mid)">Pass 2: scan [2..4], min=22 at idx 3 → swap with idx 2</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">After pass 2 — 22 locked in position 2</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val sorted">11</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val sorted">12</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val sorted">22</div><div class="arr-lbl">✓</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val">25</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val">64</div></div>
+        <div class="arr-cell" style="margin-left:14px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--mid)">Pass 3: 25 < 64, no swap needed</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">Final — fully sorted ✓</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val sorted">11</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val sorted">12</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val sorted">22</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val sorted">25</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val sorted">64</div></div>
+        <div class="arr-cell" style="margin-left:14px;align-self:center"><span style="font-family:var(--mono);font-size:.85rem;color:var(--green);font-weight:700">SORTED ✓</span></div>
+      </div>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Efficiency Analysis</div>
-      <p>Basic operation = comparison A[j] &lt; A[min]</p>
-      <p>C(n) = ∑(i=0 to n−2) ∑(j=i+1 to n−1) 1 = ∑(i=0 to n−2) (n−1−i)</p>
-      <p>= (n−1) + (n−2) + ... + 1 = n(n−1)/2</p>
-      <p>✅ <strong>C(n) = n(n−1)/2 ∈ Θ(n²)</strong> — same for worst, average, and best case!</p>
-      <p>Number of swaps: always exactly n−1. This is a key advantage — selection sort minimizes data movement.</p>
+    <div class="box solve">
+      <div class="box-lbl">📐 Complete Analysis</div>
+      <p><strong>Basic operation:</strong> Comparison A[j] &lt; A[min_idx]</p>
+      <p><strong>Does count vary?</strong> No — both loops always run to their bounds regardless of array values.</p>
+      <p style="font-family:var(--mono); font-size:.85rem; line-height:2.2; padding:12px; background:#fff; border-radius:6px; margin:10px 0;">
+        C(n) = ∑(i=0 to n−2) ∑(j=i+1 to n−1) 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = ∑(i=0 to n−2) (n−1 − i)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = (n−1) + (n−2) + ... + 1<br>
+        &nbsp;&nbsp;&nbsp;&nbsp; = n(n−1)/2
+      </p>
+      <p><strong>✅ C(n) = n(n−1)/2 ∈ Θ(n²) — worst = average = best case</strong></p>
+      <p>Selection Sort always makes exactly n(n−1)/2 comparisons, regardless of whether the array is sorted or not. That's both a weakness (can't stop early) and a strength (predictable).</p>
+      <p><strong>Swaps:</strong> Always exactly n−1 swaps (one per outer loop pass). This minimizes data movement — useful when swaps are expensive.</p>
     </div>
 
-    <h4>Bubble Sort</h4>
-    <p>Idea: repeatedly compare <em>adjacent elements</em> and swap them if they're in the wrong order. The largest element "bubbles up" to the end on each pass.</p>
+    <h4>Bubble Sort — "Repeatedly compare neighbors, large values rise to the right"</h4>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">BubbleSort</span>(A[0..n−1])<br>
-<span class="keyword">for</span> i ← 0 <span class="keyword">to</span> n−2 <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">for</span> j ← 0 <span class="keyword">to</span> n−2−i <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> A[j+1] &lt; A[j]<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;swap(A[j], A[j+1])
+    <div class="box ana">
+      <div class="box-lbl">💡 The Idea</div>
+      <p>Repeatedly scan left-to-right, comparing each adjacent pair A[j] and A[j+1]. Swap if A[j] &gt; A[j+1]. After each full pass, the largest un-placed element has "bubbled" to its final position at the right end. Like bubbles rising in water — heavy things sink, light things rise.</p>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ Trace — Bubble Sort Pass 1 on [89, 45, 68, 90, 29, 34, 17]</div>
-      <p>Compare adjacent pairs from left to right, swap if out of order:</p>
-      <p>89 vs 45 → swap → [<u>45, 89</u>, 68, 90, 29, 34, 17]</p>
-      <p>89 vs 68 → swap → [45, <u>68, 89</u>, 90, 29, 34, 17]</p>
-      <p>89 vs 90 → OK → [45, 68, 89, 90, 29, 34, 17]</p>
-      <p>90 vs 29 → swap → [45, 68, 89, <u>29, 90</u>, 34, 17]</p>
-      <p>90 vs 34 → swap → [45, 68, 89, 29, <u>34, 90</u>, 17]</p>
-      <p>90 vs 17 → swap → [45, 68, 89, 29, 34, <u>17, 90</u>]</p>
-      <p>After pass 1: <strong>90 is now in its final position!</strong> (bubbled to the end)</p>
-      <p>Continue remaining passes to fully sort the array.</p>
+<pre><span class="kw">ALGORITHM</span> <span class="fn">BubbleSort</span>(A[0..n−1])
+<span class="kw">for</span> i ← <span class="nu">0</span> <span class="kw">to</span> n−2 <span class="kw">do</span>
+    <span class="kw">for</span> j ← <span class="nu">0</span> <span class="kw">to</span> n−2−i <span class="kw">do</span>    <span class="cm">// inner loop shrinks each pass</span>
+        <span class="kw">if</span> A[j+<span class="nu">1</span>] &lt; A[j]          <span class="cm">// ← BASIC OPERATION</span>
+            swap(A[j], A[j+<span class="nu">1</span>])  <span class="cm">// swap if out of order</span></pre>
+
+    <h5>Complete Visual Trace — [5, 1, 4, 2, 8] — Pass 1 shown step by step</h5>
+
+    <div class="arr-wrap">
+      <div class="arr-label">Start of Pass 1 — compare A[0] and A[1]: 5 > 1 → swap</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val compare">5</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val compare">1</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val">4</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val">2</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val">8</div></div>
+        <div class="arr-cell" style="margin-left:12px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--gold)">5 &gt; 1 → SWAP</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">Compare A[1] and A[2]: 5 > 4 → swap</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val">1</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val compare">5</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val compare">4</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val">2</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val">8</div></div>
+        <div class="arr-cell" style="margin-left:12px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--gold)">5 &gt; 4 → SWAP</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">Compare A[2] and A[3]: 5 > 2 → swap</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val">1</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val">4</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val compare">5</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val compare">2</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val">8</div></div>
+        <div class="arr-cell" style="margin-left:12px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--gold)">5 &gt; 2 → SWAP</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">Compare A[3] and A[4]: 5 < 8 → no swap</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val">1</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val">4</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val">2</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val compare">5</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val compare">8</div></div>
+        <div class="arr-cell" style="margin-left:12px;align-self:center"><span style="font-family:var(--mono);font-size:.78rem;color:var(--green)">5 &lt; 8 → OK</span></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">End of Pass 1 — 8 has bubbled to its final position</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val">1</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val">4</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val">2</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val">5</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val sorted">8</div><div class="arr-lbl">✓ final</div></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">After Pass 2 — 5 locked in position 3</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val">1</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val">2</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val">4</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val sorted">5</div><div class="arr-lbl">✓</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val sorted">8</div></div>
+      </div>
+    </div>
+    <div class="arr-wrap">
+      <div class="arr-label">Fully sorted — done!</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val sorted">1</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val sorted">2</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val sorted">4</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val sorted">5</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val sorted">8</div></div>
+        <div class="arr-cell" style="margin-left:14px;align-self:center"><span style="font-family:var(--mono);font-size:.88rem;color:var(--green);font-weight:700">SORTED ✓</span></div>
+      </div>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Efficiency Analysis</div>
-      <p>Basic operation = comparison A[j+1] &lt; A[j]</p>
-      <p>C(n) = ∑(i=0 to n−2) ∑(j=0 to n−2−i) 1 = same as selection sort = n(n−1)/2</p>
-      <p>✅ <strong>C(n) ∈ Θ(n²)</strong> — worst, average, and best case all O(n²).</p>
-      <p><em>Note:</em> Bubble sort is generally considered <em>worse</em> than selection sort in practice because it can make far more swaps.</p>
+    <div class="box solve">
+      <div class="box-lbl">📐 Analysis</div>
+      <p>C(n) = ∑(i=0 to n−2) (n−1−i) = n(n−1)/2 = same as Selection Sort</p>
+      <p><strong>Comparisons: Θ(n²)</strong> in worst and average case.</p>
+      <p><strong>Swaps:</strong> Up to n(n−1)/2 in worst case (every comparison is a swap). Much worse than Selection Sort's n−1 swaps!</p>
     </div>
 
-    <h4>Comparing the Two</h4>
-    <table class="nice-table">
+    <h4>Direct Comparison: Selection Sort vs Bubble Sort</h4>
+    <table class="tbl">
       <tr><th>Property</th><th>Selection Sort</th><th>Bubble Sort</th></tr>
-      <tr><td>Comparisons</td><td>n(n−1)/2</td><td>n(n−1)/2</td></tr>
-      <tr><td>Swaps (worst case)</td><td>n−1</td><td>n(n−1)/2</td></tr>
-      <tr><td>Best-case improvement?</td><td>No</td><td>Yes (already sorted: 0 swaps)</td></tr>
-      <tr><td>Stability</td><td>Not stable</td><td>Stable</td></tr>
-      <tr><td>When to use</td><td>Minimizing writes/swaps</td><td>Teaching purposes only</td></tr>
+      <tr><td>Comparisons (any case)</td><td>n(n−1)/2</td><td>n(n−1)/2</td></tr>
+      <tr><td>Swaps (worst case)</td><td>n − 1</td><td>n(n−1)/2</td></tr>
+      <tr><td>Swaps (best case)</td><td>n − 1 (always!)</td><td>0 (already sorted)</td></tr>
+      <tr><td>Can terminate early?</td><td>No</td><td>Yes (add swap flag)</td></tr>
+      <tr><td>Stable sort?</td><td>No</td><td>Yes</td></tr>
+      <tr><td>Time complexity</td><td>Θ(n²) always</td><td>O(n²) worst, O(n) best*</td></tr>
+      <tr><td>Best use case</td><td>When swaps are expensive</td><td>Almost sorted data*</td></tr>
     </table>
+    <p style="font-size:.84rem; color:var(--mid)">* Only if you add an early-exit flag that stops when a full pass makes zero swaps (the array is already sorted).</p>
 
-    <div class="callout">
-      <p><strong>Both are O(n²) — acceptable for n &lt; 1000, but impractical for large datasets.</strong> Real-world sorting uses O(n log n) algorithms like Merge Sort or Quick Sort.</p>
-    </div>
   </div>
 </div>
 
-<!-- 3.2 -->
-<div id="s32" class="section">
-  <div class="section-title">
-    <div class="section-num">§ 3.2</div>
-    <h3>Sequential Search and Brute-Force String Matching</h3>
+<!-- ─────────── §3.2 ─────────── -->
+<div id="s32" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">§ 3.2</div>
+    <h3>Sequential Search &amp; String Matching <span class="lvl-pill lvl-2">Level 60</span></h3>
   </div>
-  <div class="content">
+  <div class="prose">
 
     <h4>Sequential Search (Linear Search)</h4>
-    <p>The simplest searching algorithm: scan the list from left to right until you find what you're looking for (or reach the end).</p>
+    <p>The simplest search: scan from left to right until you find the target or reach the end.</p>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">SequentialSearch</span>(A[0..n−1], K)<br>
-<span class="comment">// Searches for K in array A</span><br>
-<span class="comment">// Output: index of K or -1 if not found</span><br>
-<br>
-A[n] ← K&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// sentinel: add K at end</span><br>
-i ← 0<br>
-<span class="keyword">while</span> A[i] ≠ K <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;i ← i + 1<br>
-<span class="keyword">if</span> i &lt; n <span class="keyword">return</span> i<br>
-<span class="keyword">else return</span> -1
+<pre><span class="kw">ALGORITHM</span> <span class="fn">SequentialSearch</span>(A[0..n−1], K)
+<span class="cm">// Input:  Array A of n elements, search key K</span>
+<span class="cm">// Output: Index of K in A, or −1 if not found</span>
+
+A[n] ← K          <span class="cm">// Place sentinel — guarantees loop WILL terminate</span>
+i ← <span class="nu">0</span>
+<span class="kw">while</span> A[i] ≠ K <span class="kw">do</span>
+    i ← i + <span class="nu">1</span>
+<span class="kw">if</span> i &lt; n
+    <span class="kw">return</span> i       <span class="cm">// found at index i</span>
+<span class="kw">else</span>
+    <span class="kw">return</span> −<span class="nu">1</span>     <span class="cm">// not found (hit the sentinel)</span></pre>
+
+    <div class="box ana">
+      <div class="box-lbl">💡 The Sentinel Trick</div>
+      <p>Without the sentinel, the while loop needs TWO conditions each iteration: (1) is i &lt; n? (2) is A[i] = K? With the sentinel (placing K at position n), condition (1) can be removed — the loop will always find K somewhere. Then we just check if the found position is real or the sentinel. This cuts the loop's work in half in some implementations.</p>
     </div>
 
-    <div class="analogy">
-      <div class="an-label">🔍 Sentinel Trick</div>
-      <p>Adding the search key K as a "sentinel" at position A[n] guarantees the while loop will always find K and terminate. We then check <em>where</em> it stopped to determine success or failure. This eliminates one check per iteration, making the code faster.</p>
+    <div class="arr-wrap">
+      <div class="arr-label">Searching for K=55 in [31, 64, 17, 89, 55, 42] — red = currently checking</div>
+      <div class="arr-row">
+        <div class="arr-cell"><div class="arr-idx">0</div><div class="arr-val checked">31</div></div>
+        <div class="arr-cell"><div class="arr-idx">1</div><div class="arr-val checked">64</div></div>
+        <div class="arr-cell"><div class="arr-idx">2</div><div class="arr-val checked">17</div></div>
+        <div class="arr-cell"><div class="arr-idx">3</div><div class="arr-val checked">89</div></div>
+        <div class="arr-cell"><div class="arr-idx">4</div><div class="arr-val found">55</div><div class="arr-lbl">found!</div></div>
+        <div class="arr-cell"><div class="arr-idx">5</div><div class="arr-val">42</div></div>
+        <div class="arr-cell" style="margin-left:12px;align-self:center"><span style="font-family:var(--mono);font-size:.8rem;color:var(--green);font-weight:700">return 4</span></div>
+      </div>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Efficiency Analysis</div>
-      <p><strong>Best case:</strong> K is the first element. 1 comparison. C_best = 1 → O(1)</p>
-      <p><strong>Worst case:</strong> K is last or not present. n comparisons. C_worst = n → O(n)</p>
-      <p><strong>Average case:</strong> (assuming K is present) Expected position = (n+1)/2 → C_avg ≈ (n+1)/2 → O(n)</p>
-      <p>Sequential search is always linear — which is the best we can do without additional structure (e.g., if the array is sorted, binary search gives O(log n)).</p>
+    <div class="box solve">
+      <div class="box-lbl">📐 Analysis</div>
+      <p><strong>Best case:</strong> K is A[0] → 1 comparison. <strong>C_best(n) = 1 ∈ O(1)</strong></p>
+      <p><strong>Worst case:</strong> K is A[n−1] or not in A → n comparisons. <strong>C_worst(n) = n ∈ Θ(n)</strong></p>
+      <p><strong>Average case:</strong> Assuming K is present with probability p, at a uniformly random position:</p>
+      <p style="font-family:var(--mono); font-size:.85rem; padding:8px; background:#fff; border-radius:4px; margin:6px 0;">
+        C_avg ≈ p·(n+1)/2 + (1−p)·n
+      </p>
+      <p>If p=1 (K always present): C_avg = (n+1)/2 ∈ Θ(n)</p>
+      <p>So best and worst differ only by a factor of n — same asymptotic class. Linear is the best we can do without additional structure.</p>
     </div>
 
-    <hr class="divider">
+    <hr>
 
-    <h4>Brute-Force String Matching</h4>
-    <p>Given a text T of length n and a pattern P of length m, find where (if anywhere) P appears in T.</p>
+    <h4>Brute-Force String Matching <span class="lvl-pill lvl-2">Level 65</span></h4>
 
-    <div class="analogy">
-      <div class="an-label">📄 Problem Visualization</div>
-      <p>Text T:    N O B O D Y _ N O T I C E D _ H I M<br>
-Pattern P: N O T</p>
-      <p>We try to align P at every position in T and check if they match.</p>
+    <div class="box def">
+      <div class="box-lbl">▸ The Problem</div>
+      <p><strong>Input:</strong> Text T[0..n−1] of length n. Pattern P[0..m−1] of length m. (m ≤ n)</p>
+      <p><strong>Output:</strong> Index of the leftmost occurrence of P in T, or −1 if not found.</p>
     </div>
 
-    <div class="code-block">
-<span class="keyword">ALGORITHM</span> <span class="func">BruteForceStringMatch</span>(T[0..n−1], P[0..m−1])<br>
-<span class="comment">// Searches for pattern P in text T</span><br>
-<span class="comment">// Output: index of first match or -1</span><br>
-<br>
-<span class="keyword">for</span> i ← 0 <span class="keyword">to</span> n−m <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;j ← 0<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">while</span> j &lt; m AND P[j] = T[i+j] <span class="keyword">do</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;j ← j + 1<br>
-&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">if</span> j = m<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> i<br>
-<span class="keyword">return</span> -1
+    <div class="box ana">
+      <div class="box-lbl">💡 The Brute Force Idea</div>
+      <p>Try every possible alignment. Slide the pattern over the text one position at a time. At each position i, check if P matches T[i..i+m−1] character by character. If all m characters match — found it! If any mismatch — slide one position right and try again.</p>
     </div>
 
-    <div class="example-box">
-      <div class="ex-label">✏️ Worked Example</div>
-      <p>Text T:    <strong>ABCABCABC</strong> (n = 9)</p>
-      <p>Pattern P: <strong>ABC</strong> (m = 3)</p>
-      <br>
-      <p><strong>i = 0:</strong> Compare P[0..2] vs T[0..2]: A=A✓, B=B✓, C=C✓ → j=3=m → <strong>Found at index 0!</strong> ✅</p>
-      <br>
-      <p>Another example: T = "AAAAAB", P = "AAAB"</p>
-      <p>i=0: AAA match, then B≠A ✗</p>
-      <p>i=1: AAA match, then B≠A ✗</p>
-      <p>i=2: AAAB ✓ → <strong>Found at index 2!</strong> ✅</p>
+<pre><span class="kw">ALGORITHM</span> <span class="fn">BruteForceStringMatch</span>(T[0..n−1], P[0..m−1])
+<span class="cm">// Input:  Text T (length n), Pattern P (length m)</span>
+<span class="cm">// Output: Index i where P first appears in T, or −1</span>
+
+<span class="kw">for</span> i ← <span class="nu">0</span> <span class="kw">to</span> n−m <span class="kw">do</span>       <span class="cm">// try each starting position in T</span>
+    j ← <span class="nu">0</span>
+    <span class="kw">while</span> j &lt; m AND T[i+j] = P[j] <span class="kw">do</span>
+        j ← j + <span class="nu">1</span>             <span class="cm">// characters match, check next</span>
+    <span class="kw">if</span> j = m                   <span class="cm">// survived all m checks = full match</span>
+        <span class="kw">return</span> i
+<span class="kw">return</span> −<span class="nu">1</span>                   <span class="cm">// no match found</span></pre>
+
+    <div class="box ex">
+      <div class="box-lbl">✏ Detailed Trace — T = "ABCABCABD", P = "ABCABD"</div>
+      <p><strong>i=0:</strong> A=A✓ B=B✓ C=C✓ A=A✓ B=B✓ D≠C✗ → mismatch at j=5</p>
+      <p><strong>i=1:</strong> A≠B✗ → mismatch at j=0</p>
+      <p><strong>i=2:</strong> A≠C✗ → mismatch at j=0</p>
+      <p><strong>i=3:</strong> A=A✓ B=B✓ C=C✓ A=A✓ B=B✓ D=D✓ → j=6=m! <strong>Found at index 3!</strong> ✅</p>
     </div>
 
-    <div class="solve-box">
-      <div class="solve-label">📐 Efficiency Analysis</div>
-      <p><strong>Best case:</strong> Pattern found right at the start after m comparisons → O(m)</p>
-      <p><strong>Worst case:</strong> Almost match at every position (e.g., T = "AAAA...A" and P = "AAA...AB"). At each of the (n−m+1) positions we do m comparisons:</p>
-      <p>C_worst = m × (n − m + 1)</p>
-      <p>If m is much smaller than n: C_worst ≈ m·n → <strong>O(nm)</strong></p>
-      <p><strong>Average case:</strong> In practice much faster — most mismatches happen after just a few comparisons → approximately O(n)</p>
+    <div class="box ex">
+      <div class="box-lbl">✏ Worst-Case Input — T = "AAAAAAB", P = "AAAB"</div>
+      <p>At each position: AAA match, then last character mismatches. We do m comparisons before each rejection.</p>
+      <p>Number of positions: n−m+1 = 7−4+1 = 4</p>
+      <p>Total comparisons: 4 × 4 = 16 = m × (n−m+1)</p>
+      <p>This is the <strong>worst-case scenario for string matching</strong>.</p>
     </div>
 
-    <table class="nice-table">
-      <tr><th></th><th>Sequential Search</th><th>String Matching</th></tr>
-      <tr><td>Best case</td><td>O(1)</td><td>O(m)</td></tr>
-      <tr><td>Worst case</td><td>O(n)</td><td>O(nm)</td></tr>
-      <tr><td>Average case</td><td>O(n)</td><td>O(n)</td></tr>
+    <div class="box solve">
+      <div class="box-lbl">📐 Analysis</div>
+      <p><strong>Basic operation:</strong> Character comparison T[i+j] = P[j]</p>
+      <p><strong>Best case:</strong> Match found at position 0 after m comparisons. C_best = m ∈ O(m)</p>
+      <p><strong>Worst case:</strong> (n−m+1) positions × m comparisons each = m(n−m+1). For m ≪ n: ≈ mn. C_worst ∈ O(mn)</p>
+      <p><strong>Average case:</strong> In practice, most mismatches happen after 1–2 comparisons (natural language texts). C_avg ≈ O(n) in practice.</p>
+    </div>
+
+    <div class="box call">
+      <div class="box-lbl">★ Beyond Brute Force String Matching</div>
+      <p>The brute-force O(mn) algorithm is actually used in many real situations (small patterns, short texts). But for large-scale search (e.g., searching a genome database), smarter algorithms exist:</p>
+      <p>• <strong>KMP (Knuth-Morris-Pratt):</strong> O(n+m) always — never re-examines text characters</p>
+      <p>• <strong>Boyer-Moore:</strong> O(n/m) best case — skips whole sections of text</p>
+      <p>• <strong>Rabin-Karp:</strong> Uses hashing for fast comparison — O(n+m) average</p>
+      <p>These are future topics. Brute force is the foundation.</p>
+    </div>
+
+    <h4>Summary: Section 3.2 Algorithms</h4>
+    <table class="tbl">
+      <tr><th>Algorithm</th><th>Best Case</th><th>Worst Case</th><th>Average Case</th><th>Special Technique</th></tr>
+      <tr><td>Sequential Search</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>Sentinel element</td></tr>
+      <tr><td>String Matching</td><td>O(m)</td><td>O(mn)</td><td>O(n) practical</td><td>Slide and compare</td></tr>
     </table>
 
-    <div class="callout">
-      <p><strong>Real-world note:</strong> Brute-force string matching is actually used in practice for small patterns or when text is short. More advanced algorithms (KMP, Boyer-Moore) achieve O(n) in the worst case but are much more complex to implement.</p>
+  </div>
+</div>
+
+<!-- ═══════════════════ CHEAT SHEET ══════════════════════════ -->
+<div id="cheatsheet" class="sec">
+  <div class="sec-head">
+    <div class="sec-num">CHEAT SHEET</div>
+    <h3>Complete Reference — Everything in One Place</h3>
+  </div>
+  <div class="prose">
+
+    <h4>Master Complexity Reference</h4>
+    <table class="tbl">
+      <tr><th>Class</th><th>Name</th><th>Example</th><th>n=10</th><th>n=100</th><th>n=1,000</th><th>Feasible?</th></tr>
+      <tr><td><span class="badge b-o1">O(1)</span></td><td>Constant</td><td>Array index</td><td>1</td><td>1</td><td>1</td><td style="color:var(--green)">✓✓✓</td></tr>
+      <tr><td><span class="badge b-log">O(log n)</span></td><td>Logarithmic</td><td>Binary search</td><td>3</td><td>7</td><td>10</td><td style="color:var(--green)">✓✓✓</td></tr>
+      <tr><td><span class="badge b-n">O(n)</span></td><td>Linear</td><td>Sequential search</td><td>10</td><td>100</td><td>1,000</td><td style="color:var(--green)">✓✓</td></tr>
+      <tr><td><span class="badge b-nln">O(n log n)</span></td><td>Linearithmic</td><td>Merge sort</td><td>30</td><td>700</td><td>10,000</td><td style="color:var(--green)">✓✓</td></tr>
+      <tr><td><span class="badge b-n2">O(n²)</span></td><td>Quadratic</td><td>Selection/Bubble sort</td><td>100</td><td>10,000</td><td>10⁶</td><td style="color:var(--gold)">✓ (small n)</td></tr>
+      <tr><td><span class="badge b-n3">O(n³)</span></td><td>Cubic</td><td>Matrix mult</td><td>1,000</td><td>10⁶</td><td>10⁹</td><td style="color:var(--red)">⚠ slow</td></tr>
+      <tr><td><span class="badge b-2n">O(2ⁿ)</span></td><td>Exponential</td><td>Hanoi, subsets</td><td>1,024</td><td>10³⁰</td><td>☠️</td><td style="color:var(--red)">✗ (n&gt;30)</td></tr>
+      <tr><td><span class="badge b-nf">O(n!)</span></td><td>Factorial</td><td>Permutations</td><td>3.6M</td><td>9×10¹⁵⁷</td><td>☠️☠️</td><td style="color:var(--red)">✗ (n&gt;15)</td></tr>
+    </table>
+
+    <h4>Notation Quick Reference</h4>
+    <table class="tbl">
+      <tr><th>Notation</th><th>Name</th><th>Meaning</th><th>Analogy</th></tr>
+      <tr><td><code>t(n) ∈ O(g(n))</code></td><td>Big-O</td><td>t grows at most like g — upper bound</td><td>t ≤ speed limit</td></tr>
+      <tr><td><code>t(n) ∈ Ω(g(n))</code></td><td>Big-Omega</td><td>t grows at least like g — lower bound</td><td>t ≥ minimum speed</td></tr>
+      <tr><td><code>t(n) ∈ Θ(g(n))</code></td><td>Big-Theta</td><td>t grows exactly like g — tight bound</td><td>t = exact speed</td></tr>
+    </table>
+
+    <h4>Limit Method</h4>
+    <table class="tbl">
+      <tr><th>lim t(n)/g(n)</th><th>Conclusion</th></tr>
+      <tr><td><code>= 0</code></td><td>t ∈ O(g) only (t is strictly slower than g)</td></tr>
+      <tr><td><code>= c &gt; 0</code></td><td>t ∈ Θ(g) (same growth rate)</td></tr>
+      <tr><td><code>= ∞</code></td><td>t ∈ Ω(g) only (t is strictly faster than g)</td></tr>
+    </table>
+
+    <h4>Algorithm Analysis Patterns</h4>
+    <table class="tbl">
+      <tr><th>Code Pattern</th><th>Typical Result</th></tr>
+      <tr><td>1 loop 0 to n</td><td>Θ(n)</td></tr>
+      <tr><td>2 nested loops 0 to n</td><td>Θ(n²)</td></tr>
+      <tr><td>3 nested loops 0 to n</td><td>Θ(n³)</td></tr>
+      <tr><td>Loop halving: i = i/2</td><td>Θ(log n)</td></tr>
+      <tr><td>Recursion: T(n) = T(n−1) + c</td><td>Θ(n)</td></tr>
+      <tr><td>Recursion: T(n) = T(n/2) + c</td><td>Θ(log n)</td></tr>
+      <tr><td>Recursion: T(n) = 2T(n−1) + c</td><td>Θ(2ⁿ)</td></tr>
+    </table>
+
+    <h4>Chapter 3 Algorithms Summary</h4>
+    <table class="tbl">
+      <tr><th>Algorithm</th><th>Type</th><th>Best</th><th>Worst</th><th>Avg</th><th>Key Idea</th></tr>
+      <tr><td>Selection Sort</td><td>Sort</td><td>Θ(n²)</td><td>Θ(n²)</td><td>Θ(n²)</td><td>Find min, place it</td></tr>
+      <tr><td>Bubble Sort</td><td>Sort</td><td>O(n)*</td><td>Θ(n²)</td><td>Θ(n²)</td><td>Bubble max to end</td></tr>
+      <tr><td>Sequential Search</td><td>Search</td><td>O(1)</td><td>O(n)</td><td>O(n)</td><td>Scan left to right</td></tr>
+      <tr><td>String Matching</td><td>Search</td><td>O(m)</td><td>O(mn)</td><td>O(n)</td><td>Slide pattern over text</td></tr>
+    </table>
+    <p style="font-size:.84rem; color:var(--mid)">*Bubble Sort best case O(n) only with early-exit swap-flag optimization.</p>
+
+    <div class="box call">
+      <div class="box-lbl">★ Final Wisdom</div>
+      <p>You now know the foundations of algorithm analysis. The questions to always ask are: <strong>(1) What grows with input size?</strong> (find the basic operation) <strong>(2) How does it grow?</strong> (set up the sum or recurrence) <strong>(3) What class is it in?</strong> (simplify to Θ notation) <strong>(4) Is that acceptable?</strong> (compare against the table above).</p>
+      <p style="margin-top:8px">Every advanced algorithm in the field — QuickSort, Dijkstra, A*, FFT, dynamic programming — is analyzed using exactly these tools. You now have the language to read and understand them.</p>
     </div>
 
   </div>
 </div>
 
-</div><!-- /.container -->
+</div><!-- /.page -->
 
-<footer class="guide-footer">
-  Levitin · Introduction to the Design and Analysis of Algorithms · Chapter 1, 2 &amp; 3<br>
-  Sections 1.1 · 1.2 · 2.1 · 2.2 · 2.3 · 2.4 · 3.1 · 3.2 · Complete Beginner's Study Guide
+<!-- ─── FOOTER ─────────────────────────────────────────────── -->
+<footer style="background:var(--ink); color:#9990a0; text-align:center; padding:40px 30px; font-family:var(--mono); font-size:.78rem; line-height:2; margin-top:80px;">
+  <p style="font-size:1.1rem; font-family:var(--display); color:var(--gold); font-weight:700; margin-bottom:8px;">Algorithm Design &amp; Analysis</p>
+  <p>Based on Anany Levitin · Introduction to the Design and Analysis of Algorithms</p>
+  <p>Chapters 1 · 2 · 3 &nbsp;·&nbsp; Sections 1.1 · 1.2 · 2.1 · 2.2 · 2.3 · 2.4 · 3.1 · 3.2</p>
+  <p style="margin-top:12px; color:#6b6070">For educational purposes &nbsp;·&nbsp; Level 0 to 100 complete guide</p>
 </footer>
 
 </body>
